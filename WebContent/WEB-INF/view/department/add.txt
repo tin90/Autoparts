@@ -1,0 +1,1 @@
+add.jsp는 commons폴더에 있다.(공용으로 사용)
