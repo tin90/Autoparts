@@ -7,8 +7,9 @@ package com.autoparts.groupware.model;
  * from dept d, emp e 
  * where d.no = e.deptno
  * group by e.deptno;
- *
+ *  
  */
+//ºÎ¼­
 public class DeptCategoryDto {
 	private int no;
 	private String name;

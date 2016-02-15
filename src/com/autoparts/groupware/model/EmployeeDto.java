@@ -1,5 +1,6 @@
 package com.autoparts.groupware.model;
 
+//»ç¿ø
 public class EmployeeDto {
 	private int no;
 	private String dept; //join dept

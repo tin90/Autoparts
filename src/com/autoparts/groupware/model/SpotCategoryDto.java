@@ -1,5 +1,6 @@
 package com.autoparts.groupware.model;
 
+//Á÷À§
 public class SpotCategoryDto {
 	private int no;
 	private String name;
