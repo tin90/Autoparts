@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mobile">
+	
+	<select id="prod_search" parameterType="String" resultType="com.autoparts.groupware.model.MobileDto">
+	SELECT prod_code, quantity, date, bill_code FROM product WHERE prod_code=#{prod_code}
+	</select>
+	
+	<select id="bill_list" resultType="com.autoparts.groupware.model.MobileDto">
+	SELECT brand, bill_code date FROM product WHERE date=???? 오늘날짜?
+	</select>
+	
+	<select id="bill_detail" parameterType="String" resultType="com.autoparts.groupware.model.MobileDto">
+	SELECT prod_code, brand, quantity, date FROM product WHERE bill_code=#{bill_code}
+	</select>
+	
+	<update id="store" parameterType="com.autoparts.groupware.model.MobileDto">
+	UPDATE product 
+	SET quantity=(SELECT quantity FROM product WHERE prod_code=#{prod_code})
+	WHERE prod_code=#{prod_code}
+	</update>
+	
+	<update id="release" parameterType="com.autoparts.groupware.model.MobileDto">
+	UPDATE product 
+	SET quantity=(SELECT quantity FROM product WHERE prod_code=#{prod_code})+#{quantity}
+	WHERE prod_code=#{prod_code}
+	</update>
+	
+	<insert id="insert" parameterType="com.autoparts.groupware.model.MobileDto">
+	INSERT INTO product (prod_code, quantity, brand, date, bill_code)
+	VALUES(#{prod_code}, #{quantity}, #{brand}, #{date}, #{bill_code})
+	</insert>
+	
+</mapper>
