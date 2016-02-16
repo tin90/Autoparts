@@ -2,16 +2,16 @@ package com.autoparts.groupware.model;
 
 //사원
 public class EmployeeDto {
-	private int no;
+	private int num;
 	private String dept; //join dept
 	private String spot; //join spot(직위)
 	private String name;
 	
-	public int getNo() {
-		return no;
+	public int getNum() {
+		return num;
 	}
-	public void setNo(int no) {
-		this.no = no;
+	public void setNum(int num) {
+		this.num = num;
 	}
 	public String getDept() {
 		return dept;
