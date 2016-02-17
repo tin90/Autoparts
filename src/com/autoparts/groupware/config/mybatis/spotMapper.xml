@@ -6,9 +6,9 @@
 	<select id="getCategory" resultType="SpotCategory">
 	SELECT s.num no, s.name name, c.count empCount
 	FROM spot s,
-		(SELECT dept, count(dept) count
+		(SELECT spot, count(spot) count
 		FROM employee
-		GROUP BY dept) c
-	WHERE c.dept = s.num
+		GROUP BY spot) c
+	WHERE c.spot = s.num
 	</select>
 </mapper>

@@ -11,8 +11,9 @@
 	<ul id="list" class="list-group">
 		<li data-ng-repeat="item in list" class="list-group-item" title="{{delC}}">
 			<span class="index" data-ng-hide="true">{{$index}}</span>
+			<span class="no" data-ng-hide="true">{{item.no}}</span>
 			<span class="name">{{item.name}}</span>
-			(<span class="empCount">{{item.empCount}}</span>)
+			(<span class="empCount">{{item.count}}</span>)
 		</li>
 	</ul>
 </div>
