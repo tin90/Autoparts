@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.autoparts.groupware.dao.SpotDao;
+import com.autoparts.groupware.model.RawEmpDto;
 import com.autoparts.groupware.model.SpotCategoryDto;
 
 @Service
@@ -27,5 +28,17 @@ public class SpotService {
 		}
 		
 		return json.toJSONString();
+	}
+	
+	public void addEmp(RawEmpDto emp){
+		
+	}
+	
+	public void modEmp(RawEmpDto emp){
+		
+	}
+	
+	public void delEmp(int num){
+		
 	}
 }

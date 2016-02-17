@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.autoparts.groupware.model.EmployeeDto;
+import com.autoparts.groupware.model.RawEmpDto;
 
 @Repository
 public class EmployeeDao {
@@ -21,9 +22,15 @@ public class EmployeeDao {
 		return sqlSession.selectList("emp.getEmpList");
 	}
 	
-	public String getName(){
-		String s = sqlSession.selectOne("emp.test");
-		System.out.println("dao : "+s);
-		return s;
+	public void addEmp(RawEmpDto emp){
+		sqlSession.insert("emp.addEmp", emp);
+	}
+	
+	public void modEmp(RawEmpDto emp){
+		sqlSession.update("emp.modEmp", emp);
+	}
+	
+	public void delEmp(int num){
+		sqlSession.delete("emp.delEmp", num);
 	}
 }

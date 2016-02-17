@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.autoparts.groupware.dao.EmployeeDao;
 import com.autoparts.groupware.model.EmployeeDto;
+import com.autoparts.groupware.model.RawEmpDto;
 
 @Service
 public class EmpService {
@@ -21,7 +22,15 @@ public class EmpService {
 		return dao.getEmployee();
 	}
 	
-	public String getName(){
-		return dao.getName();
+	public void addEmp(RawEmpDto emp){
+		
+	}
+	
+	public void modEmp(RawEmpDto emp){
+		
+	}
+	
+	public void delEmp(int num){
+		
 	}
 }

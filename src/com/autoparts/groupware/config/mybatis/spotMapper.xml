@@ -11,4 +11,29 @@
 		GROUP BY spot) c
 	WHERE c.spot = s.num
 	</select>
+	
+	<select id="getCategoryOne" resultType="SpotCategory" parameterType="int">
+	SELECT s.num no, s.name name, c.count empCount
+	FROM spot s,
+		(SELECT spot, count(spot) count
+		FROM employee
+		GROUP BY spot) c
+	WHERE c.spot = s.num AND s.num = #{num}
+	</select>
+	
+	<insert id="addSpot" parameterType="String">
+	INSERT INTO spot (num,name)
+	VALUES (SEQ_SPOT_NO.nextval,#{name})
+	</insert>
+	
+	<update id="modSpot" parameterType="RawSpot">
+	UPDATE spot
+	SET name = #{name}
+	WHERE num = #{num}
+	</update>
+	
+	<delete id="delSpot" parameterType="int">
+	DELETE FROM spot
+	WHERE num = #{num}
+	</delete>
 </mapper>

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.autoparts.groupware.dao.DeptDao;
 import com.autoparts.groupware.model.DeptCategoryDto;
+import com.autoparts.groupware.model.RawDeptDto;
 
 @Service
 public class DeptService {
@@ -27,5 +28,17 @@ public class DeptService {
 		}
 		
 		return json.toJSONString();
+	}
+	
+	public void addDept(String name){
+		dao.addDept(name);
+	}
+	
+	public void modDept(RawDeptDto dept){
+		dao.modDept(dept);
+	}
+	
+	public void delDept(int num){
+		dao.delDept(num);
 	}
 }

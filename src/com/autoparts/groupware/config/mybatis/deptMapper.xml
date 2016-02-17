@@ -11,4 +11,29 @@
 		GROUP BY dept) c
 	WHERE c.dept = d.num
 	</select>
+	
+	<select id="getCategoryOne" resultType="DeptCategory" parameterType="int">
+	SELECT d.num no, d.name name, c.count empCount
+	FROM department d,
+		(SELECT dept, count(dept) count
+		FROM employee
+		GROUP BY dept) c
+	WHERE c.dept = d.num AND d.num = #{num}
+	</select>
+	
+	<insert id="addDept" parameterType="String">
+	INSERT INTO department (num,name)
+	VALUES (SEQ_DEPARTMENT_NO.nextval,#{name})
+	</insert>
+	
+	<update id="modDept" parameterType="RawDept">
+	UPDATE department
+	SET name = #{name}
+	WHERE num = #{num}
+	</update>
+	
+	<delete id="delDept" parameterType="int">
+	DELETE FROM department
+	WHERE num = #{num}
+	</delete>
 </mapper>

@@ -5,7 +5,10 @@
 <configuration>
 	<typeAliases>
 		<typeAlias alias="Employee" type="com.autoparts.groupware.model.EmployeeDto"/>
+		<typeAlias alias="RawEmployee" type="com.autoparts.groupware.model.RawEmpDto"/>
 		<typeAlias alias="DeptCategory" type="com.autoparts.groupware.model.DeptCategoryDto"/>
+		<typeAlias alias="RawDept" type="com.autoparts.groupware.model.RawDeptDto"/>
 		<typeAlias alias="SpotCategory" type="com.autoparts.groupware.model.SpotCategoryDto"/>
+		<typeAlias alias="RawSpot" type="com.autoparts.groupware.model.RawSpotDto"/>
 	</typeAliases>
 </configuration>
