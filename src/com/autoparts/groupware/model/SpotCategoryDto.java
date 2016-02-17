@@ -4,7 +4,7 @@ package com.autoparts.groupware.model;
 public class SpotCategoryDto {
 	private int no;
 	private String name;
-	private int empCount;
+	private Integer empCount;
 
 	public int getNo() {
 		return no;
@@ -21,7 +21,7 @@ public class SpotCategoryDto {
 	public int getEmpCount() {
 		return empCount;
 	}
-	public void setEmpCount(int empCount) {
+	public void setEmpCount(Integer empCount) {
 		this.empCount = empCount;
 	}
 }

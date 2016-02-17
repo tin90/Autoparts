@@ -23,14 +23,14 @@ public class EmpService {
 	}
 	
 	public void addEmp(RawEmpDto emp){
-		
+		dao.addEmp(emp);
 	}
 	
 	public void modEmp(RawEmpDto emp){
-		
+		dao.modEmp(emp);
 	}
 	
 	public void delEmp(int num){
-		
+		dao.delEmp(num);
 	}
 }

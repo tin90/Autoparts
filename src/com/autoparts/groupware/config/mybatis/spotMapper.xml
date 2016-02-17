@@ -4,21 +4,22 @@
 
 <mapper namespace="spot">
 	<select id="getCategory" resultType="SpotCategory">
-	SELECT s.num no, s.name name, c.count empCount
-	FROM spot s,
-		(SELECT spot, count(spot) count
-		FROM employee
-		GROUP BY spot) c
-	WHERE c.spot = s.num
+	SELECT s.num no, s.name name, NVL(c.count,0) empCount
+	FROM spot s
+	LEFT OUTER JOIN (SELECT spot, count(*) count 
+		FROM employee 
+		GROUP BY spot) c 
+	ON s.num = c.spot
 	</select>
 	
 	<select id="getCategoryOne" resultType="SpotCategory" parameterType="int">
-	SELECT s.num no, s.name name, c.count empCount
-	FROM spot s,
-		(SELECT spot, count(spot) count
-		FROM employee
-		GROUP BY spot) c
-	WHERE c.spot = s.num AND s.num = #{num}
+	SELECT s.num no, s.name name, NVL(c.count,0) empCount
+	FROM spot s
+	LEFT OUTER JOIN (SELECT spot, count(*) count 
+		FROM employee 
+		GROUP BY spot) c 
+	ON s.num = c.spot
+	WHERE s.num = #{num};
 	</select>
 	
 	<insert id="addSpot" parameterType="String">

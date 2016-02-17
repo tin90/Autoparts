@@ -14,7 +14,7 @@ public class SpotDao {
 	@Autowired
 	private SqlSessionTemplate sqlSession;
 	
-	public List<SpotCategoryDto> getCategory(){	
+	public List<SpotCategoryDto> getCategory(){
 		return sqlSession.selectList("spot.getCategory");
 	}
 	

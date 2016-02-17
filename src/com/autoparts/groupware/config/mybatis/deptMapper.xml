@@ -4,21 +4,22 @@
 
 <mapper namespace="dept">
 	<select id="getCategory" resultType="DeptCategory">
-	SELECT d.num no, d.name name, c.count empCount
-	FROM department d,
-		(SELECT dept, count(dept) count
-		FROM employee
-		GROUP BY dept) c
-	WHERE c.dept = d.num
+	SELECT d.num no, d.name name, NVL(c.count,0) empCount
+	FROM department d
+	LEFT OUTER JOIN (SELECT dept, count(*) count 
+		FROM employee 
+		GROUP BY dept) c 
+	ON d.num = c.dept
 	</select>
 	
 	<select id="getCategoryOne" resultType="DeptCategory" parameterType="int">
-	SELECT d.num no, d.name name, c.count empCount
-	FROM department d,
-		(SELECT dept, count(dept) count
-		FROM employee
-		GROUP BY dept) c
-	WHERE c.dept = d.num AND d.num = #{num}
+	SELECT d.num no, d.name name, NVL(c.count,0) empCount
+	FROM department d
+	LEFT OUTER JOIN (SELECT dept, count(*) count 
+		FROM employee 
+		GROUP BY dept) c 
+	ON d.num = c.dept
+	WHERE d.num = #{num}
 	</select>
 	
 	<insert id="addDept" parameterType="String">
