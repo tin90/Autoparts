@@ -3,13 +3,13 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="emp">
-	<select id="getEmp" parameterType="int" resultType="com.autoparts.groupware.model.EmployeeDto">
+	<select id="getEmp" parameterType="int" resultType="Employee">
 	SELECT e.num num, d.name dept, s.name spot, e.name name
 	FROM department d, spot s, employee e
-	WHERE d.num = e.dept and s.num = e.spot and e.num=#{num}
+	WHERE d.num = e.dept and s.num = e.spot and e.num = #{num}
 	</select>
 	
-	<select id="getEmpList" resultType="com.autoparts.groupware.model.EmployeeDto">
+	<select id="getEmpList" resultType="Employee">
 	SELECT e.num num, d.name dept, s.name spot, e.name name
 	FROM department d, spot s, employee e
 	WHERE d.num = e.dept and s.num = e.spot

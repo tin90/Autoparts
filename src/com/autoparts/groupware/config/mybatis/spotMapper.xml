@@ -2,13 +2,13 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="dept">
-	<select id="getCategory" resultType="DeptCategory">
-	SELECT d.num no, d.name name, c.count empCount
-	FROM department d,
+<mapper namespace="spot">
+	<select id="getCategory" resultType="SpotCategory">
+	SELECT s.num no, s.name name, c.count empCount
+	FROM spot s,
 		(SELECT dept, count(dept) count
 		FROM employee
 		GROUP BY dept) c
-	WHERE c.dept = d.num
+	WHERE c.dept = s.num
 	</select>
 </mapper>
