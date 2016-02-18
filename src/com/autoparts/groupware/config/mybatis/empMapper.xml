@@ -26,7 +26,7 @@
 	WHERE num = #{num}
 	</update>
 	
-	<delete id="delEmp" parameterType="int">
+	<delete id="delEmp" parameterType="Integer">
 	DELETE FROM employee
 	WHERE num = #{num}
 	</delete>

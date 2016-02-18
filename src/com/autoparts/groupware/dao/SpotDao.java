@@ -19,7 +19,7 @@ public class SpotDao {
 	}
 	
 	public SpotCategoryDto getCategory(int num){
-		return sqlSession.selectOne("spot.getCategoryOne");
+		return sqlSession.selectOne("spot.getCategoryOne", num);
 	}
 	
 	public void addSpot(String name){

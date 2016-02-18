@@ -14,7 +14,7 @@ public class EmpService {
 	@Autowired
 	private EmployeeDao dao;
 	
-	public EmployeeDto getEmp(int num){
+	public EmployeeDto getEmp(Integer num){
 		return dao.getEmployee(num);
 	}
 	
@@ -30,7 +30,7 @@ public class EmpService {
 		dao.modEmp(emp);
 	}
 	
-	public void delEmp(int num){
+	public void delEmp(Integer num){
 		dao.delEmp(num);
 	}
 }

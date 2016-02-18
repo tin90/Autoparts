@@ -13,7 +13,7 @@
 	ORDER BY d.num ASC
 	</select>
 	
-	<select id="getCategoryOne" resultType="DeptCategory" parameterType="int">
+	<select id="getCategoryOne" resultType="DeptCategory" parameterType="Integer">
 	SELECT d.num no, d.name name, NVL(c.count,0) empCount
 	FROM department d
 	LEFT OUTER JOIN (SELECT dept, count(*) count 
@@ -35,7 +35,7 @@
 	WHERE num = #{num}
 	</update>
 	
-	<delete id="delDept" parameterType="int">
+	<delete id="delDept" parameterType="Integer">
 	DELETE FROM department
 	WHERE num = #{num}
 	</delete>

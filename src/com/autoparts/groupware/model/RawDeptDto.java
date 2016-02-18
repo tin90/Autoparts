@@ -1,14 +1,14 @@
 package com.autoparts.groupware.model;
 
 public class RawDeptDto {
-	private int no;
+	private int num;
 	private String name;
 	
-	public int getNo() {
-		return no;
+	public int getNum() {
+		return num;
 	}
-	public void setNo(int no) {
-		this.no = no;
+	public void setNum(int num) {
+		this.num = num;
 	}
 	public String getName() {
 		return name;

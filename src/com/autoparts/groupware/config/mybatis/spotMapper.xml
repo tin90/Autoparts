@@ -13,7 +13,7 @@
 	ORDER BY s.num ASC
 	</select>
 	
-	<select id="getCategoryOne" resultType="SpotCategory" parameterType="int">
+	<select id="getCategoryOne" resultType="SpotCategory" parameterType="Integer">
 	SELECT s.num no, s.name name, NVL(c.count,0) empCount
 	FROM spot s
 	LEFT OUTER JOIN (SELECT spot, count(*) count 
@@ -35,7 +35,7 @@
 	WHERE num = #{num}
 	</update>
 	
-	<delete id="delSpot" parameterType="int">
+	<delete id="delSpot" parameterType="Integer">
 	DELETE FROM spot
 	WHERE num = #{num}
 	</delete>

@@ -23,19 +23,17 @@
 </div>
 
 <script>
-var json = new Object();
-json['mod'] = new Array();
-json['del'] = new Array();
-json['add'] = new Array();
+var json = init();
 
 var app = angular.module('autoparts', []);
 
-app.controller('MainCtrl', function($scope) {
+app.controller('MainCtrl', function($scope, $http) {
 	$scope.delC = "${delComment}";
 	$scope.modC = "${inputComment}";
 	$scope.failC = "${delFailComment}";
-	$scope.list = ${list};
 	$scope.flag = null;
+	
+	list($scope, $http);
 	
 	$("#list").selectable({
 	    selected: function(event, ui) { 
@@ -53,7 +51,6 @@ app.controller('MainCtrl', function($scope) {
 			
 			if($scope.list[index].count == 0){
 				if(no != ""){
-					//서버에 등록된 내용 지울때
 					json['del'].push(Number(no));
 				}
 				$scope.list.splice(index, 1);
@@ -109,7 +106,6 @@ app.controller('MainCtrl', function($scope) {
 			if($(this).children(".no").text() == ''){
 				json['add'].push($(this).children(".name").text());
 			}else if($(this).children(".mod").text() == 'm'){
-				//no이 있는 것 중에 m이 있는 것
 				var o = new Object();
 				o["no"] = Number($(this).children(".no").text());
 				o["name"] = $(this).children(".name").text();
@@ -118,12 +114,43 @@ app.controller('MainCtrl', function($scope) {
 		});
 		
 		$.ajax({
-			url: "${ajax}",
+			url: "./ajax_add.html",
 			data: {"json":JSON.stringify(json)},
-			success: function(data){
-				alert(data);
+			complete: function(data){
+				if(data.status == 200){
+					json = init();
+					list($scope, $http);
+					alert("저장되었습니다.");
+				}else{
+					alert("실패하였습니다.");
+				}
 			}
 		});
+		
 	});
 });
+
+function list($scope, $http){
+	$http({
+		type: "GET",
+		url: './ajax_list.html',
+		headers: {
+			"Accept":"application/json;charset=utf-8",
+			"Accept-Charset":"charset=utf-8"
+		},
+		dataType:"json"
+	}).then(function(res){
+		$scope.list = res.data;
+	},function(res){
+		alert("error");
+	});
+}
+
+function init(){
+	var json = new Object();
+	json['mod'] = new Array();
+	json['del'] = new Array();
+	json['add'] = new Array();
+	return json;
+}
 </script>

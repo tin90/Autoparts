@@ -5,7 +5,6 @@ import java.util.Iterator;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -57,12 +56,12 @@ public class DeptService {
 			while (mList.hasNext()) {
 				JSONObject o = mList.next();
 				RawDeptDto dto = new RawDeptDto();
-				dto.setNo((int)o.get("no"));
+				dto.setNum((int)o.get("no"));
 				dto.setName((String)o.get("name"));
 				
 				dao.modDept(dto);
 			}
-		} catch (ParseException e) {
+		} catch (Exception e) {
 			return "error";
 		}
 		return "ok";

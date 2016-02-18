@@ -19,7 +19,7 @@ public class DeptDao {
 	}
 	
 	public DeptCategoryDto getCategory(int num){
-		return sqlSession.selectOne("dept.getCategoryOne");
+		return sqlSession.selectOne("dept.getCategoryOne", num);
 	}
 	
 	public void addDept(String name){

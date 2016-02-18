@@ -1,11 +1,8 @@
 package com.autoparts.groupware.service;
 
-import java.util.Iterator;
-
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -35,34 +32,35 @@ public class SpotService {
 	}
 	
 	public String ajax(String json){
-		JSONParser parser = new JSONParser();
 		try {
+			JSONParser parser = new JSONParser();
+			
 			JSONObject obj = (JSONObject)parser.parse(json);
 			
-			JSONArray del = (JSONArray)obj.get("del");
-			Iterator<Integer> dList = del.iterator();
-			while (dList.hasNext()) {
-				dao.delSpot(dList.next());
-			}
-			
 			JSONArray add = (JSONArray)obj.get("add");
-			Iterator<String> aList = add.iterator();
-			while (aList.hasNext()) {
-				dao.addSpot(aList.next());
+			int size = add.size();
+			for(int i = 0; i < size; i++){
+				dao.addSpot((String)add.get(i));
 			}
 			
 			JSONArray mod = (JSONArray)obj.get("mod");
-			Iterator<JSONObject> mList = mod.iterator();
-			while (mList.hasNext()) {
-				JSONObject o = mList.next();
+			size = mod.size();
+			for(int i = 0; i < size; i++){
+				JSONObject o = (JSONObject)mod.get(i);
 				RawSpotDto dto = new RawSpotDto();
-				dto.setNo((int)o.get("no"));
+				dto.setNum((int)(long)(Long)o.get("no"));
 				dto.setName((String)o.get("name"));
 				
 				dao.modSpot(dto);
 			}
-		} catch (ParseException e) {
-			return "error";
+			
+			JSONArray del = (JSONArray)obj.get("del");
+			size = del.size();
+			for(int i = 0; i < size; i++){
+				dao.delSpot((int)(long)(Long)del.get(i));
+			}
+		} catch (Exception e) {
+			return "error : " + e.getMessage();
 		}
 		return "ok";
 	}
