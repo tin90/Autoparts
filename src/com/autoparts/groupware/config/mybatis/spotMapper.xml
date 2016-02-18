@@ -10,6 +10,7 @@
 		FROM employee 
 		GROUP BY spot) c 
 	ON s.num = c.spot
+	ORDER BY s.num ASC
 	</select>
 	
 	<select id="getCategoryOne" resultType="SpotCategory" parameterType="int">
@@ -19,7 +20,8 @@
 		FROM employee 
 		GROUP BY spot) c 
 	ON s.num = c.spot
-	WHERE s.num = #{num};
+	WHERE s.num = #{num}
+	ORDER BY s.num ASC
 	</select>
 	
 	<insert id="addSpot" parameterType="String">

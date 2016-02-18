@@ -6,10 +6,11 @@
 		<input type="button" class="btn btn-default" id="delBtn" value="삭제">
 		<input type="button" class="btn btn-default" id="modBtn" value="수정">
 		<input type="button" class="btn btn-default" id="addBtn" value="추가">
-		<input type="button" class="btn btn-default" id="complete" value="완료">
+		<input type="button" class="btn btn-default" id="complete" value="저장">
 	</div>
 	<ul id="list" class="list-group">
 		<li data-ng-repeat="item in list" class="list-group-item" title="{{delC}}">
+			<span class="mod" data-ng-hide="true"></span>
 			<span class="index" data-ng-hide="true">{{$index}}</span>			
 			<span class="no" data-ng-hide="true">{{item.no}}</span>
 			<span class="name" data-ng-if="$index != flag">{{item.name}}</span>
@@ -22,82 +23,107 @@
 </div>
 
 <script>
-	var app = angular.module('autoparts', []);
+var json = new Object();
+json['mod'] = new Array();
+json['del'] = new Array();
+json['add'] = new Array();
 
-	app.controller('MainCtrl', function($scope) {
-		$scope.delC = "${delComment}";
-		$scope.modC = "${inputComment}";
-		$scope.failC = "${delFailComment}";
-		$scope.list = ${list};
-		$scope.flag = null;
-		
-		$("#list").selectable({
-		    selected: function(event, ui) { 
-		        $(ui.selected).addClass("ui-selected").siblings().removeClass("ui-selected");           
-		    }                   
-		});
-		
-		$("#list").tooltip({track:true});
-		
-		$("#delBtn").click(function(){
-			$(".ui-selected").each(function(){
-				var index = $(this).children(".index").text();
-				
-				if($scope.list[index].count == 0){
-					if(index != ""){
-						alert("기존 등록인데 등록은 0");
-					}
-					$scope.list.splice(index, 1);
-					$scope.$apply();
-				}else{
-					alert($scope.failC);
-				}
-			});
-		});
-		
-		$("#modBtn").click(function(){
-			$(".ui-selected").each(function(){
-				$(this).removeClass("ui-selected");
-				
-				var index = $(this).children(".index").text();
-				$scope.flag = index;
-				
-				$scope.$apply();
-				$("#_in").focus();
-				
-				$("#list").selectable("option","disabled",true);
-			});
-		});
-		
-		$("#addBtn").click(function(){
-			$(".ui-selected").each(function(){
-				$(this).removeClass("ui-selected");
-			});
+var app = angular.module('autoparts', []);
+
+app.controller('MainCtrl', function($scope) {
+	$scope.delC = "${delComment}";
+	$scope.modC = "${inputComment}";
+	$scope.failC = "${delFailComment}";
+	$scope.list = ${list};
+	$scope.flag = null;
+	
+	$("#list").selectable({
+	    selected: function(event, ui) { 
+	        $(ui.selected).addClass("ui-selected").siblings().removeClass("ui-selected");           
+	    }                   
+	});
+	
+	$("#list").tooltip({track:true});
+	
+	$("#delBtn").click(function(){
+		$(".ui-selected").each(function(){
+			var index = $(this).children(".index").text();
+			var no = $(this).children(".no").text();
+			var name = $(this).children(".name").text();
 			
-			$scope.list.push({"name":"","count":0});
-			$scope.flag = $scope.list.length-1;
+			if($scope.list[index].count == 0){
+				if(no != ""){
+					//서버에 등록된 내용 지울때
+					json['del'].push(Number(no));
+				}
+				$scope.list.splice(index, 1);
+				$scope.$apply();
+			}else{
+				alert($scope.failC);
+			}
+		});
+	});
+	
+	$("#modBtn").click(function(){
+		$(".ui-selected").each(function(){
+			$(this).removeClass("ui-selected");
+			
+			var index = $(this).children(".index").text();
+			$scope.flag = index;
+			$(this).children(".mod").text("m");
 			
 			$scope.$apply();
 			$("#_in").focus();
 			
 			$("#list").selectable("option","disabled",true);
 		});
-		
-		$(document).on("focusout","#_in",function(){
-			if($.trim($(this).val()) == ""){
-				$scope.list.splice($scope.list.length-1, 1);
-			}
-			
-			$scope.flag = null;
-			$scope.$apply();
-			
-			$("#list").selectable("option","disabled",false);
+	});
+	
+	$("#addBtn").click(function(){
+		$(".ui-selected").each(function(){
+			$(this).removeClass("ui-selected");
 		});
 		
-		$("#complete").click(function(){
-			$scope.json.del;
-			$scope.json.mod;
-			$scope.json.add;
+		$scope.list.push({"name":"","count":0});
+		$scope.flag = $scope.list.length-1;
+		
+		$scope.$apply();
+		$("#_in").focus();
+		
+		$("#list").selectable("option","disabled",true);
+	});
+	
+	$(document).on("focusout","#_in",function(){
+		if($.trim($(this).val()) == ""){
+			$scope.list.splice($scope.list.length-1, 1);
+		}
+		
+		$scope.flag = null;
+		$scope.$apply();
+		
+		$("#list").selectable("option","disabled",false);
+	});
+	
+	$("#complete").click(function(){
+		$("#list").children().each(function(){
+			if($(this).children(".no").text() == ''){
+				json['add'].push($(this).children(".name").text());
+			}else if($(this).children(".mod").text() == 'm'){
+				//no이 있는 것 중에 m이 있는 것
+				var o = new Object();
+				o["no"] = Number($(this).children(".no").text());
+				o["name"] = $(this).children(".name").text();
+				json['mod'].push(o);
+			}
+		});
+		
+		$.ajax({
+			url: "${ajax}",
+			data: {"json":JSON.stringify(json)},
+			success: function(data){
+				alert(data);
+			}
 		});
 	});
+});
 </script>

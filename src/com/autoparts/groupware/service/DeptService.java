@@ -1,7 +1,11 @@
 package com.autoparts.groupware.service;
 
+import java.util.Iterator;
+
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,11 +14,12 @@ import com.autoparts.groupware.model.DeptCategoryDto;
 import com.autoparts.groupware.model.RawDeptDto;
 
 @Service
+@SuppressWarnings("unchecked")
 public class DeptService {
 	@Autowired
 	private DeptDao dao;
 	
-	@SuppressWarnings("unchecked")
+	
 	public String getCategory(){
 		JSONArray json = new JSONArray();
 		JSONObject obj;
@@ -29,16 +34,37 @@ public class DeptService {
 		
 		return json.toJSONString();
 	}
-	
-	public void addDept(String name){
-		dao.addDept(name);
-	}
-	
-	public void modDept(RawDeptDto dept){
-		dao.modDept(dept);
-	}
-	
-	public void delDept(int num){
-		dao.delDept(num);
+
+	public String ajax(String json){
+		JSONParser parser = new JSONParser();
+		try {
+			JSONObject obj = (JSONObject)parser.parse(json);
+			
+			JSONArray del = (JSONArray)obj.get("del");
+			Iterator<Integer> dList = del.iterator();
+			while (dList.hasNext()) {
+				dao.delDept(dList.next());
+			}
+			
+			JSONArray add = (JSONArray)obj.get("add");
+			Iterator<String> aList = add.iterator();
+			while (aList.hasNext()) {
+				dao.addDept(aList.next());
+			}
+			
+			JSONArray mod = (JSONArray)obj.get("mod");
+			Iterator<JSONObject> mList = mod.iterator();
+			while (mList.hasNext()) {
+				JSONObject o = mList.next();
+				RawDeptDto dto = new RawDeptDto();
+				dto.setNo((int)o.get("no"));
+				dto.setName((String)o.get("name"));
+				
+				dao.modDept(dto);
+			}
+		} catch (ParseException e) {
+			return "error";
+		}
+		return "ok";
 	}
 }

@@ -1,20 +1,24 @@
 package com.autoparts.groupware.service;
 
+import java.util.Iterator;
+
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.autoparts.groupware.dao.SpotDao;
-import com.autoparts.groupware.model.RawEmpDto;
+import com.autoparts.groupware.model.RawSpotDto;
 import com.autoparts.groupware.model.SpotCategoryDto;
 
 @Service
+@SuppressWarnings("unchecked")
 public class SpotService {
 	@Autowired
 	private SpotDao dao;
 	
-	@SuppressWarnings("unchecked")
 	public String getCategory(){
 		JSONArray json = new JSONArray();
 		JSONObject obj;
@@ -30,15 +34,36 @@ public class SpotService {
 		return json.toJSONString();
 	}
 	
-	public void addEmp(RawEmpDto emp){
-		
-	}
-	
-	public void modEmp(RawEmpDto emp){
-		
-	}
-	
-	public void delEmp(int num){
-		
+	public String ajax(String json){
+		JSONParser parser = new JSONParser();
+		try {
+			JSONObject obj = (JSONObject)parser.parse(json);
+			
+			JSONArray del = (JSONArray)obj.get("del");
+			Iterator<Integer> dList = del.iterator();
+			while (dList.hasNext()) {
+				dao.delSpot(dList.next());
+			}
+			
+			JSONArray add = (JSONArray)obj.get("add");
+			Iterator<String> aList = add.iterator();
+			while (aList.hasNext()) {
+				dao.addSpot(aList.next());
+			}
+			
+			JSONArray mod = (JSONArray)obj.get("mod");
+			Iterator<JSONObject> mList = mod.iterator();
+			while (mList.hasNext()) {
+				JSONObject o = mList.next();
+				RawSpotDto dto = new RawSpotDto();
+				dto.setNo((int)o.get("no"));
+				dto.setName((String)o.get("name"));
+				
+				dao.modSpot(dto);
+			}
+		} catch (ParseException e) {
+			return "error";
+		}
+		return "ok";
 	}
 }

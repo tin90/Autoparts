@@ -10,6 +10,7 @@
 		FROM employee 
 		GROUP BY dept) c 
 	ON d.num = c.dept
+	ORDER BY d.num ASC
 	</select>
 	
 	<select id="getCategoryOne" resultType="DeptCategory" parameterType="int">
@@ -20,6 +21,7 @@
 		GROUP BY dept) c 
 	ON d.num = c.dept
 	WHERE d.num = #{num}
+	ORDER BY d.num ASC
 	</select>
 	
 	<insert id="addDept" parameterType="String">
