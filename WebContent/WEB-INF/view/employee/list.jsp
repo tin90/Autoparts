@@ -1,8 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
-<div class="row" data-ng-app="autoparts" data-ng-controller="MainCtrl">
+<div class="an row" data-ng-app="autoparts" data-ng-controller="MainCtrl">
+<div class="col-md-12">
 	<div class="panel panel-default">
 		<div class="panel-heading">
+			구현중
 			<div class="btn-group">
 				<button class="btn btn-default">전체선택</button>
 			</div>
@@ -48,7 +50,7 @@
 					<button class="btn btn-primary" type="button">검색</button>
 				</div>
 			</form>
-		</div>
+		</div><!-- heading -->
 		<table class="table">
 			<tr>
 				<th><input type="checkbox"></th>
@@ -79,6 +81,7 @@
 			</li>
 		</ul>
 	</nav>
+</div>
 </div>
 
 <script>

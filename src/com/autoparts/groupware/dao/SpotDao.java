@@ -22,8 +22,11 @@ public class SpotDao {
 		return sqlSession.selectOne("spot.getCategoryOne", num);
 	}
 	
-	public void addSpot(String name){
-		sqlSession.insert("spot.addSpot", name);
+	public RawSpotDto addSpot(String name){
+		RawSpotDto spot = new RawSpotDto();
+		spot.setName(name);
+		sqlSession.insert("spot.addSpot", spot);
+		return spot;
 	}
 	
 	public void modSpot(RawSpotDto dept){

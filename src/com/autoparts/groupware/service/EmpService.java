@@ -14,7 +14,7 @@ public class EmpService {
 	@Autowired
 	private EmployeeDao dao;
 	
-	public EmployeeDto getEmp(Integer num){
+	public EmployeeDto getEmp(int num){
 		return dao.getEmployee(num);
 	}
 	
