@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<<<<<<< HEAD
 <ul class="nav nav-tabs">
 	<li role="presentation"><a href="<c:url value='/index.html' />">메인</a></li>
 	<li role="presentation"><a href="<c:url value='/spot/add.html' />">직위</a></li>
@@ -8,6 +9,8 @@
 	<li role="presentation"><a href="<c:url value='/employee/list.html' />">사원</a></li>
 	<li role="presentation"><a href="<c:url value='/approval/app.html' />">결재</a></li>
 </ul>
+=======
+>>>>>>> branch 'master' of https://github.com/tin90/Autoparts.git
 <%@ taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles" %>
 <!DOCTYPE html>
 <html lang="en">
