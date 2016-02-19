@@ -24,9 +24,12 @@
 	ORDER BY s.num ASC
 	</select>
 	
-	<insert id="addSpot" parameterType="String">
+	<insert id="addSpot" parameterType="RawSpot">
+		<selectKey keyProperty="num" resultType="int" order="BEFORE">
+		SELECT SEQ_SPOT_NO.nextval FROM dual
+		</selectKey>
 	INSERT INTO spot (num,name)
-	VALUES (SEQ_SPOT_NO.nextval,#{name})
+	VALUES (#{num},#{name})
 	</insert>
 	
 	<update id="modSpot" parameterType="RawSpot">

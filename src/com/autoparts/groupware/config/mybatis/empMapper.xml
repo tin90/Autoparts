@@ -7,6 +7,7 @@
 	SELECT e.num num, d.name dept, s.name spot, e.name name
 	FROM department d, spot s, employee e
 	WHERE d.num = e.dept and s.num = e.spot and e.num = #{num}
+	ORDER BY e.num DESC
 	</select>
 	
 	<select id="getEmpList" resultType="Employee">
@@ -16,8 +17,11 @@
 	</select>
 
 	<insert id="addEmp" parameterType="RawEmployee">
+		<selectKey keyProperty="num" resultType="int" order="BEFORE">
+		SELECT SEQ_EMPLOYEE_NO.nextval FROM dual
+		</selectKey>
 	INSERT INTO employee (num,name,dept,spot)
-	VALUES (SEQ_EMPLOYEE_NO.nextval,#{name},#{dept},#{spot})
+	VALUES (#{num},#{name},#{dept},#{spot})
 	</insert>
 	
 	<update id="modEmp" parameterType="RawEmployee">
@@ -26,7 +30,7 @@
 	WHERE num = #{num}
 	</update>
 	
-	<delete id="delEmp" parameterType="Integer">
+	<delete id="delEmp" parameterType="int">
 	DELETE FROM employee
 	WHERE num = #{num}
 	</delete>
