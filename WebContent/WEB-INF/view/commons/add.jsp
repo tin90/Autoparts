@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<div data-ng-app="autoparts" data-ng-controller="MainCtrl">
+<div class="row" data-ng-app="autoparts" data-ng-controller="MainCtrl">
 	<div class="btn-group" role="group">
 		<input type="button" class="btn btn-default" id="delBtn" value="삭제">
 		<input type="button" class="btn btn-default" id="modBtn" value="수정">

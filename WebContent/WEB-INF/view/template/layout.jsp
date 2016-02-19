@@ -8,13 +8,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>${title}</title>
-<link rel="stylesheet" href="<c:url value='/css/bootstrap.min.css' />">
-<link rel="stylesheet" href="<c:url value='/css/bootstrap-theme.min.css' />">
-<script src="<c:url value='/js/bootstrap.min.js' />"></script>
-<script src="<c:url value='/js/jquery-2.1.4.min.js' />"></script>
-<script src="<c:url value='/js/jquery-ui.min.js' />"></script>
-<link rel="stylesheet" href="<c:url value='/css/jquery-ui.min.css' />" />
-<script src="<c:url value='/js/angular.min.js' />"></script>
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/latest/css/bootstrap.min.css">
+<script src="//code.jquery.com/jquery.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/latest/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.min.css" />
+<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
 <link rel="stylesheet" href="<c:url value='/css/style.css' />">
 </head>
 <body>
