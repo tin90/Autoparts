@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mobile">
+	
+	<select id="prod_search" parameterType="String" resultType="com.autoparts.mobile.model.MobileDto">
+	SELECT part, brand, order_qty, pocode 
+	FROM part WHERE part=#{part}
+	</select>
+	
+	<select id="bill_list" resultType="com.autoparts.mobile.model.MobileDto">
+	SELECT pocode, "DATE" 
+	FROM storage 
+	WHERE YN='N'
+	ORDER BY pocode ASC
+	</select>
+	
+	<select id="bill_detail" parameterType="String" resultType="com.autoparts.mobile.model.MobileDto">
+	SELECT part, brand, order_qty, qty
+	FROM part 
+	WHERE pocode=#{pocode}
+	</select>
+	
+	<insert id="store" parameterType="com.autoparts.mobile.model.MobileDto">
+	INSERT INTO 
+	st_recent (part, qty, brand, pocode, inout)
+	VALUES(#{part},#{qty},#{brand},#{pocode},'IN')
+	</insert>
+	
+	<insert id="release" parameterType="com.autoparts.mobile.model.MobileDto">
+	INSERT INTO 
+	st_recent (part, qty, brand, pocode, inout)
+	VALUES(#{part},#{qty},#{brand},#{pocode},'OUT')
+	</insert>
+	
+	<insert id="insert" parameterType="com.autoparts.mobile.model.MobileDto">
+	INSERT INTO part (part, qty, brand, pocode) 
+	VALUES(#{part}, #{qty}, #{brand}, #{pocode})
+	</insert>
+	
+	<update id="update" parameterType="com.autoparts.mobile.model.MobileDto">
+	UPDATE part
+	SET qty=
+		(SELECT qty + #{qty}
+		FROM part 
+		WHERE pocode=#{pocode} AND part=#{part})
+	WHERE pocode=#{pocode} AND part=#{part}
+	</update>
+	<!-- if qty=orderqty =>yn=Y else yn=N -->
+	
+	<select id="recent" parameterType="com.autoparts.mobile.model.MobileDto" resultType="com.autoparts.mobile.model.MobileDto">
+	SELECT part, brand, pocode, qty, inout, TO_CHAR("DATE", 'MM/DD/YY_HH24:MI') "DATE"
+	FROM st_recent
+	ORDER BY "DATE" DESC
+	</select>
+	
+	<select id="keep" parameterType="com.autoparts.mobile.model.MobileDto" resultType="com.autoparts.mobile.model.MobileDto">
+	SELECT pocode, part, order_qty, qty
+	FROM part
+	WHERE yn='N'
+	</select>
+	
+	<update id="confirm" parameterType="com.autoparts.mobile.model.MobileDto">
+	UPDATE part
+	SET YN='Y'
+	WHERE part=#{part}
+	</update>
+	
+
+</mapper>

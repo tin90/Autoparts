@@ -11,5 +11,8 @@
 		<typeAlias alias="SpotCategory" type="com.autoparts.groupware.model.SpotCategoryDto"/>
 		<typeAlias alias="RawSpot" type="com.autoparts.groupware.model.RawSpotDto"/>
 		<typeAlias alias="User" type="com.autoparts.login.model.UserDto"/>
+		
+		<typeAlias alias="PageSpot" type="com.autoparts.groupware.model.PageSpot"/>
+		<typeAlias alias="PageDept" type="com.autoparts.groupware.model.PageDept"/>
 	</typeAliases>
 </configuration>

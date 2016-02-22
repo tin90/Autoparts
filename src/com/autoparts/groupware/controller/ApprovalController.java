@@ -29,12 +29,12 @@ public class ApprovalController {
 	@RequestMapping("/read.html")
 	public String read(Model model){
 		model.addAttribute("title", "전자결재 작성");
-		return "approval/add_doc.tiles";
+		return "approval/read_doc.tiles";
 	}
 	
 	@RequestMapping("/list.html")
 	public String list(Model model){
 		model.addAttribute("title", "결재문서");
-		return "approval/add_list.tiles";
+		return "approval/list_doc.tiles";
 	}
 }

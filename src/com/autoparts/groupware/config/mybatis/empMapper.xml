@@ -7,13 +7,72 @@
 	SELECT e.num num, d.name dept, s.name spot, e.name name
 	FROM department d, spot s, employee e
 	WHERE d.num = e.dept and s.num = e.spot and e.num = #{num}
-	ORDER BY e.num DESC
 	</select>
 	
 	<select id="getEmpList" resultType="Employee">
 	SELECT e.num num, d.name dept, s.name spot, e.name name
 	FROM department d, spot s, employee e
 	WHERE d.num = e.dept and s.num = e.spot
+	ORDER BY e.num DESC
+	</select>
+	
+	<select id="getEmpPage" resultType="Employee" parameterType="int">
+	SELECT num,dept,spot,name FROM (
+    	SELECT A.*, 
+                 ROWNUM AS RNUM,
+                 TRUNC((ROWNUM-1)/10+1) AS PAGE,
+                 COUNT(*) OVER() AS TOTCNT FROM (
+			SELECT e.num num, d.name dept, s.name spot, e.name name
+			FROM department d, spot s, employee e
+			WHERE d.num = e.dept and s.num = e.spot
+			ORDER BY e.num DESC
+    	) A
+	) WHERE PAGE = #{page}
+	</select>
+	
+	<select id="getPageCount" resultType="int">
+	SELECT TRUNC((count(*)-1)/10+1)
+	FROM employee
+	</select>
+	
+	<select id="getEmpPageBySpot" resultType="Employee" parameterType="PageSpot">
+	SELECT num,dept,spot,name FROM (
+    	SELECT A.*, 
+                 ROWNUM AS RNUM,
+                 TRUNC((ROWNUM-1)/10+1) AS PAGE,
+                 COUNT(*) OVER() AS TOTCNT FROM (
+			SELECT e.num num, d.name dept, s.name spot, e.name name
+			FROM department d, spot s, employee e
+			WHERE d.num = e.dept AND s.num = e.spot AND e.spot = #{spot}
+			ORDER BY e.num DESC
+    	) A
+	) WHERE PAGE = #{page}
+	</select>
+	
+	<select id="getPageCountBySpot" resultType="int" parameterType="int">
+	SELECT TRUNC((count(*)-1)/10+1)
+	FROM employee
+	WHERE spot = #{spot}
+	</select>
+	
+	<select id="getEmpPageByDept" resultType="Employee" parameterType="PageDept">
+	SELECT num,dept,spot,name FROM (
+    	SELECT A.*, 
+                 ROWNUM AS RNUM,
+                 TRUNC((ROWNUM-1)/10+1) AS PAGE,
+                 COUNT(*) OVER() AS TOTCNT FROM (
+			SELECT e.num num, d.name dept, s.name spot, e.name name
+			FROM department d, spot s, employee e
+			WHERE d.num = e.dept AND s.num = e.spot AND e.dept = #{dept}
+			ORDER BY e.num DESC
+    	) A
+	) WHERE PAGE = #{page}
+	</select>
+	
+	<select id="getPageCountByDept" resultType="int" parameterType="int">
+	SELECT TRUNC((count(*)-1)/10+1)
+	FROM employee
+	WHERE dept = #{dept}
 	</select>
 
 	<insert id="addEmp" parameterType="RawEmployee">

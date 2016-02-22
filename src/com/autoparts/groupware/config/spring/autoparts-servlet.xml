@@ -9,6 +9,8 @@
 	<context:component-scan base-package="com.autoparts.groupware.controller" />
 	<context:component-scan base-package="com.autoparts.login.controller"/>
 	<context:component-scan base-package="com.autoparts.main.controller"/>
+	<context:component-scan base-package="com.autoparts.erp.controller"/>
+	<context:component-scan base-package="com.autoparts.mobile.controller"/>
 	
 	
 	<bean id="viewResolver" class="org.springframework.web.servlet.view.UrlBasedViewResolver"> 
