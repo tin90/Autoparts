@@ -19,14 +19,7 @@ public class EmpService {
 	private EmployeeDao dao;
 	
 	public EmployeeDto getEmp(int num){
-<<<<<<< HEAD
-<<<<<<< HEAD
 		return dao.getEmpOne(num);
-=======
-=======
->>>>>>> refs/remotes/origin/master
-		return dao.getEmployee(num);
->>>>>>> refs/remotes/origin/master
 	}
 	
 	public List<EmployeeDto> getEmp(){
