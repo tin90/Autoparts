@@ -23,12 +23,12 @@ public class SpotController {
 		return "commons/add.tiles";
 	}
 	
-	@RequestMapping(value="/ajax_list.html")
+	@RequestMapping(value="/ajax_list.html", produces="application/json;charset=utf-8")
 	public @ResponseBody String ajax_list(){
 		return service.getCategory();
 	}
 	
-	@RequestMapping(value="/ajax_add.html")
+	@RequestMapping(value="/ajax_add.html", produces="application/text;charset=utf-8")
 	public @ResponseBody String ajax_add(String json){
 		return service.ajax(json);
 	}

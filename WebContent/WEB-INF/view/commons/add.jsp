@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<div class="row" data-ng-app="autoparts" data-ng-controller="MainCtrl">
+<div class="an row" data-ng-app="autoparts" data-ng-controller="MainCtrl">
+<div class="col-md-12">
 	<div class="btn-group" role="group">
 		<input type="button" class="btn btn-default" id="delBtn" value="삭제">
 		<input type="button" class="btn btn-default" id="modBtn" value="수정">
@@ -20,6 +21,7 @@
 			(<span class="empCount">{{item.count}}</span>)
 		</li>
 	</ul>
+</div>
 </div>
 
 <script>
@@ -116,8 +118,8 @@ app.controller('MainCtrl', function($scope, $http) {
 		$.ajax({
 			url: "./ajax_add.html",
 			data: {"json":JSON.stringify(json)},
-			complete: function(data){
-				if(data.status == 200){
+			success: function(data){
+				if(data == 'ok'){
 					json = init();
 					list($scope, $http);
 					alert("저장되었습니다.");

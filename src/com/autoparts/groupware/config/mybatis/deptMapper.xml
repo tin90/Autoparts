@@ -24,9 +24,12 @@
 	ORDER BY d.num ASC
 	</select>
 	
-	<insert id="addDept" parameterType="String">
+	<insert id="addDept" parameterType="RawDept">
+		<selectKey keyProperty="num" resultType="int" order="AFTER">
+		SELECT SEQ_DEPARTMENT_NO.nextval FROM dual
+		</selectKey>
 	INSERT INTO department (num,name)
-	VALUES (SEQ_DEPARTMENT_NO.nextval,#{name})
+	VALUES (#{num},#{name})
 	</insert>
 	
 	<update id="modDept" parameterType="RawDept">

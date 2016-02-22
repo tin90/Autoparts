@@ -15,10 +15,12 @@
 <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.min.css" />
 <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
 <link rel="stylesheet" href="<c:url value='/css/style.css' />">
+<link href="http://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css">  
 </head>
 <body>
 
-<header class="container">
+<header class="container-fluid" style='background-color: #f4511e'>
 	<tiles:insertAttribute name="header" />
 </header>
 <article class="container">

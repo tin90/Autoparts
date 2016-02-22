@@ -22,8 +22,11 @@ public class DeptDao {
 		return sqlSession.selectOne("dept.getCategoryOne", num);
 	}
 	
-	public void addDept(String name){
-		sqlSession.insert("dept.addDept", name);
+	public RawDeptDto addDept(String name){
+		RawDeptDto dept = new RawDeptDto();
+		dept.setName(name);
+		sqlSession.insert("dept.addDept", dept);
+		return dept;
 	}
 	
 	public void modDept(RawDeptDto dept){
