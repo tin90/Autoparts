@@ -1,4 +1,6 @@
 @CHARSET "UTF-8";
 
+article { padding-top: 70px; }
+
 .ui-selecting { background: #FECA40; }
 .ui-selected { background: #F39814; color: white; }
