@@ -7,6 +7,7 @@
 	SELECT e.num num, d.name dept, s.name spot, e.name name
 	FROM department d, spot s, employee e
 	WHERE d.num = e.dept and s.num = e.spot and e.num = #{num}
+	ORDER BY e.num DESC
 	</select>
 	
 	<select id="getEmpList" resultType="Employee">

@@ -75,8 +75,12 @@
 					<button data-ng-show="flag == 'mod'" id="mod_emp" class="btn btn-default">수정</button>
 				</div>
 			</form>
+<<<<<<< HEAD
 		</div>
 		<!-- 사원 데이터 -->
+=======
+		</div><!-- heading -->
+>>>>>>> refs/remotes/origin/master
 		<table class="table">
 			<tr>
 				<th></th>
