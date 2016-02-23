@@ -45,10 +45,16 @@ public class EmployeeDao {
 	}
 	
 	public int getPageCount(String search){
+		return sqlSession.selectOne("emp.getPageCount");
+	}
+	
+	public int getPageCount(String search, int q){
 		if(search.equals("dept")){
-			return sqlSession.selectOne("emp.getPageCountByDept");
+			return sqlSession.selectOne("emp.getPageCountByDept", q);
 		}else if(search.equals("spot")){
-			return sqlSession.selectOne("emp.getPageCountBySpot");
+			return sqlSession.selectOne("emp.getPageCountBySpot", q);
+		}else if(search.equals("name")){
+			return 1;
 		}else{
 			return sqlSession.selectOne("emp.getPageCount");
 		}
@@ -60,6 +66,14 @@ public class EmployeeDao {
 	
 	public void modEmp(RawEmpDto emp){
 		sqlSession.update("emp.modEmp", emp);
+	}
+	
+	public void modDept(RawEmpDto emp){
+		sqlSession.update("emp.modDept", emp);
+	}
+	
+	public void modSpot(RawEmpDto emp){
+		sqlSession.update("emp.modSpot", emp);
 	}
 	
 	public void delEmp(int num){

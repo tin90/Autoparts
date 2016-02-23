@@ -64,6 +64,12 @@ public class EmpService {
 		return obj.toJSONString();
 	}
 	
+	public String getPageCount(String search, int q){
+		JSONObject obj = new JSONObject();
+		obj.put("count", dao.getPageCount(search, q));
+		return obj.toJSONString();
+	}
+	
 	public void addEmp(RawEmpDto emp){
 		dao.addEmp(emp);
 	}
@@ -81,6 +87,48 @@ public class EmpService {
 			for(int i = 0; i < size; i++){
 				int num = (int)(long)(Long)obj.get(i);
 				dao.delEmp(num);
+			}
+		} catch (Exception e) {
+			return "error : " + e.getMessage();
+		}
+		return "ok";
+	}
+	
+	public String modDept(String json){
+		try {
+			JSONParser parser = new JSONParser();
+			
+			JSONObject obj = (JSONObject)parser.parse(json);
+			int dept = (int)(long)(Long)obj.get("dept");
+			JSONArray arr = (JSONArray)obj.get("list");
+			int size = arr.size();
+			for(int i = 0; i < size; i++){
+				int num = (int)(long)(Long)arr.get(i);
+				RawEmpDto e = new RawEmpDto();
+				e.setNum(num);
+				e.setDept(dept);
+				dao.modDept(e);
+			}
+		} catch (Exception e) {
+			return "error : " + e.getMessage();
+		}
+		return "ok";
+	}
+	
+	public String modSpot(String json){
+		try {
+			JSONParser parser = new JSONParser();
+			
+			JSONObject obj = (JSONObject)parser.parse(json);
+			int spot = (int)(long)(Long)obj.get("spot");
+			JSONArray arr = (JSONArray)obj.get("list");
+			int size = arr.size();
+			for(int i = 0; i < size; i++){
+				int num = (int)(long)(Long)arr.get(i);
+				RawEmpDto e = new RawEmpDto();
+				e.setNum(num);
+				e.setSpot(spot);
+				dao.modSpot(e);
 			}
 		} catch (Exception e) {
 			return "error : " + e.getMessage();

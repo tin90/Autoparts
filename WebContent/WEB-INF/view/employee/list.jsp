@@ -1,10 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
-<div class="an row" data-ng-app="autoparts" data-ng-controller="MainCtrl">
+<div class="row" data-ng-app="autoparts" data-ng-controller="MainCtrl">
 <div class="col-md-12">
 	<div class="panel panel-default">
 		<div class="panel-heading">
-			구현중
 			<div class="btn-group">
 				<button class="btn btn-default">전체선택</button>
 			</div>
@@ -13,8 +12,10 @@
 		 			부서 <span class="caret"></span>
 				</button>
 				<ul class="dropdown-menu" role="menu">
-		  			<li data-ng-repeat="d in dept"><a href="#">{{d.name}}</a></li>
-		  			<li class="divider"></li>
+		  			<li id="dept_change" data-ng-repeat="d in dept">
+		  				<span data-ng-hide="true">{{d.no}}</span>
+		  				<a href="#">{{d.name}}</a>
+		  			</li>
 				</ul>
 			</div>
 			<div class="btn-group">
@@ -22,8 +23,10 @@
 		 			직위 <span class="caret"></span>
 				</button>
 				<ul class="dropdown-menu" role="menu">
-					<li data-ng-repeat="s in spot"><a href="#">{{s.name}}</a></li>
-		  			<li class="divider"></li>
+					<li id="spot_change" data-ng-repeat="s in spot">
+						<span data-ng-hide="true">{{s.no}}</span>
+						<a href="#">{{s.name}}</a>
+					</li>
 				</ul>
 			</div>
 			<div class="btn-group">
@@ -94,14 +97,16 @@
 	</div>
 	<nav class="text-center">
 		<ul class="pagination pagination-lg">
-  			<li>
-				<a href="#" aria-label="Previous">
+  			<li data-ng-if="page[0] != null && page[0] != 1">
+				<a href="\#{{page[0]-1}}" aria-label="Previous">
 				<span aria-hidden="true">&laquo;</span>
 				</a>
 			</li>
-			<li data-ng-repeat="p in page"><a href="#" class="page_btn">{{p}}</a></li>
-			<li>
-				<a href="#" aria-label="Next">
+			<li data-ng-repeat="p in page" data-ng-class="{'active':currPage == p}">
+				<a href="\#{{p}}" class="page_btn">{{p}}</a>
+			</li>
+			<li data-ng-if="page[page.length-1] < maxPage">
+				<a href="\#{{page[page.length-1]+1}}" aria-label="Next">
 				<span aria-hidden="true">&raquo;</span>
 				</a>
 			</li>
@@ -112,8 +117,57 @@
 <script>
 var app = angular.module('autoparts', []);
 
-app.controller('MainCtrl', function($scope, $http) {
+app.controller('MainCtrl', function($scope, $http) {	
+	$scope.currPage = 1;
 	$scope.flag = null;
+	$scope.searchSel = 0;
+	$scope.query = "";
+	
+	spotList($scope, $http);
+	deptList($scope, $http);
+	empList($scope, $http);
+	
+	$(document).on("click", ".pagination li a", function(){
+		$scope.currPage = $(this).attr("href").split("#")[1];
+		empList($scope, $http);
+	});
+	
+	$(document).on("click", "#dept_change a", function(){
+		var dept = Number($(this).siblings("span").text());
+		var json = new Object();
+		json["dept"] = dept;
+		json["list"] = new Array();
+		$("input:checkbox[id='md_chk']:checked").parent().each(function(){
+			json["list"].push(Number($(this).siblings(".e_num").text()));
+		});
+		
+		$.ajax({
+			url: "./ajax_mod_dept.html",
+			data: {"json":JSON.stringify(json)},
+			success: function(data){
+				empList($scope, $http);
+			}
+		});
+	});
+	
+	$(document).on("click", "#spot_change a", function(){
+		var spot = Number($(this).siblings("span").text());
+		var json = new Object();
+		json["spot"] = spot;
+		json["list"] = new Array();
+		$("input:checkbox[id='md_chk']:checked").parent().each(function(){
+			json["list"].push(Number($(this).siblings(".e_num").text()));
+		});
+
+		$.ajax({
+			url: "./ajax_mod_spot.html",
+			data: {"json":JSON.stringify(json)},
+			success: function(data){
+				empList($scope, $http);
+			}
+		});
+	});
+	
 	$("#addEmp").click(function(){
 		$scope.flag = "add";
 		$scope.$apply();
@@ -191,15 +245,10 @@ app.controller('MainCtrl', function($scope, $http) {
 		}
 	});
 	
-	$scope.currPage = 1;
-	
-	$scope.searchSel = 0;
 	$("#searchOption").change(function(){
 		$scope.searchSel = $("#searchOption option:selected").val();
 		$scope.$apply();
 	});
-	
-	$scope.query = "";
 	$("#searchBtn").click(function(){
 		var sel = $scope.searchSel;
 		
@@ -216,10 +265,6 @@ app.controller('MainCtrl', function($scope, $http) {
 		empList($scope, $http);
 	});
 	
-	spotList($scope, $http);
-	deptList($scope, $http);
-	empList($scope, $http);
-	
 	$("#delEmp").click(function(){
 		var del = new Array();
 		$("input:checkbox[id='md_chk']:checked").each(function(){
@@ -233,11 +278,6 @@ app.controller('MainCtrl', function($scope, $http) {
 				empList($scope, $http);
 			}
 		});
-	});
-	
-	$(document).on("click", ".page_btn", function(){
-		$scope.currPage = Number($(this).text());
-		empList($scope, $http);
 	});
 });
 
@@ -289,9 +329,6 @@ function empList($scope, $http){
 		search = "total";
 	}
 	
-	alert('./ajax_emp_list.html?search='+search
-			+'&page='+$scope.currPage+'&q='+$scope.query);
-	
 	$http({
 		type: "GET",
 		url: './ajax_emp_list.html?search='+search
@@ -306,7 +343,7 @@ function empList($scope, $http){
 		pageCount($scope, $http);
 		$scope.$apply();
 	},function(res){
-		alert("error");
+		alert("emp error");
 	});
 }
 
@@ -333,14 +370,17 @@ function pageCount($scope, $http){
 		},
 		dataType:"json"
 	}).then(function(res){
+		$scope.maxPage = res.data.count;
+		var base = Math.floor(($scope.currPage-1)/5)*5;
+		
 		var p = [];
-		for(var i = 1; i <= res.data.count; i++){
+		for(var i = base+1; i <= Math.min(base+5, $scope.maxPage); i++){
 			p.push(i);
 		}
 		$scope.page = p;
 		$scope.$apply();
 	},function(res){
-		alert("error");
+		alert("page error");
 	});
 }
 </script>

@@ -90,6 +90,18 @@
 	WHERE num = #{num}
 	</update>
 	
+	<update id="modDept" parameterType="RawEmployee">
+	UPDATE employee
+	SET dept = #{dept}
+	WHERE num = #{num}
+	</update>
+	
+	<update id="modSpot" parameterType="RawEmployee">
+	UPDATE employee
+	SET spot = #{spot}
+	WHERE num = #{num}
+	</update>
+	
 	<delete id="delEmp" parameterType="int">
 	DELETE FROM employee
 	WHERE num = #{num}

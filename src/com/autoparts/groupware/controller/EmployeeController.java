@@ -49,8 +49,12 @@ public class EmployeeController {
 	}
 	
 	@RequestMapping(value="/ajax_emp_page_count.html", produces="application/json;charset=utf-8")
-	public @ResponseBody String ajaxPageCount(String search){
-		return emp.getPageCount(search);
+	public @ResponseBody String ajaxPageCount(String search, String q){
+		if(search.equals("total")){
+			return emp.getPageCount(search);
+		}else{
+			return emp.getPageCount(search, Integer.parseInt(q));
+		}
 	}
 	
 	@RequestMapping(value="/ajax_add_emp.html", produces="application/text;charset=utf-8")
@@ -77,5 +81,17 @@ public class EmployeeController {
 		remp.setName(name);
 		emp.modEmp(remp);
 		return "ok";
+	}
+	
+	@RequestMapping(value="/ajax_mod_dept.html", produces="application/text;charset=utf-8")
+	public @ResponseBody String ajaxModDept(String json){
+		System.out.println(json);
+		return emp.modDept(json);
+	}
+	
+	@RequestMapping(value="/ajax_mod_spot.html", produces="application/text;charset=utf-8")
+	public @ResponseBody String ajaxModSpot(String json){
+		System.out.println(json);
+		return emp.modSpot(json);
 	}
 }
