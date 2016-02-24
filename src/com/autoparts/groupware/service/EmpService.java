@@ -42,6 +42,22 @@ public class EmpService {
 		return json.toJSONString();
 	}
 	
+	public String getEmpPage(int page, String q){
+		JSONArray json = new JSONArray();
+		JSONObject obj;
+		
+		for(EmployeeDto emp : dao.getEmpPage(page, q)){
+			obj = new JSONObject();
+			obj.put("num", emp.getNum());
+			obj.put("dept", emp.getDept());
+			obj.put("spot", emp.getSpot());
+			obj.put("name", emp.getName());
+			json.add(obj);
+		}
+		
+		return json.toJSONString();
+	}
+	
 	public String getEmpPage(String search, int page, int q){
 		JSONArray json = new JSONArray();
 		JSONObject obj;
@@ -61,6 +77,12 @@ public class EmpService {
 	public String getPageCount(String search){
 		JSONObject obj = new JSONObject();
 		obj.put("count", dao.getPageCount(search));
+		return obj.toJSONString();
+	}
+	
+	public String getPageCountByName(String q){
+		JSONObject obj = new JSONObject();
+		obj.put("count", dao.getPageCountByName(q));
 		return obj.toJSONString();
 	}
 	

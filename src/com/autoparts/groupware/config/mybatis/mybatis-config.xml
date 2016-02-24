@@ -14,5 +14,9 @@
 		
 		<typeAlias alias="PageSpot" type="com.autoparts.groupware.model.PageSpot"/>
 		<typeAlias alias="PageDept" type="com.autoparts.groupware.model.PageDept"/>
+		<typeAlias alias="PageName" type="com.autoparts.groupware.model.PageName"/>
+		
+		<typeAlias alias="AppLine" type="com.autoparts.groupware.model.AppLineDto"/>
+		<typeAlias alias="Approval" type="com.autoparts.groupware.model.ApprovalDto"/>
 	</typeAliases>
 </configuration>

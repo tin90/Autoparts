@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="app">
+	<insert id="addAppline" parameterType="AppLine">
+		<selectKey keyProperty="num" resultType="int" order="AFTER">
+		SELECT SEQ_APPROVALLINE_NO.nextval FROM dual
+		</selectKey>
+	INSERT INTO approvalline (num)
+	VALUES (#{num})
+	</insert>
+	
+	<insert id="addApplist" parameterType="AppLine">
+	INSERT ALL
+		<foreach item="app" index="index" collection="list">
+		INSERT INTO approval (num,seq,empno)
+		VALUES (#{num},#{index},#{app.empno})
+		</foreach>
+	</insert>
+</mapper>

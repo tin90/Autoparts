@@ -18,7 +18,6 @@ public class DeptService {
 	@Autowired
 	private DeptDao dao;
 	
-	
 	public String getCategory(){
 		JSONArray json = new JSONArray();
 		JSONObject obj;

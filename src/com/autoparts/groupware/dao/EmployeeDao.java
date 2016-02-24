@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import com.autoparts.groupware.model.EmployeeDto;
 import com.autoparts.groupware.model.PageDept;
+import com.autoparts.groupware.model.PageName;
 import com.autoparts.groupware.model.PageSpot;
 import com.autoparts.groupware.model.RawEmpDto;
 
@@ -28,6 +29,13 @@ public class EmployeeDao {
 		return sqlSession.selectList("emp.getEmpPage", page);
 	}
 	
+	public List<EmployeeDto> getEmpPage(int page, String q){
+		PageName pn = new PageName();
+		pn.setPage(page);
+		pn.setName(q);
+		return sqlSession.selectList("emp.getEmpPageByName", pn);
+	}
+	
 	public List<EmployeeDto> getEmpPage(String search, int page, int q){
 		if(search.equals("dept")){
 			PageDept pd = new PageDept();
@@ -46,6 +54,10 @@ public class EmployeeDao {
 	
 	public int getPageCount(String search){
 		return sqlSession.selectOne("emp.getPageCount");
+	}
+	
+	public int getPageCountByName(String q){
+		return sqlSession.selectOne("emp.getPageCountByName", q);
 	}
 	
 	public int getPageCount(String search, int q){

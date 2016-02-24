@@ -75,6 +75,26 @@
 	FROM employee
 	WHERE dept = #{dept}
 	</select>
+	
+	<select id="getEmpPageByName" resultType="Employee" parameterType="PageName">
+	SELECT num,dept,spot,name FROM (
+    	SELECT A.*, 
+                 ROWNUM AS RNUM,
+                 TRUNC((ROWNUM-1)/10+1) AS PAGE,
+                 COUNT(*) OVER() AS TOTCNT FROM (
+			SELECT e.num num, d.name dept, s.name spot, e.name name
+			FROM department d, spot s, employee e
+			WHERE d.num = e.dept AND s.num = e.spot AND e.name LIKE '%' || #{name} || '%'
+			ORDER BY e.num DESC
+    	) A
+	) WHERE PAGE = #{page}
+	</select>
+	
+	<select id="getPageCountByName" resultType="int" parameterType="String">
+	SELECT TRUNC((count(*)-1)/10+1)
+	FROM employee
+	WHERE name LIKE '%' || #{name} || '%'
+	</select>
 
 	<insert id="addEmp" parameterType="RawEmployee">
 		<selectKey keyProperty="num" resultType="int" order="BEFORE">

@@ -1,8 +1,11 @@
 package com.autoparts.groupware.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.autoparts.groupware.service.AppService;
 
 /***
  * 
@@ -13,7 +16,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/approval")
 public class ApprovalController {
-
+	@Autowired
+	private AppService service;
+	
 	@RequestMapping("/app.html")
 	public String app(Model model){
 		model.addAttribute("title", "전자결재 메인");

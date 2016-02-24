@@ -42,7 +42,8 @@ public class EmployeeController {
 		if(search.equals("total")){
 			return emp.getEmpPage(page);	
 		}else if(search.equals("name")){
-			return "";
+			System.out.println(q);
+			return emp.getEmpPage(page, q);
 		}else{
 			return emp.getEmpPage(search, page, Integer.parseInt(q));	
 		}
@@ -52,6 +53,8 @@ public class EmployeeController {
 	public @ResponseBody String ajaxPageCount(String search, String q){
 		if(search.equals("total")){
 			return emp.getPageCount(search);
+		}else if(search.equals("name")){
+			return emp.getPageCountByName(q);
 		}else{
 			return emp.getPageCount(search, Integer.parseInt(q));
 		}
@@ -85,13 +88,11 @@ public class EmployeeController {
 	
 	@RequestMapping(value="/ajax_mod_dept.html", produces="application/text;charset=utf-8")
 	public @ResponseBody String ajaxModDept(String json){
-		System.out.println(json);
 		return emp.modDept(json);
 	}
 	
 	@RequestMapping(value="/ajax_mod_spot.html", produces="application/text;charset=utf-8")
 	public @ResponseBody String ajaxModSpot(String json){
-		System.out.println(json);
 		return emp.modSpot(json);
 	}
 }

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
 <div class="row" data-ng-app="autoparts" data-ng-controller="MainCtrl">
 <div class="col-md-12">
 	<div class="panel panel-default">
@@ -53,7 +54,7 @@
 					<select data-ng-show="searchSel == 2" class="form-control" id="search_spot">
 						<option data-ng-repeat="s in spot" value="{{s.no}}">{{s.name}}</option>
 					</select>
-					<input data-ng-show="searchSel == 3" type="text" class="form-control">
+					<input id="searchName" data-ng-show="searchSel == 3" type="text" class="form-control">
 				</div>
 				<div class="form-group">
 					<button id="searchBtn" class="btn btn-primary" type="button">검색</button>
@@ -127,12 +128,14 @@ app.controller('MainCtrl', function($scope, $http) {
 	deptList($scope, $http);
 	empList($scope, $http);
 	
-	$(document).on("click", ".pagination li a", function(){
+	$(document).on("click", ".pagination li a", function(ev){
+		ev.preventDefault();
 		$scope.currPage = $(this).attr("href").split("#")[1];
 		empList($scope, $http);
 	});
 	
-	$(document).on("click", "#dept_change a", function(){
+	$(document).on("click", "#dept_change a", function(ev){
+		ev.preventDefault();
 		var dept = Number($(this).siblings("span").text());
 		var json = new Object();
 		json["dept"] = dept;
@@ -150,7 +153,8 @@ app.controller('MainCtrl', function($scope, $http) {
 		});
 	});
 	
-	$(document).on("click", "#spot_change a", function(){
+	$(document).on("click", "#spot_change a", function(ev){
+		ev.preventDefault();
 		var spot = Number($(this).siblings("span").text());
 		var json = new Object();
 		json["spot"] = spot;
@@ -257,6 +261,7 @@ app.controller('MainCtrl', function($scope, $http) {
 		}else if(sel == 2){
 			$scope.query = $("#search_spot option:selected").val();
 		}else if(sel == 3){
+			$scope.query = $("#searchName").val();
 			search = "name";
 		}else{
 			search = "total";
@@ -280,107 +285,5 @@ app.controller('MainCtrl', function($scope, $http) {
 		});
 	});
 });
-
-function spotList($scope, $http){
-	$http({
-		type: "GET",
-		url: './ajax_spot_list.html',
-		headers: {
-			"Accept":"application/json;charset=utf-8",
-			"Accept-Charset":"charset=utf-8"
-		},
-		dataType:"json"
-	}).then(function(res){
-		$scope.spot = res.data;
-		$scope.$apply();
-	},function(res){
-		alert("error");
-	});
-}
-
-function deptList($scope, $http){
-	$http({
-		type: "GET",
-		url: './ajax_dept_list.html',
-		headers: {
-			"Accept":"application/json;charset=utf-8",
-			"Accept-Charset":"charset=utf-8"
-		},
-		dataType:"json"
-	}).then(function(res){
-		$scope.dept = res.data;
-		$scope.$apply();
-	},function(res){
-		alert("error");
-	});
-}
-
-function empList($scope, $http){
-	var search = "total";
-	var sel = $scope.searchSel;
-	
-	if(sel == 1){
-		search = "dept";
-	}else if(sel == 2){
-		search = "spot";
-	}else if(sel == 3){
-		search = "name";
-	}else{
-		search = "total";
-	}
-	
-	$http({
-		type: "GET",
-		url: './ajax_emp_list.html?search='+search
-				+'&page='+$scope.currPage+'&q='+$scope.query,
-		headers: {
-			"Accept":"application/json;charset=utf-8",
-			"Accept-Charset":"charset=utf-8"
-		},
-		dataType:"json"
-	}).then(function(res){
-		$scope.emp = res.data;
-		pageCount($scope, $http);
-		$scope.$apply();
-	},function(res){
-		alert("emp error");
-	});
-}
-
-function pageCount($scope, $http){
-	var search = "total";
-	var sel = $scope.searchSel;
-	
-	if(sel == 1){
-		search = "dept";
-	}else if(sel == 2){
-		search = "spot";
-	}else if(sel == 3){
-		search = "name";
-	}else{
-		search = "total";
-	}
-	
-	$http({
-		type: "GET",
-		url: './ajax_emp_page_count.html?search='+search+'&q='+$scope.query,
-		headers: {
-			"Accept":"application/json;charset=utf-8",
-			"Accept-Charset":"charset=utf-8"
-		},
-		dataType:"json"
-	}).then(function(res){
-		$scope.maxPage = res.data.count;
-		var base = Math.floor(($scope.currPage-1)/5)*5;
-		
-		var p = [];
-		for(var i = base+1; i <= Math.min(base+5, $scope.maxPage); i++){
-			p.push(i);
-		}
-		$scope.page = p;
-		$scope.$apply();
-	},function(res){
-		alert("page error");
-	});
-}
 </script>
+<script src="<c:url value='/js/search.js' />"></script>
