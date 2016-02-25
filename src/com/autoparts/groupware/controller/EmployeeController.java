@@ -42,7 +42,6 @@ public class EmployeeController {
 		if(search.equals("total")){
 			return emp.getEmpPage(page);	
 		}else if(search.equals("name")){
-			System.out.println(q);
 			return emp.getEmpPage(page, q);
 		}else{
 			return emp.getEmpPage(search, page, Integer.parseInt(q));	

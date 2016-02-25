@@ -6,7 +6,7 @@
 	<div class="panel panel-default">
 		<div class="panel-heading">
 			<div class="btn-group">
-				<button class="btn btn-default">전체선택</button>
+				<button id="total_sel" class="btn btn-default">전체선택</button>
 			</div>
 			<div class="btn-group">
 				<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
@@ -88,7 +88,7 @@
 				<th>번호</th><th>부서</th><th>직위</th><th>이름</th>
 			</tr>
 			<tr data-ng-repeat="e in emp">
-				<td><input id="md_chk" type="checkbox" value="{{e.num}}"></td>
+				<td><input class="md_chk" type="checkbox" value="{{e.num}}"></td>
 				<td class="e_num">{{e.num}}</td>
 				<td class="e_dept">{{e.dept}}</td>
 				<td class="e_spot">{{e.spot}}</td>
@@ -140,7 +140,7 @@ app.controller('MainCtrl', function($scope, $http) {
 		var json = new Object();
 		json["dept"] = dept;
 		json["list"] = new Array();
-		$("input:checkbox[id='md_chk']:checked").parent().each(function(){
+		$("input:checkbox[class='md_chk']:checked").parent().each(function(){
 			json["list"].push(Number($(this).siblings(".e_num").text()));
 		});
 		
@@ -159,7 +159,7 @@ app.controller('MainCtrl', function($scope, $http) {
 		var json = new Object();
 		json["spot"] = spot;
 		json["list"] = new Array();
-		$("input:checkbox[id='md_chk']:checked").parent().each(function(){
+		$("input:checkbox[class='md_chk']:checked").parent().each(function(){
 			json["list"].push(Number($(this).siblings(".e_num").text()));
 		});
 
@@ -202,7 +202,7 @@ app.controller('MainCtrl', function($scope, $http) {
 	
 	$("#modEmp").click(function(){
 		$scope.flag = "mod";
-		var checked = $("input:checkbox[id='md_chk']:checked").first().parent();
+		var checked = $("input:checkbox[class='md_chk']:checked").first().parent();
 		$("#inputNo").val(Number(checked.siblings(".e_num").text()));
 		
 		var dept = checked.siblings(".e_dept").text();
@@ -272,7 +272,7 @@ app.controller('MainCtrl', function($scope, $http) {
 	
 	$("#delEmp").click(function(){
 		var del = new Array();
-		$("input:checkbox[id='md_chk']:checked").each(function(){
+		$("input:checkbox[class='md_chk']:checked").each(function(){
 			del.push(Number($(this).val()));
 		});
 		
@@ -283,6 +283,12 @@ app.controller('MainCtrl', function($scope, $http) {
 				empList($scope, $http);
 			}
 		});
+	});
+	
+	var chk = true; //파폭에선 한번 체크후 체크해제하면 동작 안 됨. 딴 걸 하고 나면 되기도 함
+	$("#total_sel").on("click", function(){
+		$(".md_chk").attr("checked", chk);
+		chk = !chk;
 	});
 });
 </script>

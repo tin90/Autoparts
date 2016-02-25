@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<div  data-ng-app="autoparts" data-ng-controller="MainCtrl">
+<div data-ng-app="autoparts" data-ng-controller="MainCtrl">
 <div class="row">
 	<div class="col-md-6">
 		<div class="panel panel-default">
@@ -57,11 +57,21 @@
 			<table class="table table-bordered">
 				<tr>
 					<th class="text-center">수신부서</th>
-					<td><input type="text" placeholder="수신부서" class="form-control" aria-label="수신"></td>
+					<td class="input-group">
+						<input type="text" placeholder="수신부서" class="form-control" aria-label="수신" >
+						<span class="input-group-btn">
+							<button data-id="rDept" class="rbtn btn btn-default">수신부서 지정</button>
+						</span>
+					</td>
 				</tr>
 				<tr>
 					<th class="text-center">참조자</th>
-					<td><input type="text" placeholder="참조자" class="form-control" aria-label="참조"></td>
+					<td class="input-group">
+						<input type="text" placeholder="참조자" class="form-control" aria-label="참조">
+						<span class="input-group-btn">
+							<button data-id="rEmp" class="rbtn btn btn-default">참조자 지정</button>
+						</span>
+					</td>
 				</tr>
 			</table>
 		</div>
@@ -137,6 +147,66 @@
 		</div>
 	</div>
 </div><!-- modal -->
+
+<div class="modal fade" id="search_modal" role="dialog">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">X</button>
+				<h4 class="modal-title">검색</h4>
+			</div>
+			<div class="modal-body">
+				<div class="col-md-6">
+					<ul class="list-group">
+						<li data-ng-if="search_id == 'rDept'" data-ng-repeat="d in dept" class="list-group-item">
+							<a href="\#{{$index}}">
+								<span data-ng-hide="true">{{d.num}}</span>
+								<span>{{d.name}}</span>
+							</a>
+						</li>
+						<li data-ng-if="search_id == 'rEmp'" data-ng-repeat="e in emp" class="list-group-item">
+							<a href="\#{{$index}}">
+								<span data-ng-hide="true">{{e.num}}</span>
+								<span>{{e.dept}}</span>
+								<span>{{e.spot}}</span>
+								<span>{{e.name}}</span>
+							</a>
+						</li>
+					</ul>
+					<nav class="text-center">
+						<ul class="pagination">
+				  			<li data-ng-if="page[0] != null && page[0] != 1">
+								<a href="\#{{page[0]-1}}" aria-label="Previous">
+								<span aria-hidden="true">&laquo;</span>
+								</a>
+							</li>
+							<li data-ng-repeat="p in page" data-ng-class="{'active':currPage == p}">
+								<a href="\#{{p}}" class="page_btn">{{p}}</a>
+							</li>
+							<li data-ng-if="page[page.length-1] < maxPage">
+								<a href="\#{{page[page.length-1]+1}}" aria-label="Next">
+								<span aria-hidden="true">&raquo;</span>
+								</a>
+							</li>
+						</ul>
+					</nav>
+				</div>
+				<div class="list-group col-md-6">
+					<p data-ng-if="search_id == 'rDept'" data-ng-repeat="d in receiveDept">
+						<span>{{d.name}}</span>
+					</p>
+					<p data-ng-if="search_id == 'rEmp'" data-ng-repeat="e in receiveEmp">
+						<span>{{e.dept}}</span>
+						<span>{{e.spot}}</span>
+						<span>{{e.name}}</span>
+					</p>
+				</div>
+				<div class="clearfix"></div>
+			</div>
+		</div>
+	</div>
+</div>
+
 </div>
 
 <script>
@@ -151,6 +221,8 @@ app.controller('MainCtrl', function($scope, $http) {
 	$scope.applist = new Array();
 	$scope.coop = 0;
 	$scope.cooplist = new Array();
+	$scope.receiveDept = new Array();
+	$scope.receiveEmp = new Array();
 	$scope.searchSel = 3;
 	$scope.currPage = 1;
 	
@@ -213,6 +285,31 @@ app.controller('MainCtrl', function($scope, $http) {
 		
 		$scope.$apply();
 		$("#layerpop").modal("hide");
+	});
+	
+	$(".rbtn").click(function(){
+		$("#search_modal").modal("show");
+		$scope.search_id = $(this).data("id");
+		
+		if($scope.search_id == "rDept"){
+			deptList($scope, $http);
+		}else{
+			$scope.searchSel = 0;
+			empList($scope, $http);
+		}
+	});
+	$(document).on("click", "#search_modal li a", function(ev){
+		ev.preventDefault();
+		var index = $(this).attr("href").split("#")[1];
+		
+		if($scope.search_id == "rDept"){
+			$scope.receiveDept.push($scope.dept[index]);
+		
+		}else{
+			$scope.receiveEmp.push($scope.emp[index]);
+		}
+		
+		$scope.$apply();
 	});
 });
 </script>
