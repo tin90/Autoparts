@@ -2,6 +2,7 @@ CREATE TABLE APPROVAL (
 	num NUMBER(*,0),
 	seq NUMBER(*,0),
 	empno NUMBER(*,0),
+	app_date DATETIME,
 	CONSTRAINT fk_appline_num FOREIGN KEY(num) REFERENCES APPROVALLINE(num),
 	CONSTRAINT fk_emp_num FOREIGN KEY(empno) REFERENCES EMPLOYEE(num)
 );

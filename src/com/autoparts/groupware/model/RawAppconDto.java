@@ -1,18 +1,18 @@
 package com.autoparts.groupware.model;
 
-import java.util.List;
-
 //시분초 정보
 //import java.util.Date;
 
 //결재문서
-public class AppconDto {
+public class RawAppconDto {
 	private int num;
 	private String title;
 	private String content;
-	private List<ApprovalDto> appline;
-	private List<ApprovalDto> coopline;
-	private int orderlist_no;
+	private int appline;
+	private int coopline;
+	private int empno;
+	private int ollno;
+	private int state;
 	
 	public int getNum() {
 		return num;
@@ -32,22 +32,34 @@ public class AppconDto {
 	public void setContent(String content) {
 		this.content = content;
 	}
-	public List<ApprovalDto> getAppline() {
+	public int getAppline() {
 		return appline;
 	}
-	public void setAppline(List<ApprovalDto> appline) {
+	public void setAppline(int appline) {
 		this.appline = appline;
 	}
-	public List<ApprovalDto> getCoopline() {
+	public int getCoopline() {
 		return coopline;
 	}
-	public void setCoopline(List<ApprovalDto> coopline) {
+	public void setCoopline(int coopline) {
 		this.coopline = coopline;
 	}
-	public int getOrderlist_no() {
-		return orderlist_no;
+	public int getEmpno() {
+		return empno;
 	}
-	public void setOrderlist_no(int orderlist_no) {
-		this.orderlist_no = orderlist_no;
+	public void setEmpno(int empno) {
+		this.empno = empno;
+	}
+	public int getOllno() {
+		return ollno;
+	}
+	public void setOllno(int ollno) {
+		this.ollno = ollno;
+	}
+	public int getState() {
+		return state;
+	}
+	public void setState(int state) {
+		this.state = state;
 	}
 }

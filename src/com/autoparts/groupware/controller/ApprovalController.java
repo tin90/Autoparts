@@ -31,6 +31,12 @@ public class ApprovalController {
 		return "approval/add_doc.tiles";
 	}
 	
+	@RequestMapping("/add_proc.html")
+	public String add_proc(String json){
+		service.addAppcontent(json);
+		return "redirect:/approval/app.html";
+	}
+	
 	@RequestMapping("/read.html")
 	public String read(Model model){
 		model.addAttribute("title", "전자결재 작성");

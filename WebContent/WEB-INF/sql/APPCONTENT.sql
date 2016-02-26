@@ -2,10 +2,13 @@ CREATE TABLE APPCONTENT (
 	num NUMBER(*,0) CONSTRAINT pk_approval PRIMARY KEY,
 	title VARCHAR2(2000),
 	content NCLOB,
-	line NUMBER(*,0),
+	appline NUMBER(*,0),
+	coopline NUMBER(*,0),
 	empno NUMBER(*,0),
 	ollno NUMBER(*,0),
-	CONSTRAINT fk_line_num FOREIGN KEY(line) REFERENCES APPROVALLINE(num),
+	state NUMBER(*,0),
+	CONSTRAINT fk_appline_num FOREIGN KEY(appline) REFERENCES APPROVALLINE(num),
+	CONSTRAINT fk_coopline_num FOREIGN KEY(coopline) REFERENCES APPROVALLINE(num),
 	CONSTRAINT fk_aemp_num FOREIGN KEY(empno) REFERENCES EMPLOYEE(num),
 	CONSTRAINT fk_oll_num FOREIGN KEY(ollno) REFERENCES ORDERLISTLIST(num)
 );
