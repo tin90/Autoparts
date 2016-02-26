@@ -8,6 +8,28 @@
 	</select>
 	
 	<select id="register" parameterType="User">
-		INSERT INTO CLIENT(id, pwd) VALUES(#{id}, #{pwd})
+		INSERT INTO CLIENT(id, pwd, c_level) VALUES(#{id}, #{pwd}, #{c_level})
+	</select>
+	<select id="login" parameterType="java.util.Map" resultType="User">
+		SELECT id, pwd, c_level FROM client where id = #{userid} and pwd= #{userpwd} 
+	</select>
+	<select id="loginchk" parameterType="String" resultType="int">
+		SELECT count(id) FROM client where id = #{userid}
+	</select>
+	<update id="insertUserInfo" parameterType="User">
+	UPDATE CLIENT
+	SET name = #{name},
+		address = #{address},
+		phone = #{phone},
+		fax = #{fax},
+		zip = #{zip},
+		memo = #{memo},
+		c_name = #{c_name},
+		com_num = #{com_num},
+		req = #{req}
+	 WHERE ID = #{id}
+	</update>
+	<select id="userInfo" parameterType="String" resultType="User">
+		SELECT name, address, phone, fax, zip, memo, c_name, com_num, req FROM client where id = #{id}
 	</select>
 </mapper>

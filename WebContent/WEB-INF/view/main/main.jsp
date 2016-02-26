@@ -13,8 +13,8 @@
 </div>
 
 <br>
-<body id="myPage" data-spy="scroll" data-target=".navbar" data-offset="60">
-<div class="jumbotron text-center">
+<body  id="myPage" data-spy="scroll" data-target=".navbar" data-offset="60">
+<div class="jumbotron text-center" style="background-color: #f4511e">
     <h1>Company</h1> 
     <p>We specialize in blablabla</p> 
 </div>

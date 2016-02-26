@@ -1,5 +1,9 @@
 package com.autoparts.login.controller;
 
+import java.util.ArrayList;
+
+import javax.servlet.http.HttpSession;
+
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,6 +22,7 @@ public class UserController {
 	
 	@Autowired
 	UserService userService;
+	UserDto userDto;
 	
 	@RequestMapping("/idCheck.html")
 	public @ResponseBody String idCheck(String sid) throws Exception{
@@ -32,19 +37,68 @@ public class UserController {
 		return "join/join";
 	}
 	@RequestMapping("/joinInfo.html")
-	public String registerInfo(Model model){
-		return "join/joinInfo";
+	public ModelAndView registerInfo(HttpSession session) throws Exception{
+		userDto =userService.getUserInfo((String)session.getAttribute("id"));
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("userInfo", userDto);
+		System.out.println("test-----");
+		System.out.println(userDto.getName());
+		System.out.println(userDto.getReq());
+		mav.setViewName("join/joinInfo");
+		return mav;
 	}
 	@RequestMapping(value="/register.html", method=RequestMethod.POST)
 	public ModelAndView register(UserDto userDto) throws Exception{
+		userDto.setC_level("100");
 		userService.registerUser(userDto);
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("registerInfo", userDto);
 		mav.setViewName("join/registerok");
 		return mav;
 	}
+	@RequestMapping(value="/login.html", method=RequestMethod.POST)
+	public String login(String id, String pwd, HttpSession session) throws Exception{
+		System.out.println("id - "+ id+ "    pass - " + pwd);
+		userDto = userService.login(id, pwd);
+		session.setAttribute("userInfo", userDto);
+		session.setAttribute("id", userDto.getId());
+		session.setAttribute("c_level", userDto.getC_level());
+		return "join/loginok";
+	}
+	@RequestMapping(value="/logout.html")
+	public String logout(HttpSession session){
+		session.removeAttribute("userInfo");
+		return "join/logout";
+	}
 	
+	@RequestMapping(value="/getNation.html")
+	public ModelAndView getNation(HttpSession session){
+		System.out.println();
+		ModelAndView mav = new ModelAndView();
+		ArrayList<UserDto> list = null;
+		try {
+			list = userService.getNation();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		mav.setViewName("getMdeptselet");
+		mav.addObject("list",list);
+		
+		return mav;
+	}
 	
-	
+	@RequestMapping(value="/registerInfo.html", method=RequestMethod.POST)
+	public String registerInfo(UserDto userDto, HttpSession session) throws Exception{
+		System.out.println("companyRegisterInfo!!!!!!");
+		userDto.setId((String)session.getAttribute("id"));
+		if(userDto.getReq() == null){
+			System.out.println("test");
+			userDto.setReq("");
+		}
+		userService.insertUserInfo(userDto);
+		return "main/main.tiles";
+	}
 }
 	

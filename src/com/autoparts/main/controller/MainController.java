@@ -11,4 +11,9 @@ public class MainController {
 	public String register(Model model){
 		return "main/main.tiles";
 	}
+	
+	@RequestMapping("/test.html")
+	public String register1(Model model){
+		return "main/test.tiles";
+	}
 }

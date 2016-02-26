@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@page import="botdetect.web.Captcha"%>
 <link rel="stylesheet" href="stylesheet.css" type="text/css"/>
 <c:set var="root" value="${pageContext.request.contextPath}"/>
 <script type="text/javascript" src="${root}/js/jquery-2.1.4.min.js"></script>
@@ -10,7 +9,7 @@ function join(){
 	if(document.getElementById("id").value == "") {
 		alert("push ur id");
 		return;
-	} else if(document.getElementById("id2").value == "") {
+	} else if(document.getElementById("id2").value != document.getElementById("id").value ) {
 		alert("comfirm id");
 		return;
 	} else if(document.getElementById("pwd").value  == "") {
@@ -187,7 +186,7 @@ function pwdCheck(){
 	    	<td align="left">
 	        	<input type="button" value="create acount" onclick="javascript:join();">
 	&nbsp;&nbsp;
-		    	<input type="reset" value="취소">
+		    	<input type="reset" value="취소" onclick="history.back()">
 		    </td>
 		</tr>
 	</table>

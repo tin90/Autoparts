@@ -18,6 +18,6 @@
 		
 		<typeAlias alias="AppLine" type="com.autoparts.groupware.model.AppLineDto"/>
 		<typeAlias alias="Approval" type="com.autoparts.groupware.model.ApprovalDto"/>
-		<typeAlias alias="RawApproval" type="com.autoparts.groupware.model.RawApprovalDto"/>
+		<typeAlias alias="RawApproval" type="com.autoparts.groupware.model.RawAppconDto"/>
 	</typeAliases>
 </configuration>
