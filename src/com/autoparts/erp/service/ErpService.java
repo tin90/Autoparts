@@ -1,5 +1,7 @@
 package com.autoparts.erp.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +18,10 @@ public class ErpService {
 		
 		return erpDao.test(erpDto);
 		
+	}
+
+	public List<ErpDto> search(String partnum) {
+		return erpDao.search(partnum);
 	}
 	
 	

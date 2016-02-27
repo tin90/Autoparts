@@ -32,9 +32,11 @@ public class UserDaoImpl implements UserDao{
 	public UserDto login(Map<String, String> map) throws Exception {
 		System.out.println("gogo");
 		String id = map.get("userid");
+		System.out.println(id+"------");
 		int chkNum = sqlSession.selectOne("user.loginchk", id);
-		System.out.println(chkNum);
+		System.out.println(chkNum +"chknum");
 		if(chkNum == 0){
+			System.out.println("testtest");
 			return userDto;
 		}else{
 			userDto = sqlSession.selectOne("login", map);

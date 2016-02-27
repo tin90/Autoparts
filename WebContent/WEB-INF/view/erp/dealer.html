@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Bootstrap Case</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<div class="container">
+  <h2>Dealer Page</h2>
+  <ul class="nav nav-pills">
+    <li class="active"><a data-toggle="pill" href="#DealerA">DealerA</a></li>
+    <li><a data-toggle="pill" href="#DealerB">DealerB</a></li>
+    <li><a data-toggle="pill" href="#DealerC">DealerC</a></li>
+    <li><a data-toggle="pill" href="#DealerD">DealerD</a></li>
+    <li><a data-toggle="pill" href="#DealerE">DealerE</a></li>
+    <li><a data-toggle="pill" href="#DealerF">DealerF</a></li>
+  </ul>
+  
+  <br>
+  
+  <h4>Order by PO</h4>
+  <div align="right" >
+  	<a href="#" class="btn btn-info btn-sm">
+  		<span class="glyphicon glyphicon-search"></span>
+  	</a>
+  	<a href="#" class="btn btn-info btn-sm">
+  		<span class="glyphicon glyphicon-refresh"></span>
+  	</a>
+  	
+  </div>
+  
+  <label>PO TYPE</label>
+  <input type="radio" name="radio" value="Order">Order 
+  <input type="radio" name="radio" value="Estimate">Estimate<br>
+  <form class="form-inline">
+	  <div class="form-group">
+	  <label>PO DATE</label>
+	  <input type="text" class="form-control input-sm">-<input type="text" class="form-control input-sm">
+	  <label>PO#</label>
+	  <input type="text" class="form-control input-sm">
+	  </div>
+  </form>
+  
+  <div class="tab-content">
+   
+    <div id="DealerA" class="tab-pane fade in active">
+		<table class="table">
+			<tr>
+				<td><input type="checkbox"></td>
+				<td>PO#</td><td>PODATE</td><td>POTYPE</td>
+				<td>CNT</td><td>AMOUNT NET</td><td></td>
+			</tr>
+			<tr>
+				<td><input type="checkbox"></td>
+				<td><a href="#">F141013</a></td>
+				<td>08/04/2016 12:00 AM</td>
+				<td>Estimate</td><td>6</td><td>$3.99</td>
+				<td><a href="#" class="btn btn-info btn-sm">Split</a></td>
+			</tr>
+		</table>
+    </div>
+    
+    <div id="DealerB" class="tab-pane fade">
+      <table class="table">
+			<tr>
+				<td><input type="checkbox"></td>
+				<td>PO#</td><td>PODATE</td><td>POTYPE</td>
+				<td>CNT</td><td>AMOUNT NET</td><td></td>
+			</tr>
+			<tr>
+				<td><input type="checkbox"></td>
+				<td><a href="#">F141013</a></td>
+				<td>08/04/2016 12:00 AM</td>
+				<td>Estimate</td><td>6</td><td>$3.99</td>
+				<td><a href="#" class="btn btn-info btn-sm">Split</a></td>
+			</tr>
+		</table>
+    </div>
+    
+    <div id="DealerC" class="tab-pane fade">
+      <h3>Menu 3</h3>
+      <p>Eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
+    </div>
+    
+    <div id="DealerE" class="tab-pane fade">
+      <h3>Menu 3</h3>
+      <p>Eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
+    </div>
+    
+    <div id="DealerD" class="tab-pane fade">
+      <h3>Menu 3</h3>
+      <p>Eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
+    </div>
+    
+    <div id="DealerF" class="tab-pane fade">
+      <h3>Menu 3</h3>
+      <p>Eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
+    </div>
+    
+  </div>
+</div>
+
+</body>
+</html>

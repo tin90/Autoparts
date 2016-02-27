@@ -9,6 +9,6 @@ public class IndexController {
 	@RequestMapping("index.html")
 	public String index(Model model){
 		model.addAttribute("title", "¿Œµ¶Ω∫");
-		return "index.tiles";
+		return "main/main.tiles";
 	}
 }

@@ -14,13 +14,13 @@
 <script src="//code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
 <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.min.css" />
 <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
-<link rel="stylesheet" href="<c:url value='/css/style.css' />">
+<link rel="stylesheet" href="/Autoparts/css/style.css">
 <link href="http://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet" type="text/css">
-<link href="http://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css">  
+<link href="http://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css">
 </head>
 <body>
 
-<header class="container-fluid" style='background-color: #f4511e'>
+<header class="container-fluid" style='background-color: #1256a0'>
 	<tiles:insertAttribute name="header" />
 </header>
 <article class="container">

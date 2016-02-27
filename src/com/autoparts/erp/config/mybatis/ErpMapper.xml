@@ -10,4 +10,10 @@
 	WHERE part='AK47'
 	</select>
 	
+	<select id="search" parameterType="String" resultType="com.autoparts.erp.model.ErpDto">
+	SELECT country, brand, partnum, description, msrp net
+	FROM vparts_all
+	WHERE partnum=#{partnum}
+	</select>
+	
 </mapper>

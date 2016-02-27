@@ -60,9 +60,14 @@ public class UserController {
 	public String login(String id, String pwd, HttpSession session) throws Exception{
 		System.out.println("id - "+ id+ "    pass - " + pwd);
 		userDto = userService.login(id, pwd);
-		session.setAttribute("userInfo", userDto);
-		session.setAttribute("id", userDto.getId());
-		session.setAttribute("c_level", userDto.getC_level());
+		System.out.println(userDto);
+		if(userDto != null){
+			System.out.println("test");
+			session.setAttribute("userInfo", userDto);
+			session.setAttribute("id",userDto.getId());
+			session.setAttribute("c_level", userDto.getC_level());
+		}
+		System.out.println("finish");
 		return "join/loginok";
 	}
 	@RequestMapping(value="/logout.html")

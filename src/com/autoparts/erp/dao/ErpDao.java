@@ -1,5 +1,7 @@
 package com.autoparts.erp.dao;
 
+import java.util.List;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -16,6 +18,10 @@ public class ErpDao {
 		
 		return sst.selectOne("test",erpDto.getPart());
 		
+	}
+
+	public List<ErpDto> search(String partnum) {
+		return sst.selectList("search", partnum);
 	}
 	
 	
