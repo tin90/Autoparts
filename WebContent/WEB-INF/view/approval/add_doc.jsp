@@ -67,6 +67,7 @@
 		</div>
 	</div>
 	<input type="hidden" name="json">
+	<input type="hidden" name="state">
 </form>
 </div>
 
@@ -207,7 +208,7 @@ app.controller('MainCtrl', function($scope, $http) {
 		$("#layerpop").modal("hide");
 	});
 	
-	$(".sbtn").click(function(){
+	$(".sbtn").click(function(ev){
 		var json = new Object();
 		json.title = $("#title").val();
 		json.content = $("#content").val();
@@ -215,12 +216,18 @@ app.controller('MainCtrl', function($scope, $http) {
 		json.coop = $scope.cooplist;
 		 
 		if(json.app.length <= 0){
-			alert("결재선을 등록하세요");
+			alert("결재선을 등록하세요"); 
+			ev.preventDefault();
 		}else if(json.title == ""){
 			alert("제목을 등록하세요");
+			ev.preventDefault();
 		}else{
 			$("#form input[name='json']").val(JSON.stringify(json));
-			$("#form").submit();
+			if($(this).data("id") == "save"){
+				$("#form input[name='state']").val(1);	
+			}else{
+				$("#form input[name='state']").val(0);
+			}
 		}
 	});
 });

@@ -22,6 +22,6 @@
 	
 	<insert id="addAppcon" parameterType="RawApproval">
 	INSERT INTO appcontent (num,title,content,appline,coopline,empno,ollno,state)
-	VALUES ()
+	VALUES (#{num},#{title},#{content},#{appline},#{coopline},#{empno},#{ollno},#{state})
 	</insert>
 </mapper>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="appclient">
+	<select id="getAll" resultType="AppClient">
+	SELECT ac.empno empno, c.id id, c.name name, c.phone phone 
+	FROM client c 
+	LEFT OUTER JOIN (SELECT distinct * FROM appclient) ac
+	ON c.id = ac.id
+	ORDER BY ac.empno DESC
+	</select>
+	
+	<select id="getAbledAll" resultType="AppClient">
+	SELECT ac.empno empno, c.id id, c.name name, c.phone phone 
+	FROM client c 
+	LEFT OUTER JOIN (SELECT distinct * FROM appclient) ac
+	ON c.id = ac.id
+	WHERE ac.id IS NOT NULL
+	ORDER BY ac.empno DESC
+	</select>
+	
+	<select id="getDisabledAll" resultType="AppClient">
+	SELECT ac.empno empno, c.id id, c.name name, c.phone phone
+	FROM client c 
+	LEFT OUTER JOIN (SELECT distinct * FROM appclient) ac
+	ON c.id = ac.id
+	WHERE c.c_level = '100' AND ac.id IS NULL
+	</select>
+</mapper>

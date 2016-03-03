@@ -10,17 +10,23 @@ import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.autoparts.groupware.dao.AppClientDao;
 import com.autoparts.groupware.dao.AppDao;
+import com.autoparts.groupware.model.AppClientDto;
 import com.autoparts.groupware.model.AppLineDto;
 import com.autoparts.groupware.model.ApprovalDto;
 import com.autoparts.groupware.model.RawAppconDto;
 
 @Service
+@SuppressWarnings("unchecked")
 public class AppService {
 	@Autowired
 	private AppDao dao;
 	
-	public String addAppcontent(String json){
+	@Autowired
+	private AppClientDao acdao;
+	
+	public String addAppcontent(String json, String id, int state){
 		try {
 			JSONParser parser = new JSONParser();
 			JSONObject obj =  (JSONObject)parser.parse(json);
@@ -40,8 +46,9 @@ public class AppService {
 				applist.add(appd);
 			}
 			
+			AppLineDto appline = null;
 			if(size != 0){
-				AppLineDto appline = new AppLineDto();
+				appline = new AppLineDto();
 				appline.setList(applist);
 				dao.addAppLine(appline);
 				appcon.setAppline(appline.getNum());
@@ -59,19 +66,73 @@ public class AppService {
 				applist.add(coopd);
 			}
 			
+			AppLineDto coopline = null;
 			if(size != 0){
-				AppLineDto coopline = new AppLineDto();
+				coopline = new AppLineDto();
 				coopline.setList(cooplist);
 				dao.addAppLine(coopline);
 				appcon.setCoopline(coopline.getNum());
 			}
 			//ÇùÁ¶ µî·Ï ³¡
 			
-			//appcon.setAppline(applist);
+			if(appline != null && coopline != null){
+				appcon.setAppline(appline.getNum());
+				//appcon.setEmpno(id);
+				appcon.setState(state);
+			}
+			
 		} catch (ParseException e) {
 			return "error : " + e.getMessage();
 		}
 		
 		return "ok";
+	}
+	
+	public String getAll(){
+		JSONArray json = new JSONArray();
+		JSONObject obj;
+		
+		for(AppClientDto aclient : acdao.getAll()){
+			obj = new JSONObject();
+			obj.put("empno", aclient.getEmpno());
+			obj.put("id", aclient.getId());
+			obj.put("name", aclient.getName());
+			obj.put("phone", aclient.getPhone());
+			json.add(obj);
+		}
+		
+		return json.toJSONString();
+	}
+	
+	public String getAbledAll(){
+		JSONArray json = new JSONArray();
+		JSONObject obj;
+		
+		for(AppClientDto aclient : acdao.getAbledAll()){
+			obj = new JSONObject();
+			obj.put("empno", aclient.getEmpno());
+			obj.put("id", aclient.getId());
+			obj.put("name", aclient.getName());
+			obj.put("phone", aclient.getPhone());
+			json.add(obj);
+		}
+		
+		return json.toJSONString();
+	}
+	
+	public String getDisabledAll(){
+		JSONArray json = new JSONArray();
+		JSONObject obj;
+		
+		for(AppClientDto aclient : acdao.getDisabledAll()){
+			obj = new JSONObject();
+			obj.put("empno", aclient.getEmpno());
+			obj.put("id", aclient.getId());
+			obj.put("name", aclient.getName());
+			obj.put("phone", aclient.getPhone());
+			json.add(obj);
+		}
+		
+		return json.toJSONString();
 	}
 }
