@@ -60,9 +60,6 @@ public class UserDaoImpl implements UserDao{
 		System.out.println("dao     "+ id);
 		userDto = sqlSession.selectOne("userInfo", id);
 		System.out.println("userDto");
-		System.out.println(userDto.getName());
-		System.out.println(userDto.getCom_num());
-		System.out.println(userDto.getReq());
 		
 		return userDto;
 	}

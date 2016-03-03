@@ -127,7 +127,7 @@ function defaultRegNum(){
 				</c:when>
 				<c:otherwise>
 					<input type="checkbox" name="req" id="req" value="true" onClick='defaultRegNum()'>
-					bbbb ${userInfo.req}
+					${userInfo.req}
 				</c:otherwise>
 			</c:choose>
 			 
