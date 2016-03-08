@@ -5,6 +5,8 @@ public class AppClientDto {
 	private String id;
 	private String name;
 	private String phone;
+	private int dept;
+	private int spot;
 	
 	public int getEmpno() {
 		return empno;
@@ -29,5 +31,17 @@ public class AppClientDto {
 	}
 	public void setPhone(String phone) {
 		this.phone = phone;
+	}
+	public int getDept() {
+		return dept;
+	}
+	public void setDept(int dept) {
+		this.dept = dept;
+	}
+	public int getSpot() {
+		return spot;
+	}
+	public void setSpot(int spot) {
+		this.spot = spot;
 	}
 }

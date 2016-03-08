@@ -100,6 +100,10 @@ public class EmpService {
 		dao.modEmp(emp);
 	}
 	
+	public void delEmp(int empno){
+		dao.delEmp(empno);
+	}
+	
 	public String delEmp(String json){
 		try {
 			JSONParser parser = new JSONParser();

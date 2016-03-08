@@ -10,13 +10,13 @@
 			</div>
 			<table class="table table-bordered">
 				<tr>
-					<th class="text-center"><span>팀장</span></th>
+					<th class="text-center"><span>${emp.spot}</span></th>
 					<th class="text-center" data-ng-repeat="n in [0,1,2,3]">
-						<span data-ng-if="app > n">{{applist[n].dept}}</span>
+						<span data-ng-if="app > n">{{applist[n].spot}}</span>
 					</th>
 				</tr>
 				<tr>
-					<td class="text-center"><span>현종석</span></td>
+					<td class="text-center"><span>${emp.name}</span></td>
 					<td class="text-center" data-ng-repeat="n in [0,1,2,3]">
 						<span data-ng-if="app > n">{{applist[n].name}}</span>
 						<button data-ng-if="app == n+1" data-id="app" class="modal-cancel-btn btn btn-default">취소</button>
@@ -67,7 +67,6 @@
 		</div>
 	</div>
 	<input type="hidden" name="json">
-	<input type="hidden" name="state">
 </form>
 </div>
 
@@ -138,8 +137,6 @@
 var app = angular.module('autoparts', []);
 
 app.controller('MainCtrl', function($scope, $http) {
-	//session이나 param 등으로 현재 로그인 상태를 알아와 0번에 넣어야
-	//지금은 그냥 안 넣고 있다.
 	$scope.app = 0;
 	$scope.applist = new Array();
 	$scope.coop = 0;
@@ -208,6 +205,7 @@ app.controller('MainCtrl', function($scope, $http) {
 		$("#layerpop").modal("hide");
 	});
 	
+	//submit 'approval/add_proc.html'
 	$(".sbtn").click(function(ev){
 		var json = new Object();
 		json.title = $("#title").val();
@@ -222,12 +220,14 @@ app.controller('MainCtrl', function($scope, $http) {
 			alert("제목을 등록하세요");
 			ev.preventDefault();
 		}else{
-			$("#form input[name='json']").val(JSON.stringify(json));
 			if($(this).data("id") == "save"){
-				$("#form input[name='state']").val(1);	
+				json.state = 1;
 			}else{
-				$("#form input[name='state']").val(0);
+				json.state = 0;
 			}
+			$("#form input[name='json']").val(JSON.stringify(json));
+			alert(JSON.stringify(json));
+			ev.preventDefault();
 		}
 	});
 });

@@ -22,6 +22,18 @@
 	
 	<insert id="addAppcon" parameterType="RawApproval">
 	INSERT INTO appcontent (num,title,content,appline,coopline,empno,ollno,state)
-	VALUES (#{num},#{title},#{content},#{appline},#{coopline},#{empno},#{ollno},#{state})
+	VALUES (SEQ_APPCONTENT_NO.nextval,#{title},#{content},#{appline},#{coopline},#{empno},-1,#{state})
 	</insert>
+	
+	<select id="getAppcon" parameterType="int" resultType="RawApproval">
+	SELECT num,title,content,appline,coopline,empno,ollno,state
+	FROM appcontent
+	WHERE num = #{num}
+	</select>
+	
+	<select id="getApplist" parameterType="int">
+	SELECT num,seq,empno
+	FROM approval
+	WHERE num = #{num}
+	</select>
 </mapper>

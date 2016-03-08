@@ -4,27 +4,131 @@
 
 <mapper namespace="appclient">
 	<select id="getAll" resultType="AppClient">
-	SELECT ac.empno empno, c.id id, c.name name, c.phone phone 
+	SELECT NVL(ac.empno,-1) empno, c.id, c.name, c.phone, 
+			NVL(ac.dept,-1) dept, NVL(ac.spot,-1) spot
+	FROM client c  
+	LEFT OUTER JOIN (
+		SELECT distinct *
+		FROM appclient ac, employee e 
+		WHERE ac.empno = e.num) ac
+	ON c.id = ac.id
+	ORDER BY c.id ASC
+	</select>
+	
+	<select id="getAllPage" resultType="AppClient" parameterType="int">
+	SELECT empno,id,name,phone,dept,spot FROM (
+    	SELECT A.*, 
+                 ROWNUM AS RNUM,
+                 TRUNC((ROWNUM-1)/10+1) AS PAGE,
+                 COUNT(*) OVER() AS TOTCNT FROM (
+			SELECT NVL(ac.empno,-1) empno, c.id, c.name, c.phone, NVL(ac.dept,-1) dept, NVL(ac.spot,-1) spot
+			FROM client c 
+			LEFT OUTER JOIN (SELECT distinct *
+				FROM appclient ac, employee e 
+				WHERE ac.empno = e.num) ac
+			ON c.id = ac.id
+			ORDER BY c.id ASC
+    	) A
+	) WHERE PAGE = #{page}
+	</select>
+	
+	<select id="getAllPageCount" resultType="int">
+	SELECT TRUNC((count(*)-1)/10+1)
 	FROM client c 
 	LEFT OUTER JOIN (SELECT distinct * FROM appclient) ac
 	ON c.id = ac.id
-	ORDER BY ac.empno DESC
 	</select>
 	
+	
 	<select id="getAbledAll" resultType="AppClient">
-	SELECT ac.empno empno, c.id id, c.name name, c.phone phone 
+	SELECT NVL(ac.empno,-1) empno, c.id, c.name, c.phone, NVL(ac.dept,-1) dept, NVL(ac.spot,-1) spot
+	FROM client c 
+	LEFT OUTER JOIN (SELECT distinct *
+		FROM appclient ac, employee e 
+		WHERE ac.empno = e.num) ac
+	ON c.id = ac.id
+	WHERE ac.id IS NOT NULL
+	ORDER BY c.id ASC
+	</select>
+	
+	<select id="getAbledAllPage" resultType="AppClient" parameterType="int">
+	SELECT empno,id,name,phone,dept,spot FROM (
+    	SELECT A.*, 
+                 ROWNUM AS RNUM,
+                 TRUNC((ROWNUM-1)/10+1) AS PAGE,
+                 COUNT(*) OVER() AS TOTCNT FROM (
+			SELECT NVL(ac.empno,-1) empno, c.id, c.name, c.phone, NVL(ac.dept,-1) dept, NVL(ac.spot,-1) spot
+			FROM client c 
+			LEFT OUTER JOIN (SELECT distinct *
+				FROM appclient ac, employee e 
+				WHERE ac.empno = e.num) ac
+			ON c.id = ac.id
+			WHERE ac.id IS NOT NULL
+			ORDER BY c.id ASC
+    	) A
+	) WHERE PAGE = #{page}
+	</select>
+	
+	<select id="getAbledAllPageCount" resultType="int">
+	SELECT TRUNC((count(*)-1)/10+1)
 	FROM client c 
 	LEFT OUTER JOIN (SELECT distinct * FROM appclient) ac
 	ON c.id = ac.id
 	WHERE ac.id IS NOT NULL
-	ORDER BY ac.empno DESC
 	</select>
 	
+	
 	<select id="getDisabledAll" resultType="AppClient">
-	SELECT ac.empno empno, c.id id, c.name name, c.phone phone
+	SELECT NVL(ac.empno,-1) empno, c.id, c.name, c.phone, NVL(ac.dept,-1) dept, NVL(ac.spot,-1) spot
+	FROM client c 
+	LEFT OUTER JOIN (SELECT distinct *
+		FROM appclient ac, employee e 
+		WHERE ac.empno = e.num) ac
+	ON c.id = ac.id
+	WHERE c.c_level = '100' AND ac.id IS NULL
+	ORDER BY c.id ASC
+	</select>
+	
+	<select id="getDisabledAllPage" resultType="AppClient" parameterType="int">
+	SELECT empno,id,name,phone,dept,spot FROM (
+    	SELECT A.*, 
+                 ROWNUM AS RNUM,
+                 TRUNC((ROWNUM-1)/10+1) AS PAGE,
+                 COUNT(*) OVER() AS TOTCNT FROM (
+			SELECT NVL(ac.empno,-1) empno, c.id, c.name, c.phone, NVL(ac.dept,-1) dept, NVL(ac.spot,-1) spot
+			FROM client c 
+			LEFT OUTER JOIN (SELECT distinct *
+				FROM appclient ac, employee e 
+				WHERE ac.empno = e.num) ac
+			ON c.id = ac.id
+			WHERE c.c_level = '100' AND ac.id IS NULL
+			ORDER BY c.id ASC
+    	) A
+	) WHERE PAGE = #{page}
+	</select>
+	
+	<select id="getDisabledAllPageCount" resultType="int">
+	SELECT TRUNC((count(*)-1)/10+1)
 	FROM client c 
 	LEFT OUTER JOIN (SELECT distinct * FROM appclient) ac
 	ON c.id = ac.id
 	WHERE c.c_level = '100' AND ac.id IS NULL
+	</select>
+	
+	<insert id="addAppclient" parameterType="RawAppClient">
+	INSERT INTO appclient (empno, id)
+	VALUES (#{empno}, #{id})
+	</insert>
+	
+	<delete id="delAppclient" parameterType="int">
+	DELETE FROM appclient
+	WHERE empno = #{empno}
+	</delete>
+	
+	<select id="getEmp" parameterType="String" resultType="Employee">
+	SELECT e.num num, d.name dept, s.name spot, e.name name
+	FROM department d, spot s, employee e
+	WHERE d.num = e.dept and s.num = e.spot and e.num 
+	IN (SELECT empno FROM appclient WHERE id = #{id})
 	</select>
 </mapper>

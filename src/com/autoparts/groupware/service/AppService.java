@@ -15,6 +15,8 @@ import com.autoparts.groupware.dao.AppDao;
 import com.autoparts.groupware.model.AppClientDto;
 import com.autoparts.groupware.model.AppLineDto;
 import com.autoparts.groupware.model.ApprovalDto;
+import com.autoparts.groupware.model.EmployeeDto;
+import com.autoparts.groupware.model.RawAppClientDto;
 import com.autoparts.groupware.model.RawAppconDto;
 
 @Service
@@ -26,7 +28,7 @@ public class AppService {
 	@Autowired
 	private AppClientDao acdao;
 	
-	public String addAppcontent(String json, String id, int state){
+	public String addAppcontent(String json, int empno){
 		try {
 			JSONParser parser = new JSONParser();
 			JSONObject obj =  (JSONObject)parser.parse(json);
@@ -63,7 +65,7 @@ public class AppService {
 				JSONObject coopo = (JSONObject)coop.get(i);
 				ApprovalDto coopd = new ApprovalDto();
 				coopd.setEmpno((int)(long)(Long)coopo.get("num"));
-				applist.add(coopd);
+				cooplist.add(coopd);
 			}
 			
 			AppLineDto coopline = null;
@@ -77,10 +79,11 @@ public class AppService {
 			
 			if(appline != null && coopline != null){
 				appcon.setAppline(appline.getNum());
-				//appcon.setEmpno(id);
-				appcon.setState(state);
+				appcon.setEmpno(empno);
+				appcon.setState((int)(long)(Long)obj.get("state"));
 			}
 			
+			dao.addAppcon(appcon);
 		} catch (ParseException e) {
 			return "error : " + e.getMessage();
 		}
@@ -88,51 +91,104 @@ public class AppService {
 		return "ok";
 	}
 	
+	private JSONObject getJSONObject(AppClientDto aclient){
+		JSONObject obj = new JSONObject();
+		obj.put("empno", aclient.getEmpno());
+		obj.put("id", aclient.getId());
+		obj.put("name", aclient.getName());
+		obj.put("phone", aclient.getPhone());
+		obj.put("dept", aclient.getDept());
+		obj.put("spot", aclient.getSpot());
+		return obj;
+	}
+	
 	public String getAll(){
 		JSONArray json = new JSONArray();
-		JSONObject obj;
 		
 		for(AppClientDto aclient : acdao.getAll()){
-			obj = new JSONObject();
-			obj.put("empno", aclient.getEmpno());
-			obj.put("id", aclient.getId());
-			obj.put("name", aclient.getName());
-			obj.put("phone", aclient.getPhone());
-			json.add(obj);
+			json.add(getJSONObject(aclient));
 		}
 		
+		return json.toJSONString();
+	}
+	
+	public String getAll(int page){
+		JSONArray json = new JSONArray();
+		
+		for(AppClientDto aclient : acdao.getAll(page)){
+			json.add(getJSONObject(aclient));
+		}
+		
+		return json.toJSONString();
+	}
+	
+	public String getAllPageCount(){
+		JSONObject json = new JSONObject();
+		json.put("count", acdao.getAllPageCount());
 		return json.toJSONString();
 	}
 	
 	public String getAbledAll(){
 		JSONArray json = new JSONArray();
-		JSONObject obj;
 		
 		for(AppClientDto aclient : acdao.getAbledAll()){
-			obj = new JSONObject();
-			obj.put("empno", aclient.getEmpno());
-			obj.put("id", aclient.getId());
-			obj.put("name", aclient.getName());
-			obj.put("phone", aclient.getPhone());
-			json.add(obj);
+			json.add(getJSONObject(aclient));
 		}
 		
 		return json.toJSONString();
 	}
 	
-	public String getDisabledAll(){
+	public String getAbledAll(int page){
 		JSONArray json = new JSONArray();
-		JSONObject obj;
-		
-		for(AppClientDto aclient : acdao.getDisabledAll()){
-			obj = new JSONObject();
-			obj.put("empno", aclient.getEmpno());
-			obj.put("id", aclient.getId());
-			obj.put("name", aclient.getName());
-			obj.put("phone", aclient.getPhone());
-			json.add(obj);
+
+		for(AppClientDto aclient : acdao.getAbledAll(page)){
+			json.add(getJSONObject(aclient));
 		}
 		
 		return json.toJSONString();
+	}
+	
+	public String getAbledAllPageCount(){
+		JSONObject json = new JSONObject();
+		json.put("count", acdao.getAbledAllPageCount());
+		return json.toJSONString();
+	}
+	
+	public String getDisabledAll(){
+		JSONArray json = new JSONArray();
+		
+		for(AppClientDto aclient : acdao.getDisabledAll()){
+			json.add(getJSONObject(aclient));
+		}
+		
+		return json.toJSONString();
+	}
+	
+	public String getDisabledAll(int page){
+		JSONArray json = new JSONArray();
+		
+		for(AppClientDto aclient : acdao.getDisabledAll(page)){
+			json.add(getJSONObject(aclient));
+		}
+		
+		return json.toJSONString();
+	}
+	
+	public String getDisabledAllPageCount(){
+		JSONObject json = new JSONObject();
+		json.put("count", acdao.getDisabledAllPageCount());
+		return json.toJSONString();
+	}
+	
+	public void addAppclient(RawAppClientDto app){
+		acdao.addAppclient(app);
+	}
+	
+	public void delAppclient(int empno){
+		acdao.delAppclient(empno);
+	}
+	
+	public EmployeeDto getEmp(String id){
+		return acdao.getEmp(id);
 	}
 }
