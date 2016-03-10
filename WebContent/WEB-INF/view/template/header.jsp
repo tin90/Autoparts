@@ -16,10 +16,12 @@ function logincheck(){
 		document.loginform.submit();
 	}
 }
+
 $(document).ready(function(){
 	
 	$("#search_form").hide();
 	
+	//검색버튼 클릭시 검색결과 호출
 	$("#search").click(function(){
 
 		if($("#s_inp").val()==""){
@@ -30,7 +32,7 @@ $(document).ready(function(){
 		$.ajax({
 			type : 'GET',
 			dataType : 'json',
-			url : '/Autoparts/erp/search.html?partnum='+$("#s_inp").val(),
+			url : '${root}/erp/search.html?partnum='+$("#s_inp").val(),
 			success : function(data){
 				var len = data.list.length;
 				
@@ -78,7 +80,7 @@ $(document).ready(function(){
 						tr.append(td);
 						
 						var inputtag = "<input type='text' id='q"+i+"' class='form-control input-sm' ";
-						inputtag+="onchange=amount("+i+")>";
+						inputtag+="onkeyup=amount("+i+")>";
 	 					td = $("<td></td>").append(inputtag);
 	 					td.attr("class", "col-xs-2")
 						tr.append(td); 
@@ -104,24 +106,28 @@ $(document).ready(function(){
 			}
 		 });
 		
+		//검색폼 토글
 		$("#search_form").slideToggle(400,function(){});
 	});
+	
 });
 
+//검색폼에서 NET * QTY 구하기
  function amount(i){
 	 var val=$("#q"+i).val();	 	 
 	 var str=$("#n"+i).text();
 	 var prefix = str.substring(0,1);  
 	 str=str.substring(1);
-	 $("#sum"+i).text(prefix+(val*str));
+	 var result = val*str;
+	 result = result.toFixed(2);
+	 $("#sum"+i).text(prefix+result);
  }
  
-
+//검색폼에서 cart 추가
  function add_cart(i){
 	 
 	 $("#cart"+i).attr("class", "view");
 	 
-	 $("#cart"+i).text("View in cart");
 	 var country = $("#c"+i).text();
 	 var qty = $("#q"+i).val();
 	 var net = $("#n"+i).text();
@@ -132,16 +138,31 @@ $(document).ready(function(){
 		 'country' : country,
 		 'qty' : qty,
 		 'net' : net},
-		 url : '/Autoparts/erp/add_cart.html',
+		 url : '${root}/erp/add_cart.html',
 		 success : function(){
-			 alert("suc");
 		 },
 		 error : function(){
 		 }
 	 });
+	 $("#cart"+i).text("View in cart");
+	 
+	 $("#cart"+i).attr("href","${root}/erp/cart.html");                                             //누르면 카트로넘어감. 왜? 해결방법?
  }
- 
+
+ $(window).scroll(function() {
+   $(".slideanim").each(function(){
+     var pos = $(this).offset().top;
+
+     var winTop = $(window).scrollTop();
+       if (pos < winTop + 600) {
+         $(this).addClass("slide");
+       }
+   });
+ });
+
 </script>
+
+
 
 <div class="container-fluid">    
     <!-- Second navbar for sign in -->
@@ -155,20 +176,19 @@ $(document).ready(function(){
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="/Autoparts/">
-      		<img width="35px" height="35px" src="/Autoparts/etc/ic_polymer_white_144dp.png" ></img>
+          <a class="navbar-brand" href='${root}'>
+      		<img width="35px" height="35px" src="${root}/etc/ic_polymer_white_144dp.png" ></img>
       	  </a>
         </div>
     
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="navbar-collapse-2">
           <ul class="nav navbar-nav navbar-right">
-            <li><a href="#">Home</a></li>
+            <li><a href="${root}"><span class="glyphicon glyphicon-home"></span></a></li>
             <li><a href="#">About</a></li>
-            <li><a href="#">Services</a></li>
-            <li><a href="#">Works</a></li>
-            <li><a href="#">News</a></li>
             <li><a href="#">Contact</a></li>
+            <li><a href="#">My Page  <span class="glyphicon glyphicon-user"> </span></a></li>
+            <li><a href="${root}/erp/cart.html" ><span class="glyphicon glyphicon-shopping-cart"></span></a></li>
             <li>
               <a class="btn btn-default btn-outline btn-circle collapsed"  data-toggle="collapse" href="#nav-search" aria-expanded="false" aria-controls="nav-search">Search</a>
             </li>
@@ -206,9 +226,9 @@ $(document).ready(function(){
           <div class="collapse nav navbar-nav nav-collapse slide-down" id="nav-search">
             <form class="navbar-form navbar-right" role="search">
               <div class="form-group">
-                <input id="s_inp" type="text" class="form-control" placeholder="Search" />
+                <input id="s_inp" type="text" class="form-control" placeholder="Search" style="min-width: 200px" value="0001401860"/>
               </div>
-              <button id="search" type="button" class="btn btn-danger"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+              <button id="search" type="button" class="btn btn-danger" ><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
             </form>
           </div>
         </div><!-- /.navbar-collapse -->
@@ -239,13 +259,10 @@ $(document).ready(function(){
 		
 		<tbody id="s_table">
 			<tr>
-				<td></td><td></td><td></td><td></td><td></td><td></td><td></td>
-				<td><a href="#" class="btn btn-info"><span class="glyphicon glyphicon-shopping-cart"></span></a></td>
-			</tr>
-			<tr>
 				<td></td><td></td><td></td><td>check partnumber</td><td></td><td></td><td></td>
 				<td><a href="#" class="btn btn-info"><span class="glyphicon glyphicon-shopping-cart"></span></a></td>
 			</tr>
+			
 		</tbody>
 		
 	<!--

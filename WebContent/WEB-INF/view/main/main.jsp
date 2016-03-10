@@ -1,22 +1,90 @@
-<div class="container" style="background-color: #f4511e">
-<br><br>
-<div class="collapse navbar-collapse" style="float:left" id="myNavbar">
-      <ul class="nav navbar-nav navbar-right">
-        <li><a href="#about">ABOUT</a></li>
-        <li><a href="#services">SERVICES</a></li>
-        <li><a href="#portfolio">PORTFOLIO</a></li>
-        <li><a href="#pricing">PRICING</a></li>
-        <li><a href="#contact">CONTACT</a></li>
-      </ul>
-    </div>
-<br>
-</div>
+ 
+<img class="slide" src='/Autoparts/etc/logo.png' style="width : 30%; height : auto; margin-left: -20px;"> 
+ 
+<img class="slide" src='/Autoparts/etc/Auto-parts.jpg' style="width : 100%; height : auto; ">
 
-<br>
-<body  id="myPage" data-spy="scroll" data-target=".navbar" data-offset="60">
-<div class="jumbotron text-center" style="background-color: #f4511e">
-    <h1>Company</h1> 
-    <p>We specialize in blablabla</p> 
+<!-- Container (Portfolio Section) -->
+<div id="portfolio" class="container-fluid text-center bg-grey">
+  <div class="row text-center">
+    <div class="col-sm-4 slide" >
+    	<div class="thumbnail">
+     		<img src="/Autoparts/etc/Acura_logo.png" width="400" height="300">
+      </div>
+    </div>
+    <div class="col-sm-4 slide">
+      <div class="thumbnail">
+        <img src="/Autoparts/etc/Audi_logo.png"  width="400" height="300">
+      </div>
+    </div>
+    <div class="col-sm-4 slide">
+      <div class="thumbnail">
+        <img src="/Autoparts/etc/Bmw_logo.png" width="400" height="300"  >
+      </div>
+    </div>
+    <div class="col-sm-4 slideanim" >
+    	<div class="thumbnail">
+     		<img src="/Autoparts/etc/Dodge_logo.png" width="400" height="300">
+      </div>
+    </div>
+    <div class="col-sm-4 slideanim">
+      <div class="thumbnail">
+        <img src="/Autoparts/etc/Jaguar_logo.png"  width="400" height="300">
+      </div>
+    </div>
+    <div class="col-sm-4 slideanim" >
+      <div class="thumbnail">
+        <img src="/Autoparts/etc/Lexus_logo.png" width="400" height="300"  >
+      </div>
+    </div>
+    <div class="col-sm-4 slideanim" >
+    	<div class="thumbnail">
+     		<img src="/Autoparts/etc/Mercedes-Benz_logo.png" width="400" height="300">
+      </div>
+    </div>
+    <div class="col-sm-4 slideanim">
+      <div class="thumbnail">
+        <img src="/Autoparts/etc/Porsche_logo.png"  width="400" height="300">
+      </div>
+    </div>
+    <div class="col-sm-4 slideanim">
+      <div class="thumbnail">
+        <img src="/Autoparts/etc/Toyota_logo.png" width="400" height="300"  >
+      </div>
+    </div>
+  </div><br>
+  
+  <h2 class="slideanim">What our customers say</h2>
+  <div id="myCarousel" class="carousel slideanim text-center" data-ride="carousel">
+    <!-- Indicators -->
+    <ol class="carousel-indicators">
+      <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+      <li data-target="#myCarousel" data-slide-to="1"></li>
+      <li data-target="#myCarousel" data-slide-to="2"></li>
+    </ol>
+
+    <!-- Wrapper for slides -->
+    <div class="carousel-inner" role="listbox">
+      <div class="item active">
+        <h4>"This company is the best. I am so happy with the result!"<br><span style="font-style:normal;">Michael Roe, Vice President, Comment Box</span></h4>
+      </div>
+      <div class="item">
+        <h4>"One word... WOW!!"<br><span style="font-style:normal;">John Doe, Salesman, Rep Inc</span></h4>
+      </div>
+      <div class="item">
+        <h4>"Could I... BE any more happy with this company?"<br><span style="font-style:normal;">Chandler Bing, Actor, FriendsAlot</span></h4>
+      </div>
+    </div>
+
+    <!-- Left and right controls -->
+    <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+      <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+      <span class="sr-only">Previous</span>
+    </a>
+    <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+      <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+      <span class="sr-only">Next</span>
+    </a>
+  </div>
 </div>
 
 <!-- Container (About Section) -->
@@ -26,7 +94,6 @@
       <h2>About Company Page</h2><br>
       <h4>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</h4><br>
       <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-      <br><button class="btn btn-default btn-lg">Get in Touch</button>
     </div>
     <div class="col-sm-4">
       <span class="glyphicon glyphicon-signal logo"></span>
@@ -90,70 +157,10 @@
   </div>
 </div>
 
-<!-- Container (Portfolio Section) -->
-<div id="portfolio" class="container-fluid text-center bg-grey">
-  <h2>Portfolio</h2><br>
-  <h4>What we have created</h4>
-  <div class="row text-center slideanim">
-    <div class="col-sm-4">
-      <div class="thumbnail">
-        <img src="paris.jpg" alt="Paris" width="400" height="300">
-        <p><strong>Paris</strong></p>
-        <p>Yes, we built Paris</p>
-      </div>
-    </div>
-    <div class="col-sm-4">
-      <div class="thumbnail">
-        <img src="newyork.jpg" alt="New York" width="400" height="300">
-        <p><strong>New York</strong></p>
-        <p>We built New York</p>
-      </div>
-    </div>
-    <div class="col-sm-4">
-      <div class="thumbnail">
-        <img src="sanfran.jpg" alt="San Francisco" width="400" height="300">
-        <p><strong>San Francisco</strong></p>
-        <p>Yes, San Fran is ours</p>
-      </div>
-    </div>
-  </div><br>
-  
-  <h2>What our customers say</h2>
-  <div id="myCarousel" class="carousel slide text-center" data-ride="carousel">
-    <!-- Indicators -->
-    <ol class="carousel-indicators">
-      <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-      <li data-target="#myCarousel" data-slide-to="1"></li>
-      <li data-target="#myCarousel" data-slide-to="2"></li>
-    </ol>
 
-    <!-- Wrapper for slides -->
-    <div class="carousel-inner" role="listbox">
-      <div class="item active">
-        <h4>"This company is the best. I am so happy with the result!"<br><span style="font-style:normal;">Michael Roe, Vice President, Comment Box</span></h4>
-      </div>
-      <div class="item">
-        <h4>"One word... WOW!!"<br><span style="font-style:normal;">John Doe, Salesman, Rep Inc</span></h4>
-      </div>
-      <div class="item">
-        <h4>"Could I... BE any more happy with this company?"<br><span style="font-style:normal;">Chandler Bing, Actor, FriendsAlot</span></h4>
-      </div>
-    </div>
-
-    <!-- Left and right controls -->
-    <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
-      <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-      <span class="sr-only">Previous</span>
-    </a>
-    <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
-      <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-      <span class="sr-only">Next</span>
-    </a>
-  </div>
-</div>
 
 <!-- Container (Pricing Section) -->
-<div id="pricing" class="container-fluid">
+<!-- <div id="pricing" class="container-fluid">
   <div class="text-center">
     <h2>Pricing</h2>
     <h4>Choose a payment plan that works for you</h4>
@@ -218,16 +225,16 @@
     </div>    
   </div>
 </div>
-
+ -->
 <!-- Container (Contact Section) -->
 <div id="contact" class="container-fluid bg-grey">
   <h2 class="text-center">CONTACT</h2>
   <div class="row">
     <div class="col-sm-5">
       <p>Contact us and we'll get back to you within 24 hours.</p>
-      <p><span class="glyphicon glyphicon-map-marker"></span> Chicago, US</p>
+      <p><span class="glyphicon glyphicon-map-marker"></span> Seoul, KR</p>
       <p><span class="glyphicon glyphicon-phone"></span> +00 1515151515</p>
-      <p><span class="glyphicon glyphicon-envelope"></span> myemail@something.com</p>	   
+      <p><span class="glyphicon glyphicon-envelope"></span> jiwoo@pikachu.com</p>	   
     </div>
     <div class="col-sm-7 slideanim">
       <div class="row">
@@ -253,7 +260,7 @@
 <!-- Add Google Maps -->
 <script src="http://maps.googleapis.com/maps/api/js"></script>
 <script>
-var myCenter = new google.maps.LatLng(41.878114, -87.629798);
+var myCenter = new google.maps.LatLng(37.485114, 126.898788);
 
 function initialize() {
 var mapProp = {
@@ -276,15 +283,12 @@ marker.setMap(map);
 google.maps.event.addDomListener(window, 'load', initialize);
 </script>
 
-<footer class="container-fluid text-center">
-  <a href="#myPage" title="To Top">
-    <span class="glyphicon glyphicon-chevron-up"></span>
-  </a>
-  <p>Bootstrap Theme Made By <a href="http://www.w3schools.com" title="Visit w3schools">www.w3schools.com</a></p>		
-</footer>
 
 <script>
+/*
 $(document).ready(function(){
+	
+	//클릭하면 스크롤
   // Add smooth scrolling to all links in navbar + footer link
   $(".navbar a, footer a[href='#myPage']").on('click', function(event) {
 
@@ -303,20 +307,5 @@ $(document).ready(function(){
       // Add hash (#) to URL when done scrolling (default click behavior)
       window.location.hash = hash;
     });
-  });
-  
-  $(window).scroll(function() {
-    $(".slideanim").each(function(){
-      var pos = $(this).offset().top;
-
-      var winTop = $(window).scrollTop();
-        if (pos < winTop + 600) {
-          $(this).addClass("slide");
-        }
-    });
-  });
-})
+  }); */
 </script>
-
-</body>
-</html>

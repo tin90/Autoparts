@@ -28,9 +28,9 @@ public class MobileController {
 		
 		for(MobileDto dto : list){
 			JSONObject obj = new JSONObject();
-			obj.put("part", dto.getPart());
+			obj.put("part", dto.getPartnum());
 			obj.put("brand", dto.getBrand());
-			obj.put("order_qty", dto.getOrder_qty());
+			obj.put("order_qty", dto.getQty());
 			obj.put("pocode", dto.getPocode());
 			
 			jarray.add(obj);
@@ -62,7 +62,7 @@ public class MobileController {
 	
 	@RequestMapping(value="/po_detail", method=RequestMethod.GET)
 	public @ResponseBody String bill_detail(String pocode){
-		
+
 		//search contains pocode
 		List<MobileDto> list = mobileService.bill_detail(pocode);
 		JSONObject json = new JSONObject();
@@ -74,6 +74,7 @@ public class MobileController {
 			obj.put("brand", dto.getBrand());
 			obj.put("qty", dto.getQty());
 			obj.put("order_qty", dto.getOrder_qty());
+			obj.put("pocode", dto.getPocode());
 			
 			jarray.add(obj);
 		}
@@ -139,29 +140,18 @@ public class MobileController {
 			obj.put("part", dto.getPart());
 			obj.put("pocode", dto.getPocode());
 			obj.put("order_qty", dto.getOrder_qty());
-			obj.put("mod_qty", dto.getMod_qty());
+			obj.put("qty", dto.getQty());
 			
 			jarray.add(obj);
 		}
 		json.put("keep", jarray);
 		return json.toJSONString();
 	}
-	
-	@RequestMapping(value="/confirm", method=RequestMethod.GET)
-	public @ResponseBody String confirm(){
-		
-		
-		JSONObject json = new JSONObject();
-		JSONArray jarray = new JSONArray();
-		
-		
-		mobileService.confirm();
-		
-		return "confirm";
-	}
-	
+
 	@RequestMapping(value="/keep", method=RequestMethod.GET)
-	public @ResponseBody String keep(){
+	public @ResponseBody String keep(MobileDto mobileDto){
+		
+		mobileService.keep(mobileDto);
 		
 		return "keep";
 	}

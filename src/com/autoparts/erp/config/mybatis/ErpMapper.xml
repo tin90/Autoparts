@@ -16,4 +16,91 @@
 	WHERE partnum=#{partnum}
 	</select>
 	
+	<select id="cart"  parameterType="String" resultType="com.autoparts.erp.model.ErpDto">
+	SELECT partnum, country, net, qty, memo FROM cart
+	</select>
+	
+	<update id="add_cart"  parameterType="com.autoparts.erp.model.ErpDto">
+	 MERGE INTO cart
+	 USING dual
+	 ON (partnum = #{partnum} AND id=#{id})
+	 WHEN MATCHED THEN
+	 	UPDATE SET 
+	 	 qty = qty+#{qty}
+		WHERE partnum=#{partnum} AND id=#{id}
+	 WHEN NOT MATCHED THEN
+		 INSERT (country, net, partnum, qty, id, ponum, no)
+		 VALUES(
+		 	#{country},
+		 	#{net},
+		 	#{partnum},
+		 	#{qty}, 
+		 	#{id}, 
+		 	'1', 
+		 	(SELECT MAX(no)+1 FROM cart) 
+		 	)
+	</update>
+	
+	<insert id="insert_from_cart" parameterType="com.autoparts.erp.model.ErpDto">
+	INSERT ALL
+		<foreach collection="list" item="item" index="index" >
+			INTO cart (memo, partnum, qty, b_smallname, net, country  id, ponum, no)		
+			VALUES  (#{item.memo},#{item.part},#{item.qty}, #{item.b_smallname}, #{item.net}, #{item.country}, 'a', '2', (SELECT MAX(no)+1 FROM cart))
+		</foreach>
+	SELECT * FROM DUAL
+	</insert> 
+	
+	
+	<update id="mod_qty" parameterType="com.autoparts.erp.model.ErpDto">
+	UPDATE cart
+	SET qty = #{qty}, memo=#{memo}
+	WHERE partnum=#{partnum} AND id=#{id}
+	</update>
+	
+	<update id="excel_cart" parameterType="ArrayList" >
+	
+	{call
+        declare
+        begin
+        <foreach collection="list" item="item" index="index" >
+			MERGE INTO cart
+			 USING dual
+			 ON (partnum = #{item.part} AND id=#{item.id})
+			 WHEN MATCHED THEN
+			 	UPDATE SET 
+			 	 qty = qty+#{item.qty}, memo = #{item.memo}
+				WHERE partnum=#{item.part} AND id=#{item.id}
+			 WHEN NOT MATCHED THEN
+				INSERT (memo, partnum, qty, id, ponum, no, net, country)
+				VALUES (
+					#{item.memo},
+					#{item.part},
+					#{item.qty},
+					#{item.id},
+					'22',
+					(SELECT MAX(no)+1 FROM cart),
+					(SELECT msrp net FROM vparts_all WHERE partnum = #{item.part}),
+					(SELECT country FROM vparts_all WHERE partnum = #{item.part})
+					);
+					</foreach>
+        end
+    }
+	</update>
+	
+	<delete id="del_cart" parameterType="com.autoparts.erp.model.ErpDto">
+	DELETE FROM cart
+	WHERE partnum=#{partnum} AND id=#{id}
+	</delete>
+	
+	<select id="getcart_for_send" parameterType="com.autoparts.erp.model.ErpDto">
+	SELECT net, country, id, memo, partnum, qty, b_smallname
+	FROM cart
+	WHERE id=#{id}
+	</select>
+	
+	<delete id="send_cart" parameterType="com.autoparts.erp.model.ErpDto">
+	DELETE FROM cart
+	WHERE id={#id}
+	</delete>
+	
 </mapper>

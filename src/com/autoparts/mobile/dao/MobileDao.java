@@ -30,12 +30,12 @@ public class MobileDao {
 	
 	public void store(MobileDto mobileDto){
 		sst.insert("store", mobileDto);
-		sst.update("update", mobileDto);
+		//sst.update("update", mobileDto);
 	}
 	
 	public void release(MobileDto mobileDto){
 		sst.insert("release", mobileDto);
-		sst.update("update", mobileDto);
+		//sst.update("update", mobileDto);
 	}
 	
 	public void insert(MobileDto mobileDto){
@@ -50,11 +50,24 @@ public class MobileDao {
 		return sst.selectList("recent");		
 	}
 
-	public List<MobileDto> keep() {
-		return sst.selectList("keep");		
+	public List<MobileDto> keeplist() {
+		return sst.selectList("keeplist");		
 	}
 
-	public void confirm() {
+	public void keep(String pocode, List<String> keeparr) {
 		sst.update("confirm");
+		if(keeparr != null){
+			sst.update("notconfirm",keeparr);
+		}
+	}
+
+	public void keep(MobileDto mobileDto) {
+		sst.update("confirm", mobileDto);
+		System.out.println(mobileDto.getOrder_qty() +"/"+ mobileDto.getQty());
+		if(mobileDto.getOrder_qty()<mobileDto.getQty()){
+			sst.update("notconfirm", mobileDto);
+		}
+		//sst.update("complete", mobileDto);
+		
 	}
 }

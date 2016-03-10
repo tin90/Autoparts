@@ -43,11 +43,11 @@ public class MobileService {
 	}
 
 	public List<MobileDto> keep() {
-		return mobileDao.keep();		
+		return mobileDao.keeplist();		
 	}
 
-	public void confirm() {
-		mobileDao.confirm();
+	public void keep(MobileDto mobileDto) {
+		mobileDao.keep(mobileDto);
 	}
 
 	
