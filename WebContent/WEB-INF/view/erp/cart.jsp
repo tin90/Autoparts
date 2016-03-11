@@ -53,11 +53,16 @@ $(document).ready( function(){
 		//alert($("#cart_table tr:eq(2) td:eq(2)").text());
 		//db에 저장되어있는걸 쓰기
 
-		$.ajax({
+		/* $.ajax({
 			type : 'POST',
 			url : '${root}/erp/send_cart.html',
 			data : {"id" : 'a'}
-		});
+		}); */
+		
+		if($("tr").hasClass("warn")){
+			alert("Check Partumber");
+		}
+		
 	});
 	
 	
@@ -124,12 +129,12 @@ $(document).ready( function(){
           <p>step 1. Copy in excel, but you must follow below format</p>
           <p>step 2. Paste it</p>
           <p align="right"><button id="submit_excel" type="button" class="btn btn-default" data-dismiss="modal" >ADD ALL</button></p>
-          <table style="width: 100%; text-align: center;">
+          <table style="width: 40%; text-align: center;">
 	          <tr>
 	          	<td>partnum</td><td>quantity</td><td>memo</td>
 	          </tr>
           </table>
-          <textarea id="from_excel" type="text" class="form-control" style="width: 100%; min-height: 450px;" placeholder="010101	4	memo_1"></textarea>
+          <textarea id="from_excel" class="form-control" style="width: 100%; min-height: 450px;" placeholder="text here"></textarea>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -146,7 +151,14 @@ $(document).ready( function(){
 				<th>#</th><th>COUNTRY</th><th>PART#</th><th>DESCRIPTION</th><th>NET</th><th>QTY</th><th>AMOUNT</th><th>VIN</th><th>MEMO</th>
 			</tr>
 			<c:forEach items="${cart_list}" var="item" varStatus="status"> 
-	               <tr> 
+	               <c:choose>
+		               <c:when test="${item.country ne null}">
+		                	 <tr>
+		               </c:when>
+		               <c:otherwise>
+		               		<tr style="background-color: paleVioletRed;" class="warn">
+		               </c:otherwise>
+	               </c:choose>	
 	               	   <td>${status.index+1}</td>
 	                   <td>${item.country}</td>
 	                   <td>${item.partnum}</td> 
@@ -158,6 +170,7 @@ $(document).ready( function(){
 	                   <td><input type="text" class="form-control input-lg" value="${item.memo}"></td> 
 	                   <td><a href="#" class="btn btn-del">Remove</a></td>
 	               </tr> 
+	               
 			</c:forEach>
   			
 			<!-- <tr>

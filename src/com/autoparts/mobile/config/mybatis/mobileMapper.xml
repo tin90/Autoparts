@@ -67,6 +67,7 @@
 	<select id="recent" parameterType="com.autoparts.mobile.model.MobileDto" resultType="com.autoparts.mobile.model.MobileDto">
 	SELECT part, brand, pocode, qty, inout, TO_CHAR("DATE", 'MM/DD/YY_HH24:MI') "DATE"
 	FROM st_recent
+	--WHERE "DATE" BETWEEN sysadte-1 AND sysdate+1
 	ORDER BY "DATE" DESC
 	</select>
 	

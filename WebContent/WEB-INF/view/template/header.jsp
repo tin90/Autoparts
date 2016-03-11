@@ -107,7 +107,7 @@ $(document).ready(function(){
 		 });
 		
 		//검색폼 토글
-		$("#search_form").slideToggle(400,function(){});
+		$("#search_form").slideDown(400,function(){});
 	});
 	
 });
@@ -146,7 +146,7 @@ $(document).ready(function(){
 	 });
 	 $("#cart"+i).text("View in cart");
 	 
-	 $("#cart"+i).attr("href","${root}/erp/cart.html");                                             //누르면 카트로넘어감. 왜? 해결방법?
+	 $("#cart"+i).parent().attr("href",'/Autoparts/erp/cart.html');                                             //누르면 카트로넘어감. 왜? 해결방법?
  }
 
  $(window).scroll(function() {
@@ -187,7 +187,7 @@ $(document).ready(function(){
             <li><a href="${root}"><span class="glyphicon glyphicon-home"></span></a></li>
             <li><a href="#">About</a></li>
             <li><a href="#">Contact</a></li>
-            <li><a href="#">My Page  <span class="glyphicon glyphicon-user"> </span></a></li>
+            <li><a href="#"><span class="glyphicon glyphicon-user"> </span></a></li>
             <li><a href="${root}/erp/cart.html" ><span class="glyphicon glyphicon-shopping-cart"></span></a></li>
             <li>
               <a class="btn btn-default btn-outline btn-circle collapsed"  data-toggle="collapse" href="#nav-search" aria-expanded="false" aria-controls="nav-search">Search</a>
