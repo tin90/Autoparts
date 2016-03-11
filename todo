@@ -1,0 +1,4 @@
+일단 approval/list.html에서
+approval/read.html로 이동가능하게 하고
+read.html에서 결재 누르기 -> 등등
+조건에 맞게 보여주기
