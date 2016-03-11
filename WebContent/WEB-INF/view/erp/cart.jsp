@@ -47,7 +47,7 @@ $(document).ready( function(){
 		});
 		alert("removed");
 	});
-
+	
 	
 	$("#cart_send").click( function(){
 		//alert($("#cart_table tr:eq(2) td:eq(2)").text());
@@ -82,7 +82,6 @@ $(document).ready( function(){
 			type : 'POST',
 			url : '${root}/erp/excel_cart.html',
 			data : {"partarr" : partnumarr, "qtyarr" : qtyarr, "memoarr" : memoarr}
-			
 		});
 		
 	});
@@ -102,13 +101,10 @@ $(document).ready( function(){
 </div>
 
 <form class="form-inline">
-<div class="form-group">
-<span>
-	<input type="radio" name="radio">USA <input type="text" class="form-control input-sm"> <a href="#" class="btn btn-info">SEARCH</a>
-</span>
-</div>
-
-<div align="right">
+<br>
+<br>
+<br>
+<div >
 	<label>PO# </label><input type="text" class="form-control input-sm">
 </div>
 
@@ -144,6 +140,7 @@ $(document).ready( function(){
   </div>
 
 </form>
+
 
 <div >
 		<table id="cart_table" class="table table-hover" style="width: 100%">

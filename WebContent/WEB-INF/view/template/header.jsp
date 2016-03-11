@@ -102,7 +102,6 @@ $(document).ready(function(){
 				}
 			},
 			 error:function(request,status,error){
-			        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
 			}
 		 });
 		
@@ -144,8 +143,8 @@ $(document).ready(function(){
 		 error : function(){
 		 }
 	 });
-	 $("#cart"+i).text("View in cart");
-	 
+
+	 //$("#cart"+i).text("View in cart");
 	 $("#cart"+i).parent().attr("href",'/Autoparts/erp/cart.html');                                             //누르면 카트로넘어감. 왜? 해결방법?
  }
 
@@ -179,35 +178,51 @@ $(document).ready(function(){
           <a class="navbar-brand" href='${root}'>
       		<img width="35px" height="35px" src="${root}/etc/ic_polymer_white_144dp.png" ></img>
       	  </a>
+            
         </div>
+        
     
         <!-- Collect the nav links, forms, and other content for toggling -->
-        <div class="collapse navbar-collapse" id="navbar-collapse-2">
+        <div class="collapse navbar-collapse" id="navbar-collapse-2" style="position : ">	
+        <div>
+            <form class="navbar-form navbar-left" role="search">
+              <div class="form-group">
+                <input id="s_inp" type="text" class="form-control" placeholder="Search" style="min-width: 200px" value="0001401860"/>
+              <button id="search" type="button" class="btn btn-danger"  style="margin: 0px; background-color: dodgerBlue; border-color: dodgerBlue;"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+              </div>
+            </form>
+            </div>
+            
           <ul class="nav navbar-nav navbar-right">
             <li><a href="${root}"><span class="glyphicon glyphicon-home"></span></a></li>
             <li><a href="#">About</a></li>
             <li><a href="#">Contact</a></li>
             <li><a href="#"><span class="glyphicon glyphicon-user"> </span></a></li>
             <li><a href="${root}/erp/cart.html" ><span class="glyphicon glyphicon-shopping-cart"></span></a></li>
-            <li>
+            <!-- <li>
               <a class="btn btn-default btn-outline btn-circle collapsed"  data-toggle="collapse" href="#nav-search" aria-expanded="false" aria-controls="nav-search">Search</a>
-            </li>
-            <li>
-              <a class="btn btn-default btn-outline btn-circle collapsed"  data-toggle="collapse" href="#nav-collapse2" aria-expanded="false" aria-controls="nav-collapse2">Sign in</a>
-            </li>
-          </ul>
-          <div class="collapse nav navbar-nav nav-collapse slide-down" id="nav-collapse2">
+            </li> -->
           <c:choose>
 			<c:when test="${userInfo.id ne null}">
+	            <li><button type="button" class="btn btn-success" onClick="self.location='${root}/join/logout.html'" style="background-color: mediumVioletRed;">logout</button></li>
+	            <li><button type="button" class="btn btn-danger" onClick="self.location='${root}/join/joinInfo.html'" style="background-color: darkCyan;">profile</button></li>
+	          </ul>
+
+	          <div class="collapse nav navbar-nav nav-collapse slide-down" id="nav-collapse2">
 	            <form class="navbar-form navbar-right form-inline" role="form" name="loginform" action='${root}/join/login.html' method="post">
 	              <div class="form-group">
 	              ${userInfo.id}님 환영합니다.
 	              </div>
-	              <button type="button" class="btn btn-success" onClick="self.location='${root}/join/logout.html'">logout</button>
-	              <button type="button" class="btn btn-danger" onClick="self.location='${root}/join/joinInfo.html'">profile</button>
+	              
 	            </form>
             </c:when>
 			<c:otherwise>
+				<li>
+	              <a class="btn btn-default btn-outline btn-circle collapsed"  data-toggle="collapse" href="#nav-collapse2" aria-expanded="false" aria-controls="nav-collapse2">Sign in</a>
+	            </li>
+	          </ul>
+
+          <div class="collapse nav navbar-nav nav-collapse slide-down" id="nav-collapse2">
 	            <form class="navbar-form navbar-right form-inline" role="form" name="loginform" action='${root}/join/login.html' method="post">
 	              <div class="form-group">
 	                <label class="sr-only" for="Email">Email</label>
@@ -217,20 +232,13 @@ $(document).ready(function(){
 	                <label class="sr-only" for="Password">Password</label>
 	                <input type="password" class="form-control" placeholder="Password" id="pwd" name="pwd" value='qwe123' required />
 	              </div>
-	              <button type="submit" class="btn btn-success" onClick="javascript:logincheck();">Sign in</button>
-	              <button type="button" class="btn btn-danger" onClick="self.location='${root}/join/join.html'">register</button>
+	              <button type="submit" class="btn btn-success" onClick="javascript:logincheck();" style="background-color: deepSkyBlue;">Sign in</button>
+	              <button type="button" class="btn btn-danger" onClick="self.location='${root}/join/join.html'" style="border-color: lightsalmon; background-color: lightsalmon;">register</button>
 	            </form>
 	        </c:otherwise>
    			</c:choose>
           </div>
-          <div class="collapse nav navbar-nav nav-collapse slide-down" id="nav-search">
-            <form class="navbar-form navbar-right" role="search">
-              <div class="form-group">
-                <input id="s_inp" type="text" class="form-control" placeholder="Search" style="min-width: 200px" value="0001401860"/>
-              </div>
-              <button id="search" type="button" class="btn btn-danger" ><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
-            </form>
-          </div>
+          
         </div><!-- /.navbar-collapse -->
         <%-- 
         <div class="pull-right">
