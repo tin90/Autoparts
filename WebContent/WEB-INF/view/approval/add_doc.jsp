@@ -221,13 +221,12 @@ app.controller('MainCtrl', function($scope, $http) {
 			ev.preventDefault();
 		}else{
 			if($(this).data("id") == "save"){
-				json.state = 1;
+				json.state = 0; //임시저장
 			}else{
-				json.state = 0;
+				json.state = 1;
 			}
 			$("#form input[name='json']").val(JSON.stringify(json));
 			alert(JSON.stringify(json));
-			ev.preventDefault();
 		}
 	});
 });

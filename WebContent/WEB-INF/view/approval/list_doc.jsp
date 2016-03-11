@@ -14,17 +14,32 @@
 			</div>
 			<table class="table">
 				<tr>
-					<th>문서번호</th><th>기안일자</th><th>결재일자</th><th>문서명</th>
-					<th>나의결재</th><th>기안자</th><th>다음결재자</th><th>의견</th>
+					<th>문서번호</th><th>문서명</th>
 				</tr>
-				<tr>
-					<td>1</td><td>16.02.18</td><td>16.02.18</td><td>비품 구매건</td>
-					<td></td><td>홍길동</td><td>이도</td><td>1건</td>
+				<tr data-ng-repeat="l in list">
+					<td>{{l.num}}</td><td>{{l.title}}</td>
 				</tr>
 			</table>
 		</div>
 	</div>
 </div>
+<nav class="text-center">
+	<ul class="pagination pagination-lg">
+ 			<li data-ng-if="page[0] != null && page[0] != 1">
+			<a href="\#{{page[0]-1}}" aria-label="Previous">
+			<span aria-hidden="true">&laquo;</span>
+			</a>
+		</li>
+		<li data-ng-repeat="p in page" data-ng-class="{'active':currPage == p}">
+			<a href="\#{{p}}" class="page_btn">{{p}}</a>
+		</li>
+		<li data-ng-if="page[page.length-1] < maxPage">
+			<a href="\#{{page[page.length-1]+1}}" aria-label="Next">
+			<span aria-hidden="true">&raquo;</span>
+			</a>
+		</li>
+	</ul>
+</nav>
 </div>
 
 <script>
@@ -37,14 +52,25 @@ app.controller('MainCtrl', function($scope, $http) {
 function list($scope, $http){
 	$http({
 		type: "GET",
-		url: './ajax_list.html',
+		url: './ajax_list.html?page=1&state=1',
 		headers: {
 			"Accept":"application/json;charset=utf-8",
 			"Accept-Charset":"charset=utf-8"
 		},
 		dataType:"json"
 	}).then(function(res){
-		$scope.list = res.data;
+		$scope.list = res.data.list;
+		$scope.currPage = res.data.curr_page;
+		$scope.maxPage = res.data.max_page;
+		
+		var base = Math.floor(($scope.currPage-1)/5)*5;
+		
+		var p = [];
+		for(var i = base+1; i <= Math.min(base+5, $scope.maxPage); i++){
+			p.push(i);
+		}
+		$scope.page = p;
+		$scope.$apply();
 	},function(res){
 		alert("error");
 	});

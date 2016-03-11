@@ -22,5 +22,7 @@
 		
 		<typeAlias alias="AppClient" type="com.autoparts.groupware.model.AppClientDto"/>
 		<typeAlias alias="RawAppClient" type="com.autoparts.groupware.model.RawAppClientDto"/>
+		
+		<typeAlias alias="ParamAppcon" type="com.autoparts.groupware.model.ParamAppcon"/>
 	</typeAliases>
 </configuration>

@@ -14,6 +14,7 @@ import com.autoparts.groupware.dao.AppClientDao;
 import com.autoparts.groupware.dao.AppDao;
 import com.autoparts.groupware.model.AppClientDto;
 import com.autoparts.groupware.model.AppLineDto;
+import com.autoparts.groupware.model.AppconDto;
 import com.autoparts.groupware.model.ApprovalDto;
 import com.autoparts.groupware.model.EmployeeDto;
 import com.autoparts.groupware.model.RawAppClientDto;
@@ -30,12 +31,14 @@ public class AppService {
 	
 	public String addAppcontent(String json, int empno){
 		try {
+			System.out.println(empno);
 			JSONParser parser = new JSONParser();
 			JSONObject obj =  (JSONObject)parser.parse(json);
 			
 			RawAppconDto appcon = new RawAppconDto();
 			appcon.setTitle((String)obj.get("title"));
 			appcon.setContent((String)obj.get("content"));
+			appcon.setEmpno(empno);
 			
 			//결재선 등록 시작
 			List<ApprovalDto> applist = new ArrayList<ApprovalDto>();
@@ -48,11 +51,13 @@ public class AppService {
 				applist.add(appd);
 			}
 			
-			AppLineDto appline = null;
+			AppLineDto appline = new AppLineDto();
 			if(size != 0){
-				appline = new AppLineDto();
 				appline.setList(applist);
 				dao.addAppLine(appline);
+				appcon.setAppline(appline.getNum());
+			}else{
+				dao.addNullAppLine(appline);
 				appcon.setAppline(appline.getNum());
 			}
 			//결재선 등록 끝
@@ -68,27 +73,61 @@ public class AppService {
 				cooplist.add(coopd);
 			}
 			
-			AppLineDto coopline = null;
+			AppLineDto coopline = new AppLineDto();
 			if(size != 0){
-				coopline = new AppLineDto();
 				coopline.setList(cooplist);
 				dao.addAppLine(coopline);
+				appcon.setCoopline(coopline.getNum());
+			}else{
+				dao.addNullAppLine(coopline);
 				appcon.setCoopline(coopline.getNum());
 			}
 			//협조 등록 끝
 			
-			if(appline != null && coopline != null){
-				appcon.setAppline(appline.getNum());
-				appcon.setEmpno(empno);
-				appcon.setState((int)(long)(Long)obj.get("state"));
-			}
-			
+			appcon.setState((int)(long)(Long)obj.get("state"));
 			dao.addAppcon(appcon);
+			
 		} catch (ParseException e) {
 			return "error : " + e.getMessage();
 		}
 		
 		return "ok";
+	}
+	
+	public AppconDto getAppcon(int num){
+		RawAppconDto rappcon = dao.getAppcon(num);
+		AppconDto appcon = new AppconDto();
+		
+		appcon.setNum(rappcon.getNum());
+		appcon.setTitle(rappcon.getTitle());
+		appcon.setContent(rappcon.getContent());
+		appcon.setAppline(dao.getApplist(rappcon.getAppline()).getList());
+		appcon.setCoopline(dao.getApplist(rappcon.getCoopline()).getList());
+		appcon.setOrderlist_no(-1); // 아직 모름
+		
+		return appcon;
+	}
+	
+	public String getAppconList(int page, int state){
+		System.out.println(page + "," + state);
+		List<RawAppconDto> appcon = dao.getAppconList(page, state);
+		int max_page = dao.getAppconListCount(state);
+		
+		JSONObject obj = new JSONObject();
+		obj.put("curr_page", page);
+		obj.put("max_page", max_page);
+		
+		JSONArray arr = new JSONArray();
+		for(RawAppconDto c : appcon){
+			JSONObject o = new JSONObject();
+			o.put("num", c.getNum());
+			o.put("title", c.getTitle());
+			o.put("content", c.getContent());
+			arr.add(o);
+		}
+		obj.put("list", arr);
+		
+		return obj.toJSONString();
 	}
 	
 	private JSONObject getJSONObject(AppClientDto aclient){

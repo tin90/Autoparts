@@ -20,6 +20,18 @@
 	SELECT * FROM DUAL
 	</insert>
 	
+	<update id="passApp" parameterType="Approval">
+	UPDATE approval
+	SET app_date = SYSDATE
+	WHERE num = #{num} AND seq = #{seq}
+	</update>
+	
+	<select id="getApplist" parameterType="int" resultType="Approval">
+	SELECT num,seq,empno,app_date
+	FROM approval
+	WHERE num = #{num}
+	</select>
+	
 	<insert id="addAppcon" parameterType="RawApproval">
 	INSERT INTO appcontent (num,title,content,appline,coopline,empno,ollno,state)
 	VALUES (SEQ_APPCONTENT_NO.nextval,#{title},#{content},#{appline},#{coopline},#{empno},-1,#{state})
@@ -31,9 +43,96 @@
 	WHERE num = #{num}
 	</select>
 	
-	<select id="getApplist" parameterType="int">
-	SELECT num,seq,empno
-	FROM approval
-	WHERE num = #{num}
+	<select id="getAppconPage" parameterType="ParamAppcon" resultType="RawApproval">
+	SELECT num,title,content,appline,coopline,empno,ollno,state FROM (
+    	SELECT A.*, 
+                 ROWNUM AS RNUM,
+                 TRUNC((ROWNUM-1)/10+1) AS PAGE,
+                 COUNT(*) OVER() AS TOTCNT FROM (
+			SELECT num,title,content,appline,coopline,empno,ollno,state
+			FROM appcontent
+			WHERE state = #{state}
+			ORDER BY num DESC
+    	) A
+	) WHERE PAGE = #{page}
+	</select>
+	
+	<select id="getAppconPageCount" resultType="int">
+	SELECT TRUNC((count(*)-1)/10+1)
+	FROM appcontent
+	WHERE state = #{state}
+	</select>
+	
+	<select id="getAppconPageByEmpno" parameterType="ParamAppcon" resultType="RawApproval">
+	SELECT num,title,content,appline,coopline,empno,ollno,state FROM (
+    	SELECT A.*, 
+                 ROWNUM AS RNUM,
+                 TRUNC((ROWNUM-1)/10+1) AS PAGE,
+                 COUNT(*) OVER() AS TOTCNT FROM (
+			SELECT num,title,content,appline,coopline,empno,ollno,state
+			FROM appcontent
+			WHERE empno = #{empno} AND state = #{state}
+			ORDER BY num DESC
+    	) A
+	) WHERE PAGE = #{page}
+	</select>
+	
+	<select id="getAppconByApplinePage" parameterType="ParamAppcon" resultType="RawApproval">
+	SELECT num,seq,empno,app_date FROM (
+    	SELECT A.*, 
+                 ROWNUM AS RNUM,
+                 TRUNC((ROWNUM-1)/10+1) AS PAGE,
+                 COUNT(*) OVER() AS TOTCNT FROM (
+			SELECT ac.*
+			FROM appcontent ac, (
+				SELECT b.* 
+				FROM approval b, (
+					SELECT num,min(seq) seq 
+					FROM approval 
+					WHERE app_date is null group by num
+					) c
+				WHERE b.num = c.num AND b.seq = c.seq
+			) ap
+			WHERE ac.appline = ap.num AND ac.state = #{state}
+			ORDER BY ac.num DESC;
+    	) A
+	) WHERE PAGE = #{page}
+	</select>
+	
+	<select id="getAppconByApplineCount" parameterType="int" resultType="int">
+	SELECT count(*)
+	FROM (SELECT ac.*
+			FROM appcontent ac, (
+				SELECT b.* 
+				FROM approval b, (
+					SELECT num,min(seq) seq 
+					FROM approval 
+					WHERE app_date is null group by num
+					) c
+				WHERE b.num = c.num AND b.seq = c.seq
+			) ap
+			WHERE ac.appline = ap.num AND ac.state = #{state})
+	</select>
+	
+	<select id="getAppconByApplinePageCount" parameterType="int" resultType="int">
+	SELECT TRUNC((count(*)-1)/10+1)
+	FROM (SELECT ac.*
+			FROM appcontent ac, (
+				SELECT b.* 
+				FROM approval b, (
+					SELECT num,min(seq) seq 
+					FROM approval 
+					WHERE app_date is null group by num
+					) c
+				WHERE b.num = c.num AND b.seq = c.seq
+			) ap
+			WHERE ac.appline = ap.num AND ac.state = #{state}
+		)
+	</select>
+	
+	<select id="getAppconPageCountByEmpno" resultType="int">
+	SELECT TRUNC((count(*)-1)/10+1)
+	FROM appcontent
+	WHERE empno = #{empno} AND state = #{state}
 	</select>
 </mapper>

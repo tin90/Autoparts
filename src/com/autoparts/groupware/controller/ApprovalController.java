@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.autoparts.groupware.model.AppconDto;
 import com.autoparts.groupware.model.EmployeeDto;
 import com.autoparts.groupware.model.RawAppClientDto;
 import com.autoparts.groupware.model.RawEmpDto;
@@ -125,6 +126,9 @@ public class ApprovalController {
 	
 	@RequestMapping("/app.html")
 	public String app(Model model){
+		
+		
+		
 		model.addAttribute("title", "전자결재 메인");
 		return "approval/app.tiles";
 	}
@@ -167,14 +171,47 @@ public class ApprovalController {
 	}
 	
 	@RequestMapping("/read.html")
-	public String read(Model model){
-		model.addAttribute("title", "전자결재 작성");
-		return "approval/read_doc.tiles";
+	public String read(Model model, HttpSession session, Integer num){
+		if(num == null){
+			return "redirect:/approval/app.html";
+		}
+		
+		String id = (String)session.getAttribute("id");
+		
+		if(id == null){
+			return "redirect:/error404.html";
+		}
+		
+		EmployeeDto emp = service.getEmp(id);
+		
+		if(emp == null){
+			return "redirect:/error404.html";
+		}else{
+			AppconDto con = service.getAppcon(num);
+			
+			model.addAttribute("emp", emp);
+			model.addAttribute("con", con);
+			model.addAttribute("title", "전자결재 작성");
+			return "approval/read_doc.tiles";
+		}
 	}
 	
 	@RequestMapping("/list.html")
 	public String list(Model model){
 		model.addAttribute("title", "결재문서");
 		return "approval/list_doc.tiles";
+	}
+	
+	@RequestMapping("/ajax_list.html")
+	public @ResponseBody String ajax_list(Integer page, Integer state){
+		if(page == null){
+			page = 1;
+		}
+		
+		if(state == null){
+			state = 1;
+		}
+		
+		return service.getAppconList(page, state);
 	}
 }
