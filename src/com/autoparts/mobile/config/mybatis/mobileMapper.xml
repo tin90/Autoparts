@@ -5,21 +5,29 @@
 <mapper namespace="mobile">
 	
 	<select id="prod_search" parameterType="String" resultType="com.autoparts.mobile.model.MobileDto">
-	SELECT part, brand, order_qty, pocode 
-	FROM part WHERE part=#{part}
+	SELECT partnum, b_smallname brand, qty, ponum pocode 
+	FROM po 
+	WHERE partnum=#{part}
 	</select>
 	
 	<select id="bill_list" resultType="com.autoparts.mobile.model.MobileDto">
-	SELECT pocode, "DATE" 
-	FROM storage 
-	WHERE YN='N'
-	ORDER BY pocode ASC
+	SELECT ponum pocode, indate
+	FROM po
+	WHERE status NOT IN ('COMPLETE') --AND indate BETWEEN sysdate-1 AND sysdate+1
+	GROUP BY ponum, indate
+	ORDER BY indate DESC
 	</select>
 	
 	<select id="bill_detail" parameterType="String" resultType="com.autoparts.mobile.model.MobileDto">
-	SELECT part, brand, order_qty, qty
-	FROM part 
-	WHERE pocode=#{pocode}
+	  SELECT 
+  		 p.partnum part,
+         p.b_smallname brand,
+         p.qty,
+         p.ponum pocode,
+         SUM(r.qty) order_qty
+    FROM po p JOIN st_recent r ON p.ponum = r.pocode AND p.partnum = r.part
+   WHERE p.ponum = #{pocode}
+   GROUP BY p.partnum, p.b_smallname, p.qty, p.ponum
 	</select>
 	
 	<insert id="store" parameterType="com.autoparts.mobile.model.MobileDto">
@@ -45,6 +53,13 @@
 		(SELECT qty + #{qty}
 		FROM part 
 		WHERE pocode=#{pocode} AND part=#{part})
+		<if test="qty == order_qty">
+		, yn ='Y'
+		</if>
+		<if test="qty != order_qty">
+		, yn ='N'
+		</if>
+	
 	WHERE pocode=#{pocode} AND part=#{part}
 	</update>
 	<!-- if qty=orderqty =>yn=Y else yn=N -->
@@ -55,17 +70,33 @@
 	ORDER BY "DATE" DESC
 	</select>
 	
-	<select id="keep" parameterType="com.autoparts.mobile.model.MobileDto" resultType="com.autoparts.mobile.model.MobileDto">
-	SELECT pocode, part, order_qty, qty
-	FROM part
-	WHERE yn='N'
+	<select id="keeplist" parameterType="com.autoparts.mobile.model.MobileDto" resultType="com.autoparts.mobile.model.MobileDto">
+	SELECT partnum part, b_smallname brand, qty, ponum pocode, 
+		(SELECT SUM(qty)
+		FROM st_recent
+		WHERE pocode=p.ponum AND part = p.partnum
+		GROUP BY part) order_qty
+	FROM po p
+	WHERE status NOT IN ('COMPLETE')
 	</select>
 	
 	<update id="confirm" parameterType="com.autoparts.mobile.model.MobileDto">
-	UPDATE part
-	SET YN='Y'
-	WHERE part=#{part}
+	UPDATE po
+	SET status='COMPLETE'
+	WHERE ponum=#{pocode}
 	</update>
 	
-
+	<update id="notconfirm" parameterType="com.autoparts.mobile.model.MobileDto">
+	UPDATE po
+	SET status='LACK'
+	WHERE ponum=#{pocode} AND partnum=#{part}
+	</update>
+	<!-- <foreach item="item" index="index" collection="keeparr" open="(" separator="," close=")"> -->
+	
+	<update id="complete" parameterType="com.autoparts.mobile.model.MobileDto">
+	UPDATE po
+	SET status="COMPLETE"
+	WHERE ponum=#{pocode}
+	</update>
+	
 </mapper>

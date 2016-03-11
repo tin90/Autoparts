@@ -9,7 +9,16 @@ public class MobileDto {
 	private String date;
 	private String inout;
 	private int mod_qty;
+	private String partnum;
 	
+	public String getPartnum() {
+		return partnum;
+	}
+
+	public void setPartnum(String partnum) {
+		this.partnum = partnum;
+	}
+
 	public MobileDto() {
 	}
 

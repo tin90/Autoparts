@@ -1,5 +1,6 @@
 package com.autoparts.erp.model;
 
+
 public class ErpDto {
 	private String part;
 	private String brand;
@@ -9,12 +10,16 @@ public class ErpDto {
 	private double net;
 	private int qty;
 	private String country;
+	private String id;
+	private String memo;
 	
-	public String getCountry() {
-		return country;
+	
+	
+	public String getMemo() {
+		return memo;
 	}
-	public void setCountry(String country) {
-		this.country = country;
+	public void setMemo(String memo) {
+		this.memo = memo;
 	}
 	public String getPart() {
 		return part;
@@ -58,7 +63,17 @@ public class ErpDto {
 	public void setQty(int qty) {
 		this.qty = qty;
 	}
-	
+	public String getCountry() {
+		return country;
+	}
+	public void setCountry(String country) {
+		this.country = country;
+	}
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
+	}
 
-	
 }
