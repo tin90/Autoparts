@@ -181,7 +181,7 @@ $(document).ready(function(){
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href='${root}'>
+          <a class="navbar-brand" href='${root}/main/main.html'>
       		<img width="35px" height="35px" src="${root}/etc/ic_polymer_white_144dp.png" ></img>
       	  </a>
             
@@ -200,7 +200,7 @@ $(document).ready(function(){
             </div>
             
           <ul class="nav navbar-nav navbar-right">
-            <li><a href="${root}"><span class="glyphicon glyphicon-home"></span></a></li>
+            <li><a href="${root}/main/main.html"><span class="glyphicon glyphicon-home"></span></a></li>
             <li><a href="#">About</a></li>
             <li><a href="#">Contact</a></li>
             
