@@ -199,7 +199,15 @@ public class ApprovalController {
 	}
 	
 	@RequestMapping("/list.html")
-	public String list(Model model, Integer page, Integer state, Integer empno){
+	public String list(Model model, String page, String state, Integer empno){
+		if(page == null){
+			page = "";
+		}
+		
+		if(state == null){
+			state = "";
+		}
+		
 		if(empno == null){
 			model.addAttribute("url", "/ajax_list.html?page="+page+"&state="+state);
 		}else{
