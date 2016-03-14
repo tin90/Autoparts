@@ -16,8 +16,8 @@
 				<tr>
 					<th>문서번호</th><th>문서명</th>
 				</tr>
-				<tr data-ng-repeat="l in list">
-					<td>{{l.num}}</td><td>{{l.title}}</td>
+				<tr data-ng-repeat="l in list">				
+					<td>{{l.num}}</td><td><a href="./read.html?num={{l.num}}">{{l.title}}</a></td>
 				</tr>
 			</table>
 		</div>
