@@ -10,7 +10,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.autoparts.groupware.model.AppconDto;
 import com.autoparts.groupware.model.EmployeeDto;
 import com.autoparts.groupware.model.RawAppClientDto;
 import com.autoparts.groupware.model.RawEmpDto;
@@ -187,17 +186,26 @@ public class ApprovalController {
 		if(emp == null){
 			return "redirect:/error404.html";
 		}else{
-			AppconDto con = service.getAppcon(num);
-			
 			model.addAttribute("emp", emp);
-			model.addAttribute("con", con);
+			model.addAttribute("num", num);
 			model.addAttribute("title", "전자결재 작성");
 			return "approval/read_doc.tiles";
 		}
 	}
 	
+	@RequestMapping("/ajax_read.html")
+	public @ResponseBody String ajax_read(int num){
+		return service.getAppconJson(num);
+	}
+	
 	@RequestMapping("/list.html")
-	public String list(Model model){
+	public String list(Model model, Integer page, Integer state, Integer empno){
+		if(empno == null){
+			model.addAttribute("url", "/ajax_list.html?page="+page+"&state="+state);
+		}else{
+			model.addAttribute("url", "/ajax_list_appline.html?page="+page+"&state="+state+"&empno="+empno);
+		}
+	
 		model.addAttribute("title", "결재문서");
 		return "approval/list_doc.tiles";
 	}
@@ -213,5 +221,18 @@ public class ApprovalController {
 		}
 		
 		return service.getAppconList(page, state);
+	}
+	
+	@RequestMapping("/ajax_list_appline.html")
+	public @ResponseBody String ajax_list_appline(Integer page, Integer state, Integer empno){
+		if(page == null){
+			page = 1;
+		}
+		
+		if(state == null){
+			state = 1;
+		}
+		
+		return service.getAppconByApplineJson(page, state, empno);
 	}
 }
