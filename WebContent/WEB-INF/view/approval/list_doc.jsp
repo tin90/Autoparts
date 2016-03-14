@@ -5,7 +5,7 @@
 	데이터만 따로 불러와 로드
  -->
  
-<div  data-ng-app="autoparts" data-ng-controller="MainCtrl">
+<div data-ng-app="autoparts" data-ng-controller="MainCtrl">
 <div class="row">
 	<div class="col-md-12">
 		<div class="panel panel-default">
