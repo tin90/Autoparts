@@ -38,7 +38,7 @@ public class UserController {
 	
 	@RequestMapping("/idCheck.html")
 	public @ResponseBody String idCheck(String sid) throws Exception{
-		System.out.println("test1");
+		//System.out.println("test1");
 		int cnt = userService.idCheck(sid);
 		JSONObject json = new JSONObject();
 		json.put("idcount", cnt);
@@ -50,7 +50,7 @@ public class UserController {
 	}
 	@RequestMapping("/joinInfo.html")
 	public ModelAndView registerInfo(HttpSession session) throws Exception{
-		System.out.println((String)session.getAttribute("id"));
+		//System.out.println((String)session.getAttribute("id"));
 		userDto =userService.getUserInfo((String)session.getAttribute("id"));
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("userInfo", userDto);
@@ -70,16 +70,16 @@ public class UserController {
 	}
 	@RequestMapping(value="/login.html", method=RequestMethod.POST)
 	public String login(String id, String pwd, HttpSession session) throws Exception{
-		System.out.println("id - "+ id+ "    pass - " + pwd);
+		//System.out.println("id - "+ id+ "    pass - " + pwd);
 		userDto = userService.login(id, pwd);
-		System.out.println(userDto);
+		//System.out.println(userDto);
 		if(userDto != null){
 			System.out.println("test");
 			session.setAttribute("userInfo", userDto);
 			session.setAttribute("id",userDto.getId());
 			session.setAttribute("c_level", userDto.getC_level());
 		}
-		System.out.println("finish");
+		//System.out.println("finish");
 		return "join/loginok";
 	}
 	@RequestMapping(value="/logout.html")
@@ -90,7 +90,6 @@ public class UserController {
 	
 	@RequestMapping(value="/getNation.html")
 	public ModelAndView getNation(HttpSession session){
-		System.out.println();
 		ModelAndView mav = new ModelAndView();
 		ArrayList<UserDto> list = null;
 		try {
@@ -108,10 +107,10 @@ public class UserController {
 	
 	@RequestMapping(value="/registerInfo.html", method=RequestMethod.POST)
 	public String registerInfo(UserDto userDto, HttpSession session) throws Exception{
-		System.out.println("companyRegisterInfo!!!!!!");
+		//System.out.println("companyRegisterInfo!!!!!!");
 		userDto.setId((String)session.getAttribute("id"));
 		if(userDto.getReq() == null){
-			System.out.println("test");
+			//System.out.println("test");
 			userDto.setReq("");
 		}
 		userService.insertUserInfo(userDto);
@@ -121,7 +120,7 @@ public class UserController {
 	
 	@RequestMapping("/email.html")
 	public ModelAndView emailAuth(String email, HttpSession session) throws Exception{
-		System.out.println("/email.html      -   email " + email);
+		//System.out.println("/email.html      -   email " + email);
 		String authNum = "";
 		
 		authNum = RandomNum();
@@ -135,7 +134,7 @@ public class UserController {
 		mav.addObject("authNum", authNum);
 		session.setAttribute("authNum", authNum);
 		session.setAttribute("email", email);
-		System.out.println(authNum);
+		//System.out.println(authNum);
 		return mav;
 	}
 	

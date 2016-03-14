@@ -3,6 +3,8 @@ package com.autoparts.erp.controller;
 import java.text.DecimalFormat;
 import java.util.*;
 
+import javax.servlet.http.HttpSession;
+
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,8 +51,8 @@ public class ErpController {
 	}
 	
 	@RequestMapping(value="/cart", method=RequestMethod.GET)
-	public ModelAndView cart(String id){
-		
+	public ModelAndView cart(String id, HttpSession session){
+		id= (String)session.getAttribute("id");
 		//세션의 아이디에 따라 카트 내용 달라지게 해야함.
 		//세션 아이디가 널일경우..?
 		ArrayList cart = new ArrayList();
@@ -77,22 +79,18 @@ public class ErpController {
 	}
 	
 	@RequestMapping(value="/add_cart", method=RequestMethod.POST)
-	public ModelAndView add_cart(ErpDto erpDto){
-		System.out.println("i");
-		erpDto.setId("a");
+	public ModelAndView add_cart(ErpDto erpDto, HttpSession session){
+		erpDto.setId((String)session.getAttribute("id"));
 		//임시로 cart_temp 테이블에 insert 되게함
 		erpService.add_cart(erpDto);
 		String url = "redirect:/erp/cart.html";
 		return new ModelAndView(url);
-			//엑셀파일에서 받은 배열 있는
-			
 	}
 	
 	@RequestMapping(value="/excel_cart", method=RequestMethod.POST)
-	public ModelAndView excel_cart(ErpDto erpDto, @RequestParam(value = "partarr[]") List<String> partarr,@RequestParam(value = "qtyarr[]") List<String> qtyarr,@RequestParam(value = "memoarr[]") List<String> memoarr){
+	public ModelAndView excel_cart(ErpDto erpDto, @RequestParam(value = "partarr[]") List<String> partarr,@RequestParam(value = "qtyarr[]") List<String> qtyarr,@RequestParam(value = "memoarr[]") List<String> memoarr, HttpSession session){
 		
-		erpDto.setId("a");
-		
+		erpDto.setId((String)session.getAttribute("id"));
 		int len = partarr.size();
 		List list = new ArrayList();
 		for(int i=0; i<len; i++){
@@ -111,21 +109,24 @@ public class ErpController {
 	}
 	
 	@RequestMapping(value="/del_cart", method=RequestMethod.GET)
-	public ModelAndView remove_cart(ErpDto erpDto){
+	public ModelAndView remove_cart(ErpDto erpDto, HttpSession session){
+		erpDto.setId((String)session.getAttribute("id"));
 		erpService.del_cart(erpDto);
 		String url = "redirect:/erp/cart.html";
 		return new ModelAndView(url);
 	}
 	
 	@RequestMapping(value="send_cart", method=RequestMethod.GET)
-	public ModelAndView send_cart(ErpDto erpDto){
+	public ModelAndView send_cart(ErpDto erpDto, HttpSession session){
+		erpDto.setId((String)session.getAttribute("id"));
 		erpService.send_Cart(erpDto);
 		String url = "redirect:/erp/cart.html";
 		return new ModelAndView(url);
 	}
 	
 	@RequestMapping(value="mod_qty", method=RequestMethod.GET)
-	public ModelAndView mod_qty(ErpDto erpDto){
+	public ModelAndView mod_qty(ErpDto erpDto, HttpSession session){
+		erpDto.setId((String)session.getAttribute("id"));
 		erpService.mod_qty(erpDto);
 		String url = "redirect:/erp/cart.html";
 		return new ModelAndView(url);

@@ -14,12 +14,12 @@ function check(){
 	var putNum = document.getElementById("authnum");
 	var authNum = "${authNum}";
  	if(!putNum.value){
- 		alert(document.getElementById("numChk").value);
+ 		//alert(document.getElementById("numChk").value);
 		alert("인증번호를 입력하세요.");
 		return false;
 	}
 	if(putNum.value != authNum){
-		alert(document.getElementById("numChk").value);
+		//alert(document.getElementById("numChk").value);
 		alert("틀린 인증번호입니다. 인증번호를 다시 입력해주세요.");
 		putNum.value="";
 		return false;
@@ -27,14 +27,14 @@ function check(){
 	if(putNum.value==authNum){
 		alert("인증성공");
 		document.getElementById("numChk").value = 'suc';
-		self.close();
+		//self.close();
 	} 
 } 
 function test(){
 	var email = document.getElementById('id').value;
 	var sid= $('#id').val();
 	var regExp = /[0-9a-zA-Z][_0-9a-zA-Z-]*@[_0-9a-zA-Z-]+(\.[_0-9a-zA-Z-]+){1,2}$/;
-	alert(email);
+	//alert(email);
 	if(sid.indexOf('.') != -1 && sid.match(regExp)){
 		var newWindow = window.open("about:blank", "이메일인증", "width=	400, height=300, toolbar=no, menubar=no, scrollbars=no, resizable=yes" );
 		newWindow.location.href = "${root}/join/email.html?email="+ email;
@@ -194,25 +194,40 @@ function pwdCheck(){
 	}
 }
 </script>
+<style>
+/* 인라인 스타일 input#id */
+.input-sm {
+    min-width: 100px;
+    max-width: 300px;
+}
 
+th{
+    width: 25%;
+}
+form{
+    width: 70%;
+    padding: 4%;
+}
+
+</style>
 <form name ="joinform" method="post" action="">
-	<table>
+	<table class="table table-hover">
 		<tr>
 			<th>e-mail address</th>
 			
 			<td>
 				<c:if test="${!empty email}"  >
-					<input type="text" name="id" id="id" value="${email}"onkeyup="javascript:idcheck();">
+					<input type="text" name="id" id="id" value="${email}"onkeyup="javascript:idcheck();" class="form-control input-sm">
 				</c:if>
 				<c:if test="${empty email }"  >
-					<input type="text" name="id" id="id" value=""onkeyup="javascript:idcheck();">
+					<input type="text" name="id" id="id" value=""onkeyup="javascript:idcheck();" class="form-control input-sm">
 				</c:if>
-			<input type="button" value="인증버튼" onclick="javascript:test();">
+			<input type="button" value="인증버튼" onclick="javascript:test();" class="btn btn-sm">
 			<div id="idview" style="display: none;"></div></td>	
 		</tr>
 		<tr>
 			<th>Type it again</th>	
-			<td><input type="text" name="id2" id="id2" onkeyup="javascript:sameIdCheck();">
+			<td><input type="text" name="id2" id="id2" onkeyup="javascript:sameIdCheck();" class="form-control input-sm">
 			<div id="checkIddview" style="display: none;"></div>
 			<b>note: plz confirm ur e-mail address again</b>
 			</td>
@@ -220,31 +235,30 @@ function pwdCheck(){
 		<tr>
 			<th>password</th>
 			<td>
-				<input type="password" name="pwd" id="pwd" onkeyup="javascript:pwdCheck();">
+				<input type="password" name="pwd" id="pwd" onkeyup="javascript:pwdCheck();" class="form-control input-sm">
 				<div id="Pwdview" style="display: none;"></div>	
 			</td>
 		</tr>
 		<tr>
 			<th>Type it again</th>	
 			<td>
-				<input type="password" name="pwd2" id="pwd2" onkeyup="javascript:samePwdCheck();">
+				<input type="password" name="pwd2" id="pwd2" onkeyup="javascript:samePwdCheck();" class="form-control input-sm">
 				<div id="checkPwdview" style="display: none;"></div>
 			</td>
 		</tr>
 		<tr>
 			<th>이메일인증</th>	
 			<td>
-				<input type="text" name="authnum" id="authnum" >
-				<input type="button" value="Submit" onClick="return check();">
+				<input type="text" name="authnum" id="authnum" class="form-control input-sm">
+				<input type="button" value="Submit" onClick="return check();" class="btn btn-sm">
 				<input type=hidden name="numChk" id="numChk" value="">
 			</td>
 		</tr>
 		<tr>
 	    	<td align="left">
-	        	<input type="button" value="create acount" onclick="javascript:join();">
-	&nbsp;&nbsp;
-		    	<input type="reset" value="취소" onclick="history.back()">
-		    </td>
+	        	<input type="button" value="create acount" onclick="javascript:join();" class="btn btn-sm">
+	        	<input type="reset" value="취소" onclick="history.back()" class="btn btn-sm">
+	        </td>
 		</tr>
 	</table>
 </form>

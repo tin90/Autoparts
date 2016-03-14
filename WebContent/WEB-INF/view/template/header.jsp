@@ -125,6 +125,12 @@ $(document).ready(function(){
 //검색폼에서 cart 추가
  function add_cart(i){
 	 
+	 var id = "<%=(String)session.getAttribute("id")%>";
+	 if(id=="null"){
+		alert("Login First");
+		return;
+	 }
+	
 	 $("#cart"+i).attr("class", "view");
 	 
 	 var country = $("#c"+i).text();
@@ -197,13 +203,14 @@ $(document).ready(function(){
             <li><a href="${root}"><span class="glyphicon glyphicon-home"></span></a></li>
             <li><a href="#">About</a></li>
             <li><a href="#">Contact</a></li>
-            <li><a href="#"><span class="glyphicon glyphicon-user"> </span></a></li>
-            <li><a href="${root}/erp/cart.html" ><span class="glyphicon glyphicon-shopping-cart"></span></a></li>
+            
             <!-- <li>
               <a class="btn btn-default btn-outline btn-circle collapsed"  data-toggle="collapse" href="#nav-search" aria-expanded="false" aria-controls="nav-search">Search</a>
             </li> -->
           <c:choose>
 			<c:when test="${userInfo.id ne null}">
+				<li><a href="#"><span class="glyphicon glyphicon-user"> </span></a></li>
+				<li><a href="${root}/erp/cart.html" ><span class="glyphicon glyphicon-shopping-cart"></span></a></li>
 	            <li><button type="button" class="btn btn-success" onClick="self.location='${root}/join/logout.html'" style="background-color: mediumVioletRed;">logout</button></li>
 	            <li><button type="button" class="btn btn-danger" onClick="self.location='${root}/join/joinInfo.html'" style="background-color: darkCyan;">profile</button></li>
 	          </ul>
@@ -213,10 +220,11 @@ $(document).ready(function(){
 	              <div class="form-group">
 	              ${userInfo.id}님 환영합니다.
 	              </div>
-	              
 	            </form>
             </c:when>
 			<c:otherwise>
+				<li><a class="collapsed"  data-toggle="collapse" href="#nav-collapse2" aria-expanded="false" aria-controls="nav-collapse2"><span class="glyphicon glyphicon-user"> </span></a></li>
+				<li><a class="collapsed"  data-toggle="collapse" href="#nav-collapse2" aria-expanded="false" aria-controls="nav-collapse2"><span class="glyphicon glyphicon-shopping-cart"></span></a></li>
 				<li>
 	              <a class="btn btn-default btn-outline btn-circle collapsed"  data-toggle="collapse" href="#nav-collapse2" aria-expanded="false" aria-controls="nav-collapse2">Sign in</a>
 	            </li>
@@ -235,6 +243,7 @@ $(document).ready(function(){
 	              <button type="submit" class="btn btn-success" onClick="javascript:logincheck();" style="background-color: deepSkyBlue;">Sign in</button>
 	              <button type="button" class="btn btn-danger" onClick="self.location='${root}/join/join.html'" style="border-color: lightsalmon; background-color: lightsalmon;">register</button>
 	            </form>
+	            </div>
 	        </c:otherwise>
    			</c:choose>
           </div>

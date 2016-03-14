@@ -2,6 +2,9 @@
     pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="root" value="${pageContext.request.contextPath}"/>
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/latest/css/bootstrap.min.css">
+<script src="//code.jquery.com/jquery.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/latest/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="${root}/js/jquery-2.1.4.min.js"></script>
 <script type="text/javascript">
 function join(){
@@ -73,10 +76,26 @@ function defaultRegNum(){
 }
 	
 </script>
+<style>
+/* 인라인 스타일 input#id */
+.input-sm {
+    min-width: 100px;
+    max-width: 300px;
+}
+
+th{
+    width: 25%;
+}
+form{
+    width: 70%;
+    padding: 4%;
+}
+
+</style>
 <html>
 <body>
 <form class="form-inline" style="float:left" name ="loginform" method="post" action="">
-	<table>
+	<table class="table table-hover">
 		<!-- <tr>
 			<td colspan="2">
 				<label for="chk2"><input type="radio" name="chk_info" id="chk2" value="per" checked="checked" onclick="div_OnOff(this.value,'con');">Personal Account</label>
@@ -89,32 +108,32 @@ function defaultRegNum(){
 		</tr>
 		<tr>
 			<th>Full Name*</th>
-			<td><input type="text" name="name" id="name" value="${userInfo.name }"></td>	
+			<td><input type="text" name="name" id="name" value="${userInfo.name }" class="form-control input-sm"></td>	
 		</tr>
 		<tr>
 			<th>Address*</th>
-			<td><input type="text" name="address" id="address" value="${userInfo.address }"></td>	
+			<td><input type="text" name="address" id="address" value="${userInfo.address }" class="form-control input-sm"></td>	
 		</tr>
 		<tr>
 			<th>Postal Code*</th>	
-			<td><input type="text" name="zip" id="zip" value="${userInfo.zip }"></td>
+			<td><input type="text" name="zip" id="zip" value="${userInfo.zip }" class="form-control input-sm"></td>
 		</tr>
 		<tr>
 			<th>Phone Number*</th>
-			<td><input type="text" name="phone" id="phone" value="${userInfo.phone }"></td>	
+			<td><input type="text" name="phone" id="phone" value="${userInfo.phone }" class="form-control input-sm"></td>	
 		</tr>
 		<tr>
 			<th>Fax Number*</th>
-			<td><input type="text" name="fax" id="fax" value="${userInfo.fax }"></td>	
+			<td><input type="text" name="fax" id="fax" value="${userInfo.fax }" class="form-control input-sm"></td>	
 		</tr>
 		<!-- <tbody style="display:none" id="con"> -->
 		<tr>
 			<th>Company name*</th>
-			<td><input type="text" name="c_name" id="c_name" value="${userInfo.c_name }"></td>	
+			<td><input type="text" name="c_name" id="c_name" value="${userInfo.c_name }" class="form-control input-sm"></td>	
 		</tr>
 		<tr>
 			<th>Corporate registration number*</th>
-			<td><input type="text" name="com_num" id="com_num" value="${userInfo.com_num }"></td>	
+			<td><input type="text" name="com_num" id="com_num" value="${userInfo.com_num }" class="form-control input-sm"></td>	
 		</tr>
 		<!-- </tbody> -->
 		<tr>
@@ -136,11 +155,11 @@ function defaultRegNum(){
 		</tr>
 		<tr>
 			<th>Memo</th>
-			<td><textarea rows="5" cols="30" name="memo" id="memo" >${userInfo.memo }</textarea></td>	
+			<td><textarea rows="5" cols="30" name="memo" id="memo" class="form-control input-sm">${userInfo.memo }</textarea></td>	
 		</tr>
 	</table>
-	<input type="button" value="Create Account" onclick="javascript:join();" >
-	<input type="button" value="Cancel" onclick="history.back();">
+	<input type="button" value="Create Account" onclick="javascript:join();" class="btn btn-sm">
+	<input type="button" value="Cancel" onclick="history.back();" class="btn btn-sm">
 </form>
 </body>
 </html>

@@ -17,7 +17,9 @@
 	</select>
 	
 	<select id="cart"  parameterType="String" resultType="com.autoparts.erp.model.ErpDto">
-	SELECT partnum, country, net, qty, memo FROM cart
+	SELECT partnum, country, net, qty, memo 
+	FROM cart
+	WHERE id=#{id}
 	</select>
 	
 	<update id="add_cart"  parameterType="com.autoparts.erp.model.ErpDto">
