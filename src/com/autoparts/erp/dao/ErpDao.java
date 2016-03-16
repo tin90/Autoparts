@@ -49,6 +49,10 @@ public class ErpDao {
 	public void excel_cart(List list) {
 		sst.update("excel_cart", list);
 	}
+
+	public List<ErpDto> menu_dealer(ErpDto erpDto) {
+		return sst.selectList("menu_dealer",erpDto);
+	}
 	
 	
 }

@@ -48,6 +48,10 @@ public class ErpService {
 	public void excel_cart(List list){
 		erpDao.excel_cart(list);
 	}
+
+	public List<ErpDto> menu_dealer(ErpDto erpDto) {
+		return erpDao.menu_dealer(erpDto);
+	}
 	
 	
 	

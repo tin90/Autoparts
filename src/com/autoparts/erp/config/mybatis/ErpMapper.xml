@@ -105,4 +105,13 @@
 	WHERE id={#id}
 	</delete>
 	
+	<select id="menu_dealer"  parameterType="com.autoparts.erp.model.ErpDto">
+	SELECT id FROM client 
+  <choose>
+    <when test="fax == 'b'">
+       WHERE fax='b'
+    </when>
+  </choose>
+	</select>
+	
 </mapper>

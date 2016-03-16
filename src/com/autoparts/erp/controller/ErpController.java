@@ -1,5 +1,7 @@
 package com.autoparts.erp.controller;
 
+import java.io.IOException;
+import java.net.URL;
 import java.text.DecimalFormat;
 import java.util.*;
 
@@ -53,8 +55,8 @@ public class ErpController {
 	@RequestMapping(value="/cart", method=RequestMethod.GET)
 	public ModelAndView cart(String id, HttpSession session){
 		id= (String)session.getAttribute("id");
-		//¼¼¼ÇÀÇ ¾ÆÀÌµğ¿¡ µû¶ó Ä«Æ® ³»¿ë ´Ş¶óÁö°Ô ÇØ¾ßÇÔ.
-		//¼¼¼Ç ¾ÆÀÌµğ°¡ ³ÎÀÏ°æ¿ì..?
+		//ì„¸ì…˜ì˜ ì•„ì´ë””ì— ë”°ë¼ ì¹´íŠ¸ ë‚´ìš© ë‹¬ë¼ì§€ê²Œ í•´ì•¼í•¨.
+		//ì„¸ì…˜ ì•„ì´ë””ê°€ ë„ì¼ê²½ìš°..?
 		ArrayList cart = new ArrayList();
 		
 		DecimalFormat df = new DecimalFormat();
@@ -81,7 +83,7 @@ public class ErpController {
 	@RequestMapping(value="/add_cart", method=RequestMethod.POST)
 	public ModelAndView add_cart(ErpDto erpDto, HttpSession session){
 		erpDto.setId((String)session.getAttribute("id"));
-		//ÀÓ½Ã·Î cart_temp Å×ÀÌºí¿¡ insert µÇ°ÔÇÔ
+		//ì„ì‹œë¡œ cart_temp í…Œì´ë¸”ì— insert ë˜ê²Œí•¨
 		erpService.add_cart(erpDto);
 		String url = "redirect:/erp/cart.html";
 		return new ModelAndView(url);
@@ -133,5 +135,47 @@ public class ErpController {
 	}
 	
 	
+	@RequestMapping(value="menu_dealer", method=RequestMethod.GET)
+	public @ResponseBody String menu_dealer(ErpDto erpDto, HttpSession session){
+		//erpDto.setId((String)session.getAttribute("id"));
+
+		List<ErpDto> list = erpService.menu_dealer(erpDto);
+		JSONObject json = new JSONObject();
+		JSONArray jarray = new JSONArray();
+		
+		for(ErpDto dto : list){
+			JSONObject obj = new JSONObject();
+			obj.put("partnum", dto.getId());
+			jarray.add(obj);
+			
+		}
+		json.put("list", jarray);
+		return json.toJSONString();
+	}
 	
+	
+/*	@RequestMapping(value="parts_image", method=RequestMethod.GET)
+	public ModelAndView parts_image(ErpDto erpDto){
+	
+		jericho() throws IOException {
+	
+			String url="http://www.partsbase.org/parts/mazda-w06561510/";
+		     // URLÂ·Ã ÂºÃÃ…Ã Â¼Ã’Â½ÂºÃ…Â¬Â·Â¡Â½Âº Ã€Ã›Â¼Âº
+		     // Source source = new Source(new FileInputStream(new File(urlStr)));
+		     Source source = new Source(new URL(url));
+	
+		     StringTokenizer st = new StringTokenizer("http://www.naver.com/", "/");
+		     String a = st.toString();
+		     System.out.println(a);
+	
+		        List<Element> imgtags = source.getAllElements(HTMLElementName.A);
+		        
+		            Element e = (Element) imgtags.get(imgtags.size()-1);
+		            // srcÂ¼Ã“Â¼ÂºÃ€Â» Â½Ã€ÂµÃ¦
+		            String src = e.getAttributeValue("href");
+	
+		            System.out.println("http://www.partsbase.org/"+src);
+		            
+		}
+	}	*/
 }
