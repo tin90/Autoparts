@@ -9,7 +9,7 @@
 			결재할 문서함
 		</div>
  		<table class="table">
-			<tr><td><a href="#">미결재 <span class="badge">2</span></a></td></tr>
+			<tr><td><a href="#">미결재 <span class="badge">{{na.count}}</span></a></td></tr>
 			<tr><td><a href="#">결재완료 <span class="badge">3</span></a></td></tr>
 		</table>
 	</div>
@@ -120,7 +120,6 @@
 var app = angular.module("autoparts", []);
 
 app.controller("MainCtrl", function($scope) {
-	//$scope.list = [11,22,33];
-	$scope.list = [{"d":11},{"d":22},{"d":33}];
+	$scope.na = ${na};
 });
 </script>

@@ -71,7 +71,10 @@ public class AppDao {
 		return sqlSession.selectOne("app.getAppconByApplinePageCount", pa);
 	}
 	
-	public int getAppconByApplineCount(int state){
-		return sqlSession.selectOne("app.getAppconByApplineCount", state);
+	public int getAppconByApplineCount(int state, int empno){
+		ParamAppcon pa = new ParamAppcon();
+		pa.setState(state);
+		pa.setEmpno(empno);
+		return sqlSession.selectOne("app.getAppconByApplineCount", pa);
 	}
 }

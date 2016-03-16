@@ -151,10 +151,12 @@ public class AppService {
 	public String getAppconByApplineJson(int page, int state, int empno){
 		List<RawAppconDto> appcon = dao.getAppconByApplinePage(page, state, empno);
 		int max_page = dao.getAppconByApplinePageCount(state, empno);
+		int count = dao.getAppconByApplineCount(state, empno);
 		
 		JSONObject obj = new JSONObject();
 		obj.put("curr_page", page);
 		obj.put("max_page", max_page);
+		obj.put("count", count);
 		
 		JSONArray arr = new JSONArray();
 		for(RawAppconDto c : appcon){

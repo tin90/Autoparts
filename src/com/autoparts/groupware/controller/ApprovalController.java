@@ -124,12 +124,22 @@ public class ApprovalController {
 	}
 	
 	@RequestMapping("/app.html")
-	public String app(Model model){
+	public String app(Model model, HttpSession session){
+		String id = (String)session.getAttribute("id");
 		
+		if(id == null){
+			return "redirect:/error404.html";
+		}
 		
+		EmployeeDto emp = service.getEmp(id);
 		
-		model.addAttribute("title", "전자결재 메인");
-		return "approval/app.tiles";
+		if(emp == null){
+			return "redirect:/error404.html";
+		}else{
+			model.addAttribute("na", service.getAppconByApplineJson(1, 1, emp.getNum()));
+			model.addAttribute("title", "전자결재 메인");
+			return "approval/app.tiles";
+		}
 	}
 	
 	@RequestMapping("/add.html")
