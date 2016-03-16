@@ -16,6 +16,7 @@ import com.autoparts.groupware.model.AppClientDto;
 import com.autoparts.groupware.model.AppLineDto;
 import com.autoparts.groupware.model.AppconDto;
 import com.autoparts.groupware.model.ApprovalDto;
+import com.autoparts.groupware.model.ApprovalEmpDto;
 import com.autoparts.groupware.model.EmployeeDto;
 import com.autoparts.groupware.model.RawAppClientDto;
 import com.autoparts.groupware.model.RawAppconDto;
@@ -101,15 +102,74 @@ public class AppService {
 		appcon.setNum(rappcon.getNum());
 		appcon.setTitle(rappcon.getTitle());
 		appcon.setContent(rappcon.getContent());
-		appcon.setAppline(dao.getApplist(rappcon.getAppline()).getList());
-		appcon.setCoopline(dao.getApplist(rappcon.getCoopline()).getList());
+		int appn = rappcon.getAppline();
+		appcon.setAppline(dao.getApplist(appn).getList());
+		int coopn = rappcon.getCoopline();
+		appcon.setCoopline(dao.getApplist(coopn).getList());
+		System.out.println(appn + "," + coopn);
 		appcon.setOrderlist_no(-1); // 아직 모름
 		
 		return appcon;
 	}
 	
+	public String getAppconJson(int num){
+		RawAppconDto rappcon = dao.getAppcon(num);
+		
+		JSONObject json = new JSONObject();
+		json.put("num", rappcon.getNum());
+		json.put("title", rappcon.getTitle());
+		json.put("content", rappcon.getContent());
+		
+		JSONArray app = new JSONArray();
+		for(ApprovalEmpDto e : dao.getApplistEmp(rappcon.getAppline())){
+			JSONObject o = new JSONObject();
+			o.put("num", e.getNum());
+			o.put("dept", e.getDept());
+			o.put("spot", e.getSpot());
+			o.put("name", e.getName());
+			o.put("date", e.getApp_date());
+			app.add(o);
+		}
+		json.put("app", app);
+		
+		JSONArray coop = new JSONArray();
+		for(ApprovalEmpDto e : dao.getApplistEmp(rappcon.getCoopline())){
+			JSONObject o = new JSONObject();
+			o.put("num", e.getNum());
+			o.put("dept", e.getDept());
+			o.put("spot", e.getSpot());
+			o.put("name", e.getName());
+			o.put("date", e.getApp_date());
+			coop.add(o);
+		}
+		json.put("coop", coop);
+		json.put("order", -1);
+		
+		return json.toJSONString();
+	}
+	
+	public String getAppconByApplineJson(int page, int state, int empno){
+		List<RawAppconDto> appcon = dao.getAppconByApplinePage(page, state, empno);
+		int max_page = dao.getAppconByApplinePageCount(state, empno);
+		
+		JSONObject obj = new JSONObject();
+		obj.put("curr_page", page);
+		obj.put("max_page", max_page);
+		
+		JSONArray arr = new JSONArray();
+		for(RawAppconDto c : appcon){
+			JSONObject o = new JSONObject();
+			o.put("num", c.getNum());
+			o.put("title", c.getTitle());
+			o.put("content", c.getContent());
+			arr.add(o);
+		}
+		obj.put("list", arr);
+		
+		return obj.toJSONString();
+	}
+	
 	public String getAppconList(int page, int state){
-		System.out.println(page + "," + state);
 		List<RawAppconDto> appcon = dao.getAppconList(page, state);
 		int max_page = dao.getAppconListCount(state);
 		

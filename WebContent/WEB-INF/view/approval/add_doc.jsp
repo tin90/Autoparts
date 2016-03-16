@@ -53,7 +53,7 @@
 <div class="row">
 <form id="form" method="post" action="<c:url value='/approval/add_proc.html'/>">
 	<div class="col-md-12">
-		<div class="form-group">
+		<div class="input-group col-md-12">
 			<input id="title" type="text" placeholder="title" class="form-control" aria-label="title">
 			<textarea id="content" class="form-control" style="resize:none" rows="10" placeholder="content"></textarea>
 		</div>

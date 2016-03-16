@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.autoparts.groupware.model.AppLineDto;
+import com.autoparts.groupware.model.ApprovalEmpDto;
 import com.autoparts.groupware.model.ParamAppcon;
 import com.autoparts.groupware.model.RawAppconDto;
 
@@ -39,6 +40,10 @@ public class AppDao {
 		return line;
 	}
 	
+	public List<ApprovalEmpDto> getApplistEmp(int num){
+		return sqlSession.selectList("app.getApplistEmp", num);
+	}
+	
 	public List<RawAppconDto> getAppconList(int page, int state){
 		ParamAppcon pa = new ParamAppcon();
 		pa.setPage(page);
@@ -50,15 +55,20 @@ public class AppDao {
 		return sqlSession.selectOne("app.getAppconPageCount", state);
 	}
 	
-	public List<RawAppconDto> getAppconByApplinePage(int page, int state){
+	//현재 사용자 결재
+	public List<RawAppconDto> getAppconByApplinePage(int page, int state, int empno){
 		ParamAppcon pa = new ParamAppcon();
 		pa.setPage(page);
 		pa.setState(state);
+		pa.setEmpno(empno);
 		return sqlSession.selectList("app.getAppconByApplinePage", pa);
 	}
 	
-	public int getAppconByApplinePageCount(int state){
-		return sqlSession.selectOne("app.getAppconByApplinePageCount", state);
+	public int getAppconByApplinePageCount(int state, int empno){
+		ParamAppcon pa = new ParamAppcon();
+		pa.setState(state);
+		pa.setEmpno(empno);
+		return sqlSession.selectOne("app.getAppconByApplinePageCount", pa);
 	}
 	
 	public int getAppconByApplineCount(int state){

@@ -52,7 +52,7 @@ app.controller('MainCtrl', function($scope, $http) {
 function list($scope, $http){
 	$http({
 		type: "GET",
-		url: './ajax_list.html?page=1&state=1',
+		url: '.${url}',
 		headers: {
 			"Accept":"application/json;charset=utf-8",
 			"Accept-Charset":"charset=utf-8"

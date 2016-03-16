@@ -30,7 +30,18 @@
 	SELECT num,seq,empno,app_date
 	FROM approval
 	WHERE num = #{num}
+	ORDER BY seq ASC
 	</select>
+	
+	<select id="getApplistEmp" parameterType="int" resultType="ApprovalEmp">
+	SELECT e.num num,e.name name,e.dept dept,e.spot spot,a.app_date app_date 
+	FROM approval a, (SELECT e.num num, e.name name, d.name dept, s.name spot 
+		FROM employee e, department d, spot s
+		WHERE e.dept = d.num AND e.spot = s.num) e
+	WHERE a.empno = e.num AND a.num = #{num}
+	ORDER BY a.seq ASC
+	</select>
+	
 	
 	<insert id="addAppcon" parameterType="RawApproval">
 	INSERT INTO appcontent (num,title,content,appline,coopline,empno,ollno,state)
@@ -91,7 +102,7 @@
 					FROM approval 
 					WHERE app_date is null group by num
 					) c
-				WHERE b.num = c.num AND b.seq = c.seq
+				WHERE b.num = c.num AND b.seq = c.seq AND b.empno = #{empno}
 			) ap
 			WHERE ac.appline = ap.num AND ac.state = #{state}
 			ORDER BY ac.num DESC;
@@ -99,7 +110,7 @@
 	) WHERE PAGE = #{page}
 	</select>
 	
-	<select id="getAppconByApplineCount" parameterType="int" resultType="int">
+	<select id="getAppconByApplineCount" parameterType="ParamAppcon" resultType="int">
 	SELECT count(*)
 	FROM (SELECT ac.*
 			FROM appcontent ac, (
@@ -109,7 +120,7 @@
 					FROM approval 
 					WHERE app_date is null group by num
 					) c
-				WHERE b.num = c.num AND b.seq = c.seq
+				WHERE b.num = c.num AND b.seq = c.seq AND b.empno = #{empno}
 			) ap
 			WHERE ac.appline = ap.num AND ac.state = #{state})
 	</select>
@@ -124,7 +135,7 @@
 					FROM approval 
 					WHERE app_date is null group by num
 					) c
-				WHERE b.num = c.num AND b.seq = c.seq
+				WHERE b.num = c.num AND b.seq = c.seq AND b.empno = #{empno}
 			) ap
 			WHERE ac.appline = ap.num AND ac.state = #{state}
 		)
