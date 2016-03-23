@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="app">
+<mapper namespace="applist">
 	<insert id="addAppline" parameterType="AppLine">
 		<selectKey keyProperty="num" resultType="int" order="BEFORE">
 		SELECT SEQ_APPROVALLINE_NO.nextval FROM dual
@@ -40,110 +40,5 @@
 		WHERE e.dept = d.num AND e.spot = s.num) e
 	WHERE a.empno = e.num AND a.num = #{num}
 	ORDER BY a.seq ASC
-	</select>
-	
-	
-	<insert id="addAppcon" parameterType="RawApproval">
-	INSERT INTO appcontent (num,title,content,appline,coopline,empno,ollno,state)
-	VALUES (SEQ_APPCONTENT_NO.nextval,#{title},#{content},#{appline},#{coopline},#{empno},-1,#{state})
-	</insert>
-	
-	<select id="getAppcon" parameterType="int" resultType="RawApproval">
-	SELECT num,title,content,appline,coopline,empno,ollno,state
-	FROM appcontent
-	WHERE num = #{num}
-	</select>
-	
-	<select id="getAppconPage" parameterType="ParamAppcon" resultType="RawApproval">
-	SELECT num,title,content,appline,coopline,empno,ollno,state FROM (
-    	SELECT A.*, 
-                 ROWNUM AS RNUM,
-                 TRUNC((ROWNUM-1)/10+1) AS PAGE,
-                 COUNT(*) OVER() AS TOTCNT FROM (
-			SELECT num,title,content,appline,coopline,empno,ollno,state
-			FROM appcontent
-			WHERE state = #{state}
-			ORDER BY num DESC
-    	) A
-	) WHERE PAGE = #{page}
-	</select>
-	
-	<select id="getAppconPageCount" resultType="int">
-	SELECT TRUNC((count(*)-1)/10+1)
-	FROM appcontent
-	WHERE state = #{state}
-	</select>
-	
-	<select id="getAppconPageByEmpno" parameterType="ParamAppcon" resultType="RawApproval">
-	SELECT num,title,content,appline,coopline,empno,ollno,state FROM (
-    	SELECT A.*, 
-                 ROWNUM AS RNUM,
-                 TRUNC((ROWNUM-1)/10+1) AS PAGE,
-                 COUNT(*) OVER() AS TOTCNT FROM (
-			SELECT num,title,content,appline,coopline,empno,ollno,state
-			FROM appcontent
-			WHERE empno = #{empno} AND state = #{state}
-			ORDER BY num DESC
-    	) A
-	) WHERE PAGE = #{page}
-	</select>
-	
-	<select id="getAppconByApplinePage" parameterType="ParamAppcon" resultType="RawApproval">
-	SELECT num,seq,empno,app_date FROM (
-    	SELECT A.*, 
-                 ROWNUM AS RNUM,
-                 TRUNC((ROWNUM-1)/10+1) AS PAGE,
-                 COUNT(*) OVER() AS TOTCNT FROM (
-			SELECT ac.*
-			FROM appcontent ac, (
-				SELECT b.* 
-				FROM approval b, (
-					SELECT num,min(seq) seq 
-					FROM approval 
-					WHERE app_date is null group by num
-					) c
-				WHERE b.num = c.num AND b.seq = c.seq AND b.empno = #{empno}
-			) ap
-			WHERE ac.appline = ap.num AND ac.state = #{state}
-			ORDER BY ac.num DESC;
-    	) A
-	) WHERE PAGE = #{page}
-	</select>
-	
-	<select id="getAppconByApplineCount" parameterType="ParamAppcon" resultType="int">
-	SELECT count(*)
-	FROM (SELECT ac.*
-			FROM appcontent ac, (
-				SELECT b.* 
-				FROM approval b, (
-					SELECT num,min(seq) seq 
-					FROM approval 
-					WHERE app_date is null group by num
-					) c
-				WHERE b.num = c.num AND b.seq = c.seq AND b.empno = #{empno}
-			) ap
-			WHERE ac.appline = ap.num AND ac.state = #{state})
-	</select>
-	
-	<select id="getAppconByApplinePageCount" parameterType="int" resultType="int">
-	SELECT TRUNC((count(*)-1)/10+1)
-	FROM (SELECT ac.*
-			FROM appcontent ac, (
-				SELECT b.* 
-				FROM approval b, (
-					SELECT num,min(seq) seq 
-					FROM approval 
-					WHERE app_date is null group by num
-					) c
-				WHERE b.num = c.num AND b.seq = c.seq AND b.empno = #{empno}
-			) ap
-			WHERE ac.appline = ap.num AND ac.state = #{state}
-		)
-	</select>
-	
-	<select id="getAppconPageCountByEmpno" resultType="int">
-	SELECT TRUNC((count(*)-1)/10+1)
-	FROM appcontent
-	WHERE empno = #{empno} AND state = #{state}
 	</select>
 </mapper>

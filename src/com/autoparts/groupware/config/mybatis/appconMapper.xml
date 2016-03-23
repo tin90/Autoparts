@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="appcon">
+	<insert id="addAppcon" parameterType="RawApproval">
+	INSERT INTO appcontent (num,title,content,appline,coopline,empno,ollno,state)
+	VALUES (SEQ_APPCONTENT_NO.nextval,#{title},#{content},#{appline},#{coopline},#{empno},-1,#{state})
+	</insert>
+
+	<select id="getAppconPage" parameterType="ParamAppcon" resultType="RawApproval">
+	SELECT num,title,content,appline,coopline,empno,ollno,state FROM (
+    	SELECT A.*, 
+                 ROWNUM AS RNUM,
+                 TRUNC((ROWNUM-1)/10+1) AS PAGE,
+                 COUNT(*) OVER() AS TOTCNT FROM (
+			SELECT num,title,content,appline,coopline,empno,ollno,state
+			FROM appcontent
+			WHERE state = #{state}
+			ORDER BY num DESC
+    	) A
+	) WHERE PAGE = #{page}
+	</select>
+	
+	<select id="getAppconPageCount" resultType="int">
+	SELECT TRUNC((count(*)-1)/10+1)
+	FROM appcontent
+	WHERE state = #{state}
+	</select>
+	
+	<select id="getAppcon" parameterType="int" resultType="RawApproval">
+	SELECT num,title,content,appline,coopline,empno,ollno,state
+	FROM appcontent
+	WHERE num = #{num}
+	</select>
+</mapper>
