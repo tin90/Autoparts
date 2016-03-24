@@ -26,7 +26,7 @@
          p.ponum pocode,
          SUM(r.qty) order_qty
     FROM po p JOIN st_recent r ON p.ponum = r.pocode AND p.partnum = r.part
-   WHERE p.ponum = #{pocode}
+   WHERE p.ponum = #{pocode} AND p.status NOT IN ('COMPLETE')
    GROUP BY p.partnum, p.b_smallname, p.qty, p.ponum
 	</select>
 	

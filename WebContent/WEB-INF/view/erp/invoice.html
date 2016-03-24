@@ -1,0 +1,91 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>invoice</title>
+</head>
+<body >
+<br>
+<table style="width: 100%">
+	<tr>
+		<td rowspan="6" style="width: 50%"><img src='/Autoparts/etc/logo.png'></td><td>Autoparts</td>
+	</tr>
+	<tr>
+		<td>customer's order</td>
+	</tr>
+	<tr>
+		<td>Seoul Guro Korong-building 4th</td>
+	</tr>
+	<tr>
+		<td>Tax ID : aaaaaa</td>
+	</tr>
+	<tr>
+		<td>Phone : 010-1234-5678</td>
+	</tr>
+	<tr>
+		<td>fax : 031-1234-5678</td>
+	</tr>
+</table>
+<br>
+------------------------------------------------------------------------------------------------------------------------------
+<br>
+<table style="width: 100%">
+	<tr>
+		<td rowspan="4" style="width: 50%">Apple Inc.</td><td>Invoice ID : </td><td>[invoice id from DB] ${ponum }</td>
+	</tr>
+	<tr>
+		<td>Invoice Date : </td><td>[invoice date from DB] ${podate}</td>
+	</tr>
+	<tr>
+		<td>Due Date : </td><td>[due date from DB] ${podate?? }</td>
+	</tr>
+	<tr>
+		<td>Text custom field : </td><td>[text custom field from DB] ${?? } </td>
+	</tr>
+</table>
+<br>
+<br>
+
+<div style="text-align: center;"><h3>INVOICE</h3></div>
+
+<table id="invoice" style="width: 100%">
+	<tr>
+		<td>#</td><td>Description</td><td>Qty</td><td>Units</td><td>Unit price (AUD)</td><td>Total (AUD)</td>
+	</tr>
+	<!-- <c:forEach items="${cart_list}" var="item" varStatus="status"> 
+	               <c:choose>
+		               <c:when test="${item.country ne null}">
+		                	 <tr>
+		               </c:when>
+		               <c:otherwise>
+		               		<tr style="background-color: paleVioletRed;" class="warn">
+		               </c:otherwise>
+	               </c:choose>	
+	               	   <td>${status.index+1}</td>
+	                   <td>${item.country}</td>
+	                   <td>${item.partnum}</td>   
+	                   <td></td> 
+	                   <td>${item.net}</td> 
+	                   <td><input type="text" class="form-control input-lg" value="${item.qty}" style="width: 60px"></td>
+	                   <td>${item.amount}</td> 
+	                   <td> </td>
+	                   <td><input type="text" class="form-control input-lg" value="${item.memo}"></td> 
+	                   <td><a href="#" class="btn btn-del">Remove</a></td>
+	               </tr> 
+	               
+			</c:forEach> -->
+	<tr>
+		<td>1</td><td>Description</td><td>Qty</td><td>Units</td><td>Unit price (AUD)</td><td>Total (AUD)</td>
+	</tr>
+	<tr>
+		<td>2</td><td>Description</td><td>Qty</td><td>Units</td><td>Unit price (AUD)</td><td>Total (AUD)</td>
+	</tr>
+	<tr>
+		<td>3</td><td>Description</td><td>Qty</td><td>Units</td><td>Unit price (AUD)</td><td>Total (AUD)</td>
+	</tr>
+</table>
+
+</body>
+</html>
