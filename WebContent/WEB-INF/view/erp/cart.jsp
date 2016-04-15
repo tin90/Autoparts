@@ -23,20 +23,27 @@ $(document).ready( function(){
 	});
 	
 	$(".input-lg").one("keyup", function(){
-		var partnum=$(this).closest('tr').find("td:eq(2)").text();
-		var memo = $(this).closest('tr').find("td:eq(8)").children().val();
-		var qty = $(this).closest('tr').find("td:eq(5)").children().val();
-		qty=Math.round(qty);
-		if(qty==""){
-			qty=0;
-		}
 		
-		if(memo==""){
-			memo="";
-		}
-		var a = $("<a></a>").text('update');
-		a.attr("href", root+'/erp/mod_qty.html?id='+'a'+'&partnum='+partnum+'&qty='+qty+"&memo="+memo);
+		var a = $("<a></a>").text('update');		
+		a.attr("id", "update");
 		$(this).parent().append(a);
+		
+		$("#update").mouseover( function(){
+			
+			var partnum=$(this).closest('tr').find("td:eq(2)").text();
+			var memo = $(this).closest('tr').find("td:eq(8)").children().val();
+			var qty = $(this).closest('tr').find("td:eq(5)").children().val();
+			qty=Math.round(qty);
+			if(qty==""){
+				qty=0;
+			}
+			
+			if(memo==""){
+				memo="";
+			}
+			
+			a.attr("href", root+'/erp/mod_qty.html?id='+'a'+'&partnum='+partnum+'&qty='+qty+"&memo="+memo);
+		});
 	});
 	
 	
