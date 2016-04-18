@@ -52,6 +52,10 @@ public class ErpService {
 	public List<ErpDto> menu_dealer(ErpDto erpDto) {
 		return erpDao.menu_dealer(erpDto);
 	}
+
+	public List<ErpDto> myInfo(String id) {
+		return erpDao.myInfo(id);
+	}
 	
 	
 	

@@ -136,13 +136,17 @@ $(document).ready(function(){
 	 var country = $("#c"+i).text();
 	 var qty = $("#q"+i).val();
 	 var net = $("#n"+i).text();
+	 var description = $("#d"+i).text();
+	 var brand = $("#b"+i).text();
 	 net = net.substring(1);
 	 $.ajax({
 		 type : 'POST',
 		 data : { 'partnum' : $("#p"+i).text(),
 		 'country' : country,
 		 'qty' : qty,
-		 'net' : net},
+		 'net' : net,
+		 'description' : description,
+		 'brand' : brand},
 		 url : '${root}/erp/add_cart.html',
 		 success : function(){
 		 },
@@ -209,7 +213,7 @@ $(document).ready(function(){
             </li> -->
           <c:choose>
 			<c:when test="${userInfo.id ne null}">
-				<li><a href="#"><span class="glyphicon glyphicon-user"> </span></a></li>
+				<li><a href="${root}/erp/myInfo.html"><span class="glyphicon glyphicon-user"> </span></a></li>
 				<li><a href="${root}/erp/cart.html" ><span class="glyphicon glyphicon-shopping-cart"></span></a></li>
 	            <li><button type="button" class="btn btn-success" onClick="self.location='${root}/join/logout.html'" style="background-color: mediumVioletRed;">logout</button></li>
 	            <li><button type="button" class="btn btn-danger" onClick="self.location='${root}/join/joinInfo.html'" style="background-color: darkCyan;">profile</button></li>

@@ -2,7 +2,11 @@
     pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="root" value="${pageContext.request.contextPath}"/>
+
 <script type="text/javascript">
+
+document.title='CART';
+
 $(document).ready( function(){
 
 	var root = '${root}';
@@ -87,10 +91,16 @@ $(document).ready( function(){
 		var partnumarr=[],qtyarr=[],memoarr=[];
 		
 		for(var i=0; i<len; i++){
+			
 			var st = text[i].split("\t");
 			partnumarr.push(st[0]);
 			qtyarr.push(st[1]);
 			memoarr.push(st[2]);
+			
+			if(st[1]>400 || st[1]<0){
+				alert("qty is only numbers");
+				return;
+			}
 		}
 
 		$.ajax({
@@ -108,20 +118,14 @@ $(document).ready( function(){
 </script>
 <br>
 <br>
-<br>
 
-<div align="right">
+<div>
 	<a href="#" class="btn btn-info" id="cart_send" >ORDER</a>  
-	<a href="#" class="btn btn-info" >Save Temporary List</a>
+	
 </div>
 
 <form class="form-inline">
-<br>
-<br>
-<br>
-<div >
-	<label>PO# </label><input type="text" class="form-control input-sm">
-</div>
+
 
 <!-- modal from excel -->
 <div align="right">
@@ -160,7 +164,7 @@ $(document).ready( function(){
 <div >
 		<table id="cart_table" class="table table-hover" style="width: 100%">
 			<tr>
-				<th>#</th><th>COUNTRY</th><th>PART#</th><th>DESCRIPTION</th><th>NET</th><th>QTY</th><th>AMOUNT</th><th>VIN</th><th>MEMO</th>
+				<th>#</th><th>BRAND</th><th>PART#</th><th>DESCRIPTION</th><th>NET</th><th>QTY</th><th>AMOUNT</th><th>MEMO</th>
 			</tr>
 			<c:forEach items="${cart_list}" var="item" varStatus="status"> 
 	               <c:choose>
@@ -172,13 +176,12 @@ $(document).ready( function(){
 		               </c:otherwise>
 	               </c:choose>	
 	               	   <td>${status.index+1}</td>
-	                   <td>${item.country}</td>
+	               	   <td>${item.brand}</td>
 	                   <td>${item.partnum}</td> 
-	                   <td></td> 
+	                   <td>${item.description }</td> 
 	                   <td>${item.net}</td> 
 	                   <td><input type="text" class="form-control input-lg" value="${item.qty}" style="width: 60px"></td>
 	                   <td>${item.amount}</td> 
-	                   <td> </td>
 	                   <td><input type="text" class="form-control input-lg" value="${item.memo}"></td> 
 	                   <td><a href="#" class="btn btn-del">Remove</a></td>
 	               </tr> 

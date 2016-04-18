@@ -54,7 +54,7 @@ public class UserController {
 		userDto =userService.getUserInfo((String)session.getAttribute("id"));
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("userInfo", userDto);
-		System.out.println("test-----");
+		//System.out.println("test-----");
 		mav.setViewName("join/joinInfo");
 		return mav;
 	}
@@ -155,31 +155,22 @@ public class UserController {
 			props.put("mail.smtp.port", "587");
 			props.put("mail.smtp.user", from);
 			props.put("mail.smtp.auth", "true");
-			System.out.println("----------------------------1");
+
 			Session mailSession = Session.getInstance(props, 
 						new Authenticator(){
 							protected PasswordAuthentication getPasswordAuthentication(){
 					return new PasswordAuthentication("ejdgns89@gmail.com", "j1d2h31425~");
 							}
 				});
-			System.out.println("----------------------------2");
 			Message msg = new MimeMessage(mailSession);
-			System.out.println("----------------------------3");
 			msg.setFrom(new InternetAddress(from, MimeUtility.encodeText(fromName, "UTF-8", "B")));
-			System.out.println("----------------------------4");
 			
 			InternetAddress[] address1 = {new InternetAddress(to1)};
-			System.out.println("----------------------------5");
 			msg.setRecipients(Message.RecipientType.TO, address1);
-			System.out.println("----------------------------6");
 			msg.setSubject(subject);
-			System.out.println("----------------------------7");
 			msg.setSentDate(new java.util.Date());
-			System.out.println("----------------------------8");
 			msg.setContent(content, "text/html;charset=euc-kr");
-			System.out.println("----------------------------9");
 			Transport.send(msg);
-			System.out.println("----------------------------10");
 		} catch(MessagingException e){
 			e.printStackTrace();
 		} catch (Exception e) {

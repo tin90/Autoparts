@@ -1,3 +1,8 @@
+
+<script>
+document.title='Autoparts';
+</script>
+
  
 <img class="slide" src='/Autoparts/etc/logo.png' style="width : 30%; height : auto; margin-left: -20px;"> 
  
@@ -260,12 +265,12 @@
 <!-- Add Google Maps -->
 <script src="http://maps.googleapis.com/maps/api/js"></script>
 <script>
-var myCenter = new google.maps.LatLng(37.485114, 126.898788);
+var myCenter = new google.maps.LatLng(37.4798388,126.8803057);
 
 function initialize() {
 var mapProp = {
   center:myCenter,
-  zoom:12,
+  zoom:14,
   scrollwheel:false,
   draggable:false,
   mapTypeId:google.maps.MapTypeId.ROADMAP

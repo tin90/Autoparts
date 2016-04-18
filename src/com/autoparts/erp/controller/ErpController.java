@@ -71,6 +71,8 @@ public class ErpController {
 			map.put("country", dto.getCountry());
 			map.put("amount", df.format(dto.getNet()*dto.getQty()));
 			map.put("memo", dto.getMemo());
+			map.put("description", dto.getDescription());
+			map.put("brand", dto.getBrand());
 			cart.add(map);
 		}
 		ModelAndView mav = new ModelAndView();
@@ -152,6 +154,22 @@ public class ErpController {
 		json.put("list", jarray);
 		return json.toJSONString();
 	}
+	
+	@RequestMapping(value="myInfo", method=RequestMethod.GET)
+	public ModelAndView myInfo(String id, HttpSession session){
+		id= (String)session.getAttribute("id");
+		
+		//List<ErpDto> list = erpService.myInfo(id);
+		
+		
+		ModelAndView mav = new ModelAndView();
+
+		//mav.addObject("myInfo_list",list);
+		mav.setViewName("erp/myInfo.tiles");
+		return mav;
+	}
+	
+	
 	
 	
 /*	@RequestMapping(value="parts_image", method=RequestMethod.GET)

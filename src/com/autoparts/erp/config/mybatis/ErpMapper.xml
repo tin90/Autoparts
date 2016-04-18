@@ -17,7 +17,14 @@
 	</select>
 	
 	<select id="cart"  parameterType="String" resultType="com.autoparts.erp.model.ErpDto">
-	SELECT partnum, country, net, qty, memo 
+	SELECT 
+		partnum, 
+		country, 
+		(SELECT msrp net FROM vparts_all WHERE partnum = cart.partnum) net, 
+		qty, 
+		memo, 
+		description, 
+		brand 
 	FROM cart
 	WHERE id=#{id}
 	</select>
@@ -31,15 +38,16 @@
 	 	 qty = qty+#{qty}
 		WHERE partnum=#{partnum} AND id=#{id}
 	 WHEN NOT MATCHED THEN
-		 INSERT (country, net, partnum, qty, id, ponum, no)
+		 INSERT (country, net, partnum, qty, id, description, no, brand)
 		 VALUES(
 		 	#{country},
 		 	#{net},
 		 	#{partnum},
 		 	#{qty}, 
 		 	#{id}, 
-		 	'1', 
-		 	(SELECT MAX(no)+1 FROM cart) 
+		 	#{description},
+		 	(SELECT NVL(MAX(no), 0)+1 FROM cart),
+		 	#{brand} 
 		 	)
 	</update>
 	
@@ -73,16 +81,17 @@
 			 	 qty = qty+#{item.qty}, memo = #{item.memo}
 				WHERE partnum=#{item.part} AND id=#{item.id}
 			 WHEN NOT MATCHED THEN
-				INSERT (memo, partnum, qty, id, ponum, no, net, country)
+				INSERT (memo, partnum, qty, id, no, net, country, description, brand)
 				VALUES (
 					#{item.memo},
 					#{item.part},
 					#{item.qty},
 					#{item.id},
-					'22',
 					(SELECT MAX(no)+1 FROM cart),
 					(SELECT msrp net FROM vparts_all WHERE partnum = #{item.part}),
-					(SELECT country FROM vparts_all WHERE partnum = #{item.part})
+					(SELECT country FROM vparts_all WHERE partnum = #{item.part}),
+					(SELECT description FROM vparts_all WHERE partnum = #{item.part}),
+					(SELECT brand FROM vparts_all WHERE partnum = #{item.part})
 					);
 					</foreach>
         end

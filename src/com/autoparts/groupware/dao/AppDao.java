@@ -36,7 +36,7 @@ public class AppDao {
 	public AppLineDto getApplist(int num){
 		AppLineDto line = new AppLineDto();
 		line.setNum(num);
-		line.setList(sqlSession.selectList("app.getApplist", num));
+		//line.setList(sqlSession.selectList("app.getApplist", num));
 		return line;
 	}
 	

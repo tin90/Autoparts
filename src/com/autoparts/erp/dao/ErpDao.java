@@ -53,6 +53,10 @@ public class ErpDao {
 	public List<ErpDto> menu_dealer(ErpDto erpDto) {
 		return sst.selectList("menu_dealer",erpDto);
 	}
+
+	public List<ErpDto> myInfo(String id) {
+		return sst.selectList("myInfo", id);
+	}
 	
 	
 }

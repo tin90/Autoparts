@@ -17,7 +17,7 @@ public class UserDaoImpl implements UserDao{
 	
 	@Override
 	public int idCheck(String id) throws Exception {
-		System.out.println("test2");
+		//System.out.println("test2");
 		return (int) sqlSession.selectOne("idcheck", id);
 	}
 
@@ -30,13 +30,9 @@ public class UserDaoImpl implements UserDao{
 
 	@Override
 	public UserDto login(Map<String, String> map) throws Exception {
-		System.out.println("gogo");
 		String id = map.get("userid");
-		System.out.println(id+"------");
 		int chkNum = sqlSession.selectOne("user.loginchk", id);
-		System.out.println(chkNum +"chknum");
 		if(chkNum == 0){
-			System.out.println("testtest");
 			return userDto;
 		}else{
 			userDto = sqlSession.selectOne("login", map);
@@ -46,7 +42,6 @@ public class UserDaoImpl implements UserDao{
 
 	@Override
 	public UserDto getNation() throws Exception {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -57,10 +52,7 @@ public class UserDaoImpl implements UserDao{
 	
 	@Override
 	public UserDto getUserInfo(String id) throws Exception {
-		System.out.println("dao     "+ id);
 		userDto = sqlSession.selectOne("userInfo", id);
-		System.out.println("userDto");
-		
 		return userDto;
 	}
 }
